@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سیستەمی دووەم - 192.168.1.20</title>
+    <title>سیستەمی یەکەم - هۆست لەسەر Vercel</title>
     <style>
         :root {
-            --primary-color: #8e44ad;
-            --secondary-color: #4a6bdf;
+            --primary-color: #4a6bdf;
+            --secondary-color: #8e44ad;
             --success-color: #27ae60;
             --warning-color: #e67e22;
             --danger-color: #e74c3c;
@@ -25,7 +25,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--dark-text);
-            background: linear-gradient(135deg, #f5f7fa 0%, #d6cfe2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -46,7 +46,7 @@
             text-align: center;
             margin-bottom: 30px;
             padding: 20px;
-            background: linear-gradient(135deg, var(--primary-color), #793d97);
+            background: linear-gradient(135deg, var(--primary-color), #3a5bce);
             color: white;
             border-radius: 10px;
         }
@@ -68,6 +68,49 @@
             border-radius: 20px;
             margin-top: 10px;
             font-family: monospace;
+        }
+        
+        .vercel-info {
+            background: #000;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+        
+        .vercel-info h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .vercel-info h3:before {
+            content: "▲";
+            margin-right: 10px;
+            color: #6e8efb;
+        }
+        
+        .vercel-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .vercel-detail {
+            flex: 1;
+            min-width: 200px;
+            background: #111;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .vercel-detail h4 {
+            color: #6e8efb;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
         }
         
         .input-group {
@@ -112,7 +155,7 @@
         }
         
         .btn:hover {
-            background: #793d97;
+            background: #3a5bce;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -236,7 +279,7 @@
                 font-size: 1.8rem;
             }
             
-            .api-details {
+            .api-details, .vercel-details {
                 flex-direction: column;
             }
         }
@@ -245,29 +288,48 @@
 <body>
     <div class="container">
         <header>
-            <h1>سیستەمی دووەم</h1>
-            <p class="subtitle">وەرگرتنی داتا و پرۆسەکردنی</p>
-            <div class="host-address">192.168.1.20</div>
+            <h1>سیستەمی یەکەم</h1>
+            <p class="subtitle">ناردنی داتا بۆ سیستەمی دووەم</p>
+            <div class="host-address">هۆست لەسەر Vercel</div>
         </header>
+        
+        <div class="vercel-info">
+            <h3>Vercel Deployment</h3>
+            <p>ئەم سیستەمە هۆست کراوە لەسەر Vercel</p>
+            <div class="vercel-details">
+                <div class="vercel-detail">
+                    <h4>ناونیشانی ماڵپەڕ</h4>
+                    <p>faro-ruddy.vercel.app</p>
+                </div>
+                <div class="vercel-detail">
+                    <h4>Status</h4>
+                    <p>Ready ✅</p>
+                </div>
+                <div class="vercel-detail">
+                    <h4>کاتی ئامادەبوون</h4>
+                    <p>3s</p>
+                </div>
+            </div>
+        </div>
         
         <div class="connection-status">
             <h3><span class="status-indicator status-connected"></span>پەیوەندی دەستپێکراوە</h3>
-            <p>ئامادەیە بۆ وەرگرتنی داتا لە سیستەمی یەکەم</p>
-        </div>
-        
-        <div class="data-container">
-            <div class="data-title">داتای وەرگیراو لە سیستەمی یەکەم:</div>
-            <div id="receivedData">هێشتا داتایەک وەرنەگیراوە...</div>
+            <p>ئامادەیە بۆ ناردنی داتا بۆ سیستەمی دووەم</p>
         </div>
         
         <div class="input-group">
-            <label for="processedData">داتای پرۆسەکراو:</label>
-            <input type="text" id="processedData" readonly>
+            <label for="dataInput">داتا بنێرە بۆ سیستەمی دووەم:</label>
+            <input type="text" id="dataInput" placeholder="داتا بنوسە ئێرە...">
         </div>
         
-        <button class="btn" id="processData">
-            <i>⚙️</i> پرۆسەکردنی داتا
+        <button class="btn" id="sendData">
+            <i>📤</i> ناردنی داتا
         </button>
+        
+        <div class="data-container">
+            <div class="data-title">داتای وەرگیراو لە سیستەمی دووەم:</div>
+            <div id="receivedData">هێشتا داتایەک وەرنەگیراوە...</div>
+        </div>
         
         <div class="message" id="systemMessage"></div>
         
@@ -276,103 +338,99 @@
             <div class="api-details">
                 <div class="api-card">
                     <h3>ڕێگە</h3>
-                    <p>POST /api/process</p>
+                    <p>POST /api/data</p>
                 </div>
                 <div class="api-card">
-                    <h3>سەرچاوە</h3>
-                    <p>192.168.1.10</p>
+                    <h3>شێوازی داتا</h3>
+                    <p>JSON</p>
                 </div>
                 <div class="api-card">
-                    <h3>مەبەست</h3>
-                    <p>192.168.1.20</p>
+                    <h3>Authentication</h3>
+                    <p>Bearer Token</p>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
-        // APIی ساختەی بۆ نیشاندانی کارلێک لەگەڵ سیستەمی یەکەم
+        // APIی ساختەی بۆ نیشاندانی کارلێک لەگەڵ سیستەمی دووەم
         const mockAPI = {
-            receivedData: null,
-            
-            // وەرگرتنی داتا لە سیستەمی یەکەم (لە ڕێالیدا ئەمە لە ڕێگەی API endpointەوە دێت)
-            receiveData: function() {
-                // لەم نموونەیە، بە شێوەیەکی ساختەیی داتا وەردەگرین
-                if (Math.random() > 0.6) { // 40% chance of receiving data
-                    this.receivedData = {
-                        value: `داتای نێردراو: ${Math.random().toString(36).substring(2, 10)}`,
-                        source: '192.168.1.10',
-                        timestamp: new Date().toISOString()
-                    };
-                    return this.receivedData;
-                }
-                return null;
-            },
-            
-            // ناردنی داتای پرۆسەکراو بۆ سیستەمی یەکەم
-            sendProcessedData: function(data) {
+            // ناردنی داتا بۆ سیستەمی دووەم
+            sendData: function(data) {
                 return new Promise((resolve) => {
-                    // لە ڕێالیدا، ئەمە POST requestێکە بۆ APIەکەی سیستەمی یەکەم
+                    // لە ڕێالیدا، ئەمە POST requestێکە بۆ APIەکەی سیستەمی دووەم
                     setTimeout(() => {
                         if (Math.random() > 0.2) { // 80% chance of success
+                            // لە ڕێالیدا، ئەمە وەڵامێکی JSONە لە سێرڤەرەوە
                             resolve({ 
                                 success: true, 
-                                message: 'داتای پرۆسەکراو بە سەرکەوتوویی نێردرا'
+                                message: 'داتا بە سەرکەوتوویی نێردرا بۆ سیستەمی دووەم',
+                                received: false // لەم سیستەمە تەنها ناردنە
                             });
                         } else {
                             resolve({ 
                                 success: false, 
-                                message: 'هەڵە ڕوویدا لە ناردنی داتای پرۆسەکراو!'
+                                message: 'هەڵە ڕوویدا لە ناردنی داتا! پەیوەندی پێکن بە سیستەمی دووەمەوە'
                             });
                         }
                     }, 1500); // درەنگکردنی ساختەیی
                 });
+            },
+            
+            // وەرگرتنی داتا لە سیستەمی دووەم (لە ڕێالیدا ئەمە Webhook یان polling یان SSE یان WebSocket دەبێت)
+            checkForProcessedData: function() {
+                // لەم نموونەیە، بە شێوەیەکی ساختەیی داتا دەگەڕێنێتەوە
+                if (Math.random() > 0.7) { // 30% chance of having data
+                    return {
+                        value: `پڕۆسەکراو: ${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
+                        source: 'سیستەمی دووەم',
+                        timestamp: new Date().toISOString()
+                    };
+                }
+                return null;
             }
         };
         
         // دەستپێکردنی سیستەم
         document.addEventListener('DOMContentLoaded', function() {
-            const processButton = document.getElementById('processData');
-            const processedDataInput = document.getElementById('processedData');
+            const sendButton = document.getElementById('sendData');
+            const dataInput = document.getElementById('dataInput');
             const receivedData = document.getElementById('receivedData');
             const systemMessage = document.getElementById('systemMessage');
             
-            // پشکنینی بۆ داتای نوێ لە سیستەمی یەکەم
-            setInterval(() => {
-                const newData = mockAPI.receiveData();
-                if (newData) {
-                    receivedData.innerHTML = `<strong>داتا:</strong> ${newData.value}<br>
-                                              <strong>سەرچاوە:</strong> ${newData.source}<br>
-                                              <strong>کات:</strong> ${new Date(newData.timestamp).toLocaleTimeString()}`;
-                }
-            }, 3000);
-            
-            // پرۆسەکردنی داتا و ناردنی بۆ سیستەمی یەکەم
-            processButton.addEventListener('click', async function() {
-                if (!mockAPI.receivedData) {
-                    showMessage(systemMessage, 'هیچ داتایەک بۆ پرۆسەکردن نیە!', 'warning');
+            // ناردنی داتا بۆ سیستەمی دووەم
+            sendButton.addEventListener('click', async function() {
+                if (dataInput.value.trim() === '') {
+                    showMessage(systemMessage, 'تکایە داتا بنوسە بۆ ناردن!', 'error');
                     return;
                 }
                 
-                processButton.disabled = true;
-                processButton.innerHTML = '<i>⏳</i> پرۆسەکردن...';
+                sendButton.disabled = true;
+                sendButton.innerHTML = '<i>⏳</i> ناردن...';
                 
-                // ئالگۆرێزمی پرۆسەکردنی داتا
-                const processedData = mockAPI.receivedData.value.toUpperCase() + ' [PROCESSED]';
-                processedDataInput.value = processedData;
-                
-                // ناردنی داتای پرۆسەکراو بۆ سیستەمی یەکەم
-                const result = await mockAPI.sendProcessedData(processedData);
+                // ناردنی داتا بۆ سیستەمی دووەم
+                const result = await mockAPI.sendData(dataInput.value);
                 
                 if (result.success) {
                     showMessage(systemMessage, result.message, 'success');
+                    dataInput.value = '';
                 } else {
                     showMessage(systemMessage, result.message, 'error');
                 }
                 
-                processButton.disabled = false;
-                processButton.innerHTML = '<i>⚙️</i> پرۆسەکردنی داتا';
+                sendButton.disabled = false;
+                sendButton.innerHTML = '<i>📤</i> ناردنی داتا';
             });
+            
+            // پشکنینی بۆ داتای پرۆسەکراو لە سیستەمی دووەم (لە ڕێالیدا بە Webhook یان polling)
+            setInterval(() => {
+                const processedData = mockAPI.checkForProcessedData();
+                if (processedData) {
+                    receivedData.innerHTML = `<strong>داتا:</strong> ${processedData.value}<br>
+                                              <strong>سەرچاوە:</strong> ${processedData.source}<br>
+                                              <strong>کات:</strong> ${new Date(processedData.timestamp).toLocaleTimeString()}`;
+                }
+            }, 3000);
             
             // فەنکشنی نیشاندانی پەیام
             function showMessage(element, message, type) {
