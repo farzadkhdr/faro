@@ -1,407 +1,342 @@
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>ڕۆژی لەدایکبوونت پیرۆز بیت | Dle Mn</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: #0a0a1a;
-      font-family: 'Arial', 'Segoe UI', sans-serif;
-    }
-    
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      display: block;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ڕۆژی لە دایک بوونت پیرۆز بیت</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    #message-box {
-      background: rgba(10, 10, 30, 0.75);
-      backdrop-filter: blur(8px);
-      border-radius: 32px;
-      padding: 2.5rem 2rem;
-      max-width: 700px;
-      width: 85%;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 80px rgba(180, 130, 255, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      margin-bottom: 2rem;
-      pointer-events: auto;
-    }
+        /* ئاسمانی ئەستێرەدار */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
 
-    #typed-text {
-      color: #f3e8ff;
-      font-size: clamp(1.4rem, 5vw, 2.2rem);
-      line-height: 2.1;
-      font-weight: 500;
-      min-height: 4em;
-      text-shadow: 0 0 20px #c084fc, 0 0 40px #a855f7;
-      letter-spacing: 1px;
-      direction: rtl;
-      unicode-bidi: embed;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
 
-    .signature {
-      margin-top: 1.8rem;
-      font-size: clamp(2.2rem, 7vw, 3.5rem);
-      font-weight: bold;
-      color: #facc15;
-      text-shadow: 0 0 25px #eab308, 0 0 50px #fbbf24, 0 0 70px #f59e0b;
-      background: linear-gradient(to right, #fde047, #fbbf24, #eab308);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: 3px;
-      direction: rtl;
-      unicode-bidi: embed;
-      opacity: 0;
-      transition: opacity 1.2s ease;
-      pointer-events: auto;
-    }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
 
-    .signature.show {
-      opacity: 1;
-    }
+        .shooting-star {
+            position: absolute;
+            width: 3px;
+            height: 80px;
+            background: linear-gradient(180deg, white, transparent);
+            animation: shoot 3s infinite;
+            opacity: 0;
+        }
 
-    .start-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 30;
-      background: linear-gradient(135deg, #7c3aed, #a855f7);
-      color: white;
-      border: none;
-      padding: 20px 50px;
-      font-size: 24px;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 0 40px rgba(168, 85, 247, 0.6);
-      transition: all 0.3s ease;
-      font-weight: bold;
-      letter-spacing: 2px;
-      pointer-events: auto;
-      animation: pulse 2s infinite;
-    }
+        @keyframes shoot {
+            0% { 
+                opacity: 1;
+                transform: translateX(0) translateY(0) rotate(-45deg);
+            }
+            5% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-300px) translateY(300px) rotate(-45deg);
+            }
+        }
 
-    .start-button:hover {
-      transform: translate(-50%, -50%) scale(1.1);
-      box-shadow: 0 0 60px rgba(168, 85, 247, 0.9);
-      background: linear-gradient(135deg, #8b5cf6, #c084fc);
-    }
+        /* کۆنتێنەری سەرەکی */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+        }
 
-    .start-button.hidden {
-      display: none;
-    }
+        .message-box {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.3),
+                        0 0 100px rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
 
-    @keyframes pulse {
-      0% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); }
-      50% { box-shadow: 0 0 50px rgba(168, 85, 247, 0.9), 0 0 80px rgba(251, 191, 36, 0.4); }
-      100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); }
-    }
+        .typing-text {
+            color: #FFD700;
+            font-size: 2rem;
+            line-height: 1.8;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8),
+                         0 0 20px rgba(255, 215, 0, 0.5),
+                         0 0 40px rgba(255, 215, 0, 0.3);
+            min-height: 100px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
 
-    .music-control {
-      position: absolute;
-      bottom: 25px;
-      right: 25px;
-      z-index: 20;
-      background: rgba(20, 20, 40, 0.7);
-      backdrop-filter: blur(10px);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #c4b5fd;
-      font-size: 24px;
-      border: 1px solid rgba(255,255,255,0.25);
-      pointer-events: auto;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
-      transition: 0.3s;
-    }
-    
-    .music-control:hover {
-      background: rgba(80, 40, 120, 0.8);
-      color: #facc15;
-    }
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3); }
+            to { text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.5); }
+        }
 
-    .status {
-      position: absolute;
-      bottom: 25px;
-      left: 25px;
-      z-index: 20;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(5px);
-      padding: 8px 16px;
-      border-radius: 30px;
-      color: #4ade80;
-      font-size: 14px;
-      pointer-events: auto;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-  </style>
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 2rem;
+            background: #FFD700;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .name-reveal {
+            color: #FF6B6B;
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 1s ease;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.8),
+                         0 0 40px rgba(255, 107, 107, 0.5),
+                         0 0 60px rgba(255, 107, 107, 0.3);
+            animation: none;
+        }
+
+        .name-reveal.show {
+            opacity: 1;
+            transform: scale(1);
+            animation: nameGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes nameGlow {
+            from { 
+                text-shadow: 0 0 20px rgba(255, 107, 107, 0.8), 0 0 40px rgba(255, 107, 107, 0.5);
+                transform: scale(1);
+            }
+            to { 
+                text-shadow: 0 0 40px rgba(255, 107, 107, 1), 0 0 80px rgba(255, 107, 107, 0.8), 0 0 120px rgba(255, 107, 107, 0.5);
+                transform: scale(1.1);
+            }
+        }
+
+        .hearts {
+            position: fixed;
+            top: -50px;
+            font-size: 2rem;
+            animation: fall linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+        }
+
+        .music-indicator {
+            color: #4ECDC4;
+            font-size: 1rem;
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+
+        .start-button {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            transition: all 0.3s;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+        }
+    </style>
 </head>
 <body>
-  <canvas id="starsCanvas"></canvas>
+    <!-- ئاسمانی ئەستێرەدار -->
+    <div class="stars-container" id="starsContainer"></div>
 
-  <button id="startButton" class="start-button">🎵 بۆ دەستپێکردن کلیک بکە 🎂</button>
-
-  <div class="container">
-    <div id="message-box">
-      <div id="typed-text"></div>
-      <div id="final-name" class="signature">Dle Mn</div>
+    <!-- کۆنتێنەری سەرەکی -->
+    <div class="main-container">
+        <div class="message-box">
+            <div class="typing-text" id="typingText">
+                <span id="typedMessage"></span><span class="cursor" id="cursor"></span>
+            </div>
+        </div>
+        <div class="name-reveal" id="nameReveal">Dle Mn</div>
+        <button class="start-button" id="startButton" onclick="startEverything()">✨ دەست پێ بکە ✨</button>
     </div>
-  </div>
 
-  <div class="status" id="statusText">🎵 چاوەڕوانی کلیک...</div>
-  
-  <div class="music-control" id="musicControl" title="وەستان/دەستپێکردنەوە">♪</div>
+    <!-- YouTube Player -->
+    <div id="youtubePlayer" style="display:none;"></div>
 
-  <!-- Audio Player -->
-  <audio id="audioPlayer" preload="auto">
-    <source src="https://docs.google.com/uc?export=download&id=1xLxH3XWMbLxFqT0QYZ5O4gNQN9WbHCvO" type="audio/mpeg">
-  </audio>
+    <!-- YouTube IFrame API -->
+    <script>
+        // دروستکردنی ئەستێرەکان
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const starCount = 300;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 1.5) + 's';
+                container.appendChild(star);
+            }
 
-  <script>
-    // ===================  ئەستێرەکان ===================
-    const canvas = document.getElementById('starsCanvas');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    let width, height;
-
-    function resizeCanvas() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-      initStars(140);
-    }
-
-    function initStars(count) {
-      stars = [];
-      for (let i = 0; i < count; i++) {
-        stars.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 2.3 + 0.7,
-          brightness: Math.random() * 0.7 + 0.3,
-          speed: Math.random() * 0.4 + 0.15,
-          angle: Math.random() * Math.PI * 2
-        });
-      }
-    }
-
-    function drawStars() {
-      ctx.clearRect(0, 0, width, height);
-      const gradient = ctx.createRadialGradient(width/2, height/2, 100, width/2, height/2, width*0.7);
-      gradient.addColorStop(0, '#1e1b4b');
-      gradient.addColorStop(0.7, '#0f0f23');
-      gradient.addColorStop(1, '#050510');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, width, height);
-      
-      stars.forEach(star => {
-        star.x += Math.cos(star.angle) * star.speed * 0.15;
-        star.y += Math.sin(star.angle) * star.speed * 0.15;
-        
-        if (star.x < -10) star.x = width + 10;
-        if (star.x > width + 10) star.x = -10;
-        if (star.y < -10) star.y = height + 10;
-        if (star.y > height + 10) star.y = -10;
-        
-        const flicker = 0.5 + Math.sin(Date.now() * 0.002 + star.x) * 0.3 + Math.cos(Date.now() * 0.003 + star.y) * 0.3;
-        const alpha = Math.min(1, star.brightness * flicker + 0.3);
-        
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 240, 255, ${alpha})`;
-        ctx.shadowColor = '#d8b4fe';
-        ctx.shadowBlur = star.radius * 3.5;
-        ctx.fill();
-        
-        if (star.radius > 1.6) {
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.radius * 0.8, 0, Math.PI*2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${alpha*1.2})`;
-          ctx.shadowBlur = star.radius * 7;
-          ctx.fill();
+            // ئەستێرەی ڕەشەبا
+            for (let i = 0; i < 5; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.left = Math.random() * 80 + '%';
+                shootingStar.style.top = Math.random() * 50 + '%';
+                shootingStar.style.animationDelay = (Math.random() * 5 + i * 2) + 's';
+                container.appendChild(shootingStar);
+            }
         }
-      });
-      ctx.shadowBlur = 0;
-      requestAnimationFrame(drawStars);
-    }
 
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    drawStars();
-
-    // ===================  Audio Player ===================
-    const audioPlayer = document.getElementById('audioPlayer');
-    const startButton = document.getElementById('startButton');
-    const musicControl = document.getElementById('musicControl');
-    const statusText = document.getElementById('statusText');
-    let audioStarted = false;
-    let isPlaying = false;
-
-    // هەوڵی دانانی ڤۆڵیوم
-    audioPlayer.volume = 1.0;
-
-    // فەنکشنی دەستپێکردنی دەنگ
-    function startAudio() {
-      if (audioStarted) return;
-      
-      console.log('🔄 هەوڵی دەستپێکردنی دەنگ...');
-      
-      // یەکەم هەوڵ
-      audioPlayer.play().then(() => {
-        console.log('✅ دەنگ بە سەرکەوتوویی دەستی پێکرد!');
-        audioStarted = true;
-        isPlaying = true;
-        startButton.classList.add('hidden');
-        statusText.textContent = '🔊 گۆرانی بەردەوامە...';
-        musicControl.textContent = '⏸️';
-        startTyping();
-      }).catch(error => {
-        console.log('⚠️ هەڵە لە یەکەم هەوڵ:', error);
-        
-        // دووەم هەوڵ - زیادکردنی mute و unmute
-        audioPlayer.muted = true;
-        audioPlayer.play().then(() => {
-          audioPlayer.muted = false;
-          console.log('✅ دەنگ بە سەرکەوتوویی دەستی پێکرد (هەوڵی دووەم)!');
-          audioStarted = true;
-          isPlaying = true;
-          startButton.classList.add('hidden');
-          statusText.textContent = '🔊 گۆرانی بەردەوامە...';
-          musicControl.textContent = '⏸️';
-          startTyping();
-        }).catch(error2 => {
-          console.log('❌ هەردوو هەوڵ شکستیان هێنا:', error2);
-          statusText.textContent = '❌ ناتوانرێت دەنگ پەخش بکرێت';
-          
-          // هەرچۆنێک پەیامەکە پیشان بدە
-          startButton.classList.add('hidden');
-          startTyping();
-        });
-      });
-    }
-
-    // دوگمەی سەرەکی
-    startButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      startAudio();
-    });
-
-    // دوگمەی کۆنترۆڵی میوزیک
-    musicControl.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      if (!audioStarted) {
-        startAudio();
-        return;
-      }
-      
-      if (isPlaying) {
-        audioPlayer.pause();
-        isPlaying = false;
-        musicControl.textContent = '▶️';
-        statusText.textContent = '⏸️ وەستا';
-      } else {
-        audioPlayer.play().then(() => {
-          isPlaying = true;
-          musicControl.textContent = '⏸️';
-          statusText.textContent = '🔊 گۆرانی بەردەوامە...';
-        }).catch(err => {
-          console.log('هەڵە لە دووبارە پەخشکردن:', err);
-        });
-      }
-    });
-
-    // کلیک لە هەر شوێنێکی تر
-    document.body.addEventListener('click', function(e) {
-      if (!audioStarted && e.target !== startButton && e.target !== musicControl) {
-        startAudio();
-      }
-    });
-
-    // بۆ مۆبایل
-    document.body.addEventListener('touchstart', function(e) {
-      if (!audioStarted && e.target !== startButton && e.target !== musicControl) {
-        startAudio();
-      }
-    }, { passive: true });
-
-    // ===================  پەیامی پیت بە پیت ===================
-    const messageText = "ڕۆژی لە دایک بوونت پیرۆز بیت دادەی من یارەبی تەمەنت هەزار ساڵ بینتن خوا لۆمن و ئازیزانت بێلیت دلی من هەر نەخۆشیەکت دیتبیت لەو ساڵەدا لۆت ببیتە خۆشی دڵخۆشی میوانی هەمیشەیت بیت رۆحی من باشە کە هەیت لەژیانم دوبارەو هەزار جار ڕۆژی لەدایک بوونت پیرۆز بیت خوشکە گەورەی من";
-    
-    const typedTextElement = document.getElementById('typed-text');
-    const finalNameElement = document.getElementById('final-name');
-    let charIndex = 0;
-    let typingInterval;
-    let typingStarted = false;
-    
-    function startTyping() {
-      if (typingStarted) return;
-      typingStarted = true;
-      
-      typedTextElement.textContent = '';
-      charIndex = 0;
-      finalNameElement.classList.remove('show');
-      
-      if (typingInterval) clearInterval(typingInterval);
-      
-      typingInterval = setInterval(() => {
-        if (charIndex < messageText.length) {
-          typedTextElement.textContent += messageText.charAt(charIndex);
-          charIndex++;
-        } else {
-          clearInterval(typingInterval);
-          setTimeout(() => {
-            finalNameElement.classList.add('show');
-          }, 400);
+        // دڵەکان
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'hearts';
+                heart.innerHTML = ['❤️', '💕', '💖', '✨', '🌟'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 5 + 3) + 's';
+                heart.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 8000);
+            }, 500);
         }
-      }, 90);
-    }
-    
-    // ئەگەر دەنگ کار نەکات، هەرچۆنێک پەیامەکە دوای 3 چرکە پیشان بدە
-    setTimeout(() => {
-      if (!typingStarted) {
-        console.log('⏰ پەیام بەبێ دەنگ پیشان دەدرێت');
-        startTyping();
-      }
-    }, 3000);
 
-    console.log('🌟 ئامادەیە - تکایە کلیک بکە بۆ دەستپێکردنی گۆرانی و پەیام');
-  </script>
+        // پەیامەکە
+        const message = "ڕۆژی لە دایک بوونت پیرۆز بیت دادەی من\nیارەبی تەمەنت هەزار ساڵ بینتن\nخوا لۆمن و ئازیزانت بێلیت\nدلی من هەر نەخۆشیەکت دیتبیت لەو ساڵەدا\nلۆت ببیتە خۆشی دڵخۆشی\nمیوانی هەمیشەیت بیت رۆحی من\nباشە کە هەیت لەژیانم\nدوبارەو هەزار جار ڕۆژی لەدایک بوونت پیرۆز بیت\nخوشکە گەورەی من";
+
+        let charIndex = 0;
+        let typingInterval;
+
+        // نمایشی پیت بە پیت
+        function typeMessage() {
+            const typedMessage = document.getElementById('typedMessage');
+            const cursor = document.getElementById('cursor');
+            
+            typingInterval = setInterval(() => {
+                if (charIndex < message.length) {
+                    typedMessage.textContent += message.charAt(charIndex);
+                    charIndex++;
+                } else {
+                    clearInterval(typingInterval);
+                    cursor.style.display = 'none';
+                    // نیشاندانی ناوی گەورە
+                    setTimeout(() => {
+                        document.getElementById('nameReveal').classList.add('show');
+                    }, 500);
+                }
+            }, 100);
+        }
+
+        // YouTube Player
+        let player;
+        
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtubePlayer', {
+                height: '0',
+                width: '0',
+                videoId: '3i5T2mkQsHQ',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'start': 80, // 1:20 = 80 چرکە
+                    'loop': 1,
+                    'playlist': '3i5T2mkQsHQ'
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log('YouTube Player ئامادەیە');
+        }
+
+        function startEverything() {
+            document.getElementById('startButton').style.display = 'none';
+            
+            // دەستپێکردنی گۆرانی
+            if (player && player.playVideo) {
+                player.seekTo(80);
+                player.playVideo();
+            }
+            
+            // دەستپێکردنی نوسین
+            setTimeout(() => {
+                typeMessage();
+            }, 500);
+        }
+
+        // بارکردنی YouTube API
+        function loadYouTubeAPI() {
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        // دەستپێکردنی هەموو شتێک
+        window.onload = function() {
+            createStars();
+            createHearts();
+            loadYouTubeAPI();
+        };
+    </script>
 </body>
 </html>
