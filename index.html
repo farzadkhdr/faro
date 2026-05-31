@@ -171,7 +171,7 @@
             }
         }
 
-        /* یوتیوب پلەیەر - شاراوە بەڵام کارا */
+        /* یوتیوب پلەیەر - شاراوە */
         #audioContainer {
             position: fixed;
             bottom: 10px;
@@ -341,12 +341,15 @@
         function startMusic() {
             const container = document.getElementById('audioContainer');
             
-            // دروستکردنی ئیفرەیمی یوتیوب بە شێوەیەکی کارا
+            // ID ی ڤیدیۆکە
+            const videoId = 'RPKTPGuij-Q';
+            
+            // دروستکردنی ئیفرەیم - لە سەرەتاوە دەست پێ دەکات
             container.innerHTML = `
                 <iframe 
                     width="300" 
                     height="200" 
-                    src="https://www.youtube.com/embed/3i5T2mkQsHQ?autoplay=1&start=80&controls=1&modestbranding=1&rel=0&loop=1&playlist=3i5T2mkQsHQ&mute=0&volume=100"
+                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1&modestbranding=1&rel=0&loop=1&playlist=${videoId}&mute=0&volume=100"
                     frameborder="0"
                     allow="autoplay; encrypted-media"
                     allowfullscreen>
@@ -354,7 +357,7 @@
             `;
             
             document.getElementById('soundIndicator').style.display = 'block';
-            console.log('🎵 گۆرانی لە 1:20 دەست پێ کرد');
+            console.log('🎵 گۆرانی لە سەرەتاوە دەست پێ کرد');
         }
 
         // دەستپێکردنی هەموو ئەزموونەکە
@@ -388,7 +391,7 @@
             createStars();
             console.log('✅ ئامادەیە');
             console.log('📝 پەیام: 10 هێڵ');
-            console.log('🎵 گۆرانی: 3i5T2mkQsHQ لە 1:20');
+            console.log('🎵 گۆرانی: RPKTPGuij-Q لە سەرەتاوە');
             console.log('👤 ناو: Dle Mn');
         };
     </script>
