@@ -20,6 +20,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
         }
 
         /* ئاسمانی تاریک */
@@ -41,6 +42,7 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            pointer-events: none;
         }
 
         .star {
@@ -60,7 +62,7 @@
         .message-container {
             position: relative;
             z-index: 10;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             border: 2px solid rgba(138, 43, 226, 0.5);
             border-radius: 20px;
             padding: 40px;
@@ -98,8 +100,8 @@
         /* دوگمەی دەستپێکردن */
         .start-btn {
             margin-top: 30px;
-            padding: 15px 40px;
-            font-size: 18px;
+            padding: 18px 45px;
+            font-size: 20px;
             background: linear-gradient(135deg, #8a2be2, #ff6b9d);
             color: white;
             border: none;
@@ -108,15 +110,16 @@
             font-weight: bold;
             transition: 0.3s;
             box-shadow: 0 5px 20px rgba(138, 43, 226, 0.5);
+            animation: btnGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes btnGlow {
+            0%, 100% { box-shadow: 0 5px 20px rgba(138, 43, 226, 0.5); }
+            50% { box-shadow: 0 5px 40px rgba(255, 107, 157, 0.8); }
         }
 
         .start-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(138, 43, 226, 0.7);
-        }
-
-        .start-btn:active {
-            transform: scale(0.95);
         }
 
         /* دڵەکان */
@@ -132,6 +135,14 @@
             0% { transform: translateY(0) scale(0); opacity: 1; }
             100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
         }
+
+        /* Loading spinner */
+        .loading {
+            display: none;
+            margin-top: 15px;
+            color: #ff6b9d;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -140,21 +151,23 @@
     <div class="sky"></div>
     <div class="stars-container" id="stars"></div>
 
-    <!-- یوتیوب - بە شێوەیەکی شاراوە -->
-    <iframe id="youtubeAudio" 
-            style="position:fixed; top:-100px; left:-100px; width:1px; height:1px; opacity:0; pointer-events:none; z-index:-999;"
-            allow="autoplay"
-            frameborder="0">
-    </iframe>
+    <!-- یوتیوب پلەیەر -->
+    <div id="youtubePlayer" style="position:fixed; top:-200px; left:-200px; width:1px; height:1px; opacity:0; pointer-events:none; z-index:-999;"></div>
 
     <!-- کۆنتێنەر -->
     <div class="message-container" id="messageContainer">
         <div id="linesContainer"></div>
         <div class="big-name" id="bigName">Dle Mn</div>
-        <button class="start-btn" id="startBtn" onclick="startEverything()">
-            🎵 کرتە بکە بۆ دەستپێکردن 🎂
-        </button>
+        <div>
+            <button class="start-btn" id="startBtn" onclick="startEverything()">
+                🎵 کرتە بکە بۆ دەستپێکردن 🎂
+            </button>
+            <div class="loading" id="loading">⏳ تکایە چاوەڕێ بکە... گۆرانی بار دەکرێت...</div>
+        </div>
     </div>
+
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
         // هێڵەکانی پەیام
@@ -171,7 +184,72 @@
             "خوشکە گەورەی من"
         ];
 
+        let player;
         let animationStarted = false;
+
+        // یوتیوب API ئامادە بوو
+        function onYouTubeIframeAPIReady() {
+            console.log('✅ YouTube API ئامادەیە');
+            
+            player = new YT.Player('youtubePlayer', {
+                videoId: '3i5T2mkQsHQ',
+                playerVars: {
+                    autoplay: 0,        // ئۆتۆپلەی ناکەین تا بەکارهێنەر کرتە دەکات
+                    controls: 0,
+                    disablekb: 1,
+                    enablejsapi: 1,
+                    fs: 0,
+                    iv_load_policy: 3,
+                    modestbranding: 1,
+                    rel: 0,
+                    showinfo: 0,
+                    start: 80,          // 1:20 = 80 چرکە
+                    mute: 0,
+                    loop: 1,
+                    playlist: '3i5T2mkQsHQ',
+                    playsinline: 1,
+                    origin: window.location.origin
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange,
+                    'onError': onPlayerError
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log('✅ پلەیەر ئامادەیە');
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('startBtn').textContent = '🎵 کرتە بکە بۆ دەستپێکردن 🎂';
+        }
+
+        function onPlayerStateChange(event) {
+            console.log('🎬 State changed:', event.data);
+            
+            // YT.PlayerState.PLAYING = 1
+            if (event.data === 1) {
+                console.log('🎵 گۆرانی دەست پێ کرد!');
+                if (!animationStarted) {
+                    animationStarted = true;
+                    document.getElementById('loading').style.display = 'none';
+                    startAnimation();
+                }
+            }
+            
+            // YT.PlayerState.ENDED = 0
+            if (event.data === 0) {
+                console.log('🔄 دووبارە دەست پێ دەکات');
+                player.seekTo(80);
+                player.playVideo();
+            }
+        }
+
+        function onPlayerError(event) {
+            console.error('❌ هەڵە لە پلەیەر:', event);
+            document.getElementById('loading').textContent = '❌ هەڵە! تکایە دووبارە هەوڵ بدە';
+        }
 
         // دروستکردنی ئەستێرەکان
         function createStars() {
@@ -194,7 +272,8 @@
         function createHeart() {
             const heart = document.createElement('div');
             heart.className = 'heart';
-            heart.textContent = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+            const emojis = ['❤️', '💕', '💖', '💗', '💝', '💜', '✨', '🌟'];
+            heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
             heart.style.left = Math.random() * 90 + '%';
             heart.style.bottom = '0px';
             document.body.appendChild(heart);
@@ -204,7 +283,7 @@
         // نوسینی پیت بە پیت
         function typeLine(line, element, callback) {
             element.textContent = '';
-            const chars = line.split('');
+            const chars = [...line];
             let index = 0;
             
             const interval = setInterval(() => {
@@ -215,36 +294,30 @@
                     clearInterval(interval);
                     if (callback) callback();
                 }
-            }, 80); // 80ms بۆ هەر پیتێک
+            }, 80);
         }
 
-        // نوسینی هەموو هێڵەکان یەک لە دوای یەک
+        // نوسینی هەموو هێڵەکان
         function typeAllLines(lines, container, bigNameElement) {
             let lineIndex = 0;
             
             function typeNext() {
                 if (lineIndex < lines.length) {
-                    // دروستکردنی دیڤی نوێ بۆ هەر هێڵێک
                     const lineDiv = document.createElement('div');
                     lineDiv.className = 'message-line';
                     container.appendChild(lineDiv);
                     
-                    // دروستکردنی دڵ لە کاتی نوسین
                     createHeart();
                     
                     typeLine(lines[lineIndex], lineDiv, () => {
                         lineIndex++;
-                        setTimeout(typeNext, 300); // 300ms پشوو لە نێوان هێڵەکان
+                        setTimeout(typeNext, 300);
                     });
                 } else {
                     // نیشاندانی ناوی گەورە
                     bigNameElement.style.display = 'block';
-                    bigNameElement.style.animation = 'none';
-                    bigNameElement.offsetHeight; // ڕیفڕێش
-                    bigNameElement.style.animation = 'pulse 1.5s ease-in-out infinite';
                     
-                    // چەند دڵێکی زیادە
-                    for (let i = 0; i < 10; i++) {
+                    for (let i = 0; i < 15; i++) {
                         setTimeout(createHeart, i * 200);
                     }
                 }
@@ -253,43 +326,49 @@
             typeNext();
         }
 
-        // دەستپێکردنی گۆرانی
-        function startMusic() {
-            const iframe = document.getElementById('youtubeAudio');
-            // YouTube embed link with start time at 1:20 (80 seconds)
-            iframe.src = 'https://www.youtube.com/embed/3i5T2mkQsHQ?autoplay=1&start=80&controls=0&disablekb=1&enablejsapi=1&iv_load_policy=3&modestbranding=1&rel=0&showinfo=0&mute=0&loop=1&playlist=3i5T2mkQsHQ';
+        // ئەنیمەیشنی پەیام
+        function startAnimation() {
+            const linesContainer = document.getElementById('linesContainer');
+            linesContainer.innerHTML = '';
             
-            console.log('🎵 گۆرانی دەست پێ کرد لە 1:20');
+            setTimeout(() => {
+                typeAllLines(messageLines, linesContainer, document.getElementById('bigName'));
+            }, 300);
+            
+            setInterval(createHeart, 1500);
         }
 
         // دەستپێکردنی هەموو شتێک
         function startEverything() {
-            if (animationStarted) return;
-            animationStarted = true;
+            const btn = document.getElementById('startBtn');
+            const loading = document.getElementById('loading');
             
-            // شاردنەوەی دوگمە
-            document.getElementById('startBtn').style.display = 'none';
+            btn.style.display = 'none';
+            loading.style.display = 'block';
+            loading.textContent = '⏳ گۆرانی بار دەکرێت...';
             
-            // پاککردنەوەی کۆنتێنەر
-            const linesContainer = document.getElementById('linesContainer');
-            linesContainer.innerHTML = '';
-            
-            // دەستپێکردنی گۆرانی
-            startMusic();
-            
-            // دەستپێکردنی نوسینی پەیام
-            setTimeout(() => {
-                typeAllLines(messageLines, linesContainer, document.getElementById('bigName'));
-            }, 500);
-            
-            // دروستکردنی دڵ بەردەوام
-            setInterval(createHeart, 1500);
+            if (player && player.playVideo) {
+                player.unMute();
+                player.setVolume(70);
+                player.seekTo(80);  // 1:20
+                player.playVideo();
+                console.log('▶️ playVideo() called');
+            } else {
+                loading.textContent = '❌ پلەیەر ئامادە نییە، تکایە پەڕەکە ڕیفڕێش بکە';
+                console.error('Player not ready');
+            }
         }
 
         // ئامادەکردنی پەڕە
         window.onload = function() {
             createStars();
-            console.log('✅ ئامادەیە - تکایە کرتە بکە بۆ دەستپێکردن');
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loading').textContent = '⏳ یوتیوب بار دەکرێت...';
+            document.getElementById('startBtn').style.display = 'none';
+            
+            console.log('📄 پەڕە بار بوو');
+            console.log('🎯 ڤیدیۆ: 3i5T2mkQsHQ');
+            console.log('⏱️ دەستپێک: 1:20 (80s)');
         };
     </script>
 </body>
