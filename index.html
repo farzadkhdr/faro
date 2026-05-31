@@ -19,7 +19,6 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            position: relative;
             cursor: default;
         }
 
@@ -146,19 +145,19 @@
             }
         }
 
-        .music-indicator {
+        .music-status {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            color: rgba(255, 215, 0, 0.6);
+            color: rgba(255, 215, 0, 0.7);
             font-size: 0.9rem;
             z-index: 100;
-            animation: fadeInOut 3s infinite;
+            animation: pulse 2s infinite;
         }
 
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
@@ -174,9 +173,41 @@
         <div class="name-reveal" id="nameReveal">✨ Dle Mn ✨</div>
     </div>
 
-    <div class="music-indicator">🎵 گۆرانیەکە دەست پێکرد...</div>
+    <div class="music-status">🎵 گۆرانیەکە دەست پێدەکات...</div>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADwAD///////////////////////////////////////////8AAAA5TEFNRTMuMTAwAc0AAAAAAAAAABSAJAJAQgAAgAAAA8DKMb0AAAAAAABzAAAAq8PcHwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/7RmsAABAAElFTkSuQmCC" type="audio/mpeg">
+        گۆرانیەکە نەتوانرا بار بکرێت
+    </audio>
 
     <script>
+        // ========== دەستپێکردنی گۆرانی ==========
+        const bgMusic = document.getElementById('bgMusic');
+        let musicStarted = false;
+
+        function startMusic() {
+            if (!musicStarted) {
+                bgMusic.volume = 0.5;
+                bgMusic.currentTime = 80; // دەستپێکردن لە 1:20
+                
+                bgMusic.play().then(() => {
+                    console.log('✅ گۆرانیەکە بە سەرکەوتوویی دەستی پێکرد!');
+                    musicStarted = true;
+                    document.querySelector('.music-status').textContent = '🎵 گۆرانیەکە بەردەوامە...';
+                }).catch(err => {
+                    console.log('⚠️ پێویستە یەک جار کلیک بکەیت بۆ دەستپێکردنی گۆرانی');
+                    document.querySelector('.music-status').textContent = '👉 تکایە یەک جار کلیک بکە بۆ دەستپێکردنی گۆرانی';
+                });
+            }
+        }
+
+        // هەوڵدانی ئۆتۆماتیک
+        setTimeout(startMusic, 500);
+
+        // ئەگەر ئۆتۆماتیک کارینەکات، بە کلیک یان تاچ
+        document.addEventListener('click', startMusic, { once: true });
+        document.addEventListener('touchstart', startMusic, { once: true });
+
         // ========== ئاسمانی ئەستێرەدار ==========
         const canvas = document.getElementById('starsCanvas');
         const ctx = canvas.getContext('2d');
@@ -205,7 +236,6 @@
                 y: Math.random() * canvas.height * 0.5,
                 length: Math.random() * 80 + 40,
                 speed: Math.random() * 10 + 5,
-                opacity: 1,
                 life: 1
             };
         }
@@ -308,69 +338,10 @@
             }, 80);
         }
 
-        // ========== گۆرانی - ڕێگای نوێ بەبێ یوتیوب ==========
-        function playMusic() {
-            // دروستکردنی ئەودیۆ بە شێوەی داینامیک
-            // ئەمە ڕێگایەکی ترە کە بە یوتیوب کاردەکات بەڵام بە شێوەیەکی جیاواز
-            const audioContainer = document.createElement('div');
-            audioContainer.style.position = 'fixed';
-            audioContainer.style.top = '-9999px';
-            audioContainer.style.left = '-9999px';
-            audioContainer.style.width = '1px';
-            audioContainer.style.height = '1px';
-            audioContainer.style.opacity = '0';
-            audioContainer.style.pointerEvents = 'none';
-            audioContainer.id = 'audioContainer';
-            
-            // بەکارهێنانی video ID بە شێوەی embed
-            audioContainer.innerHTML = `
-                <iframe 
-                    width="1" 
-                    height="1" 
-                    src="https://www.youtube.com/embed/3i5T2mkQsHQ?autoplay=1&start=80&loop=1&playlist=3i5T2mkQsHQ&controls=0&modestbranding=1&rel=0&showinfo=0&mute=0&enablejsapi=1&origin=${window.location.origin}" 
-                    frameborder="0" 
-                    allow="autoplay; encrypted-media"
-                    allowfullscreen="false">
-                </iframe>
-            `;
-            
-            document.body.appendChild(audioContainer);
-            
-            console.log('🎵 هەوڵدان بۆ دەستپێکردنی گۆرانی...');
-            
-            // ئەگەر دوای 3 چرکە گۆرانیەکە دەستی پێنەکرد، ڕێگایەکی تر تاقیبکەوە
-            setTimeout(() => {
-                const iframe = document.querySelector('#audioContainer iframe');
-                if (iframe) {
-                    // هەوڵدانەوە بۆ دەستپێکردنەوە
-                    iframe.src = iframe.src;
-                }
-            }, 3000);
-        }
-
-        // ========== دەستپێکردنی خۆکار ==========
+        // ========== دەستپێکردنی هەموو شتێک ==========
         window.addEventListener('load', () => {
-            // دڵەکان
             createFloatingHearts();
             
-            // گۆرانی - یەکەم کلیک یان تاچ
-            document.addEventListener('click', function initAudio() {
-                playMusic();
-                document.removeEventListener('click', initAudio);
-            }, { once: true });
-            
-            // هەروەها بۆ مۆبایل
-            document.addEventListener('touchstart', function initAudioMobile() {
-                playMusic();
-                document.removeEventListener('touchstart', initAudioMobile);
-            }, { once: true });
-            
-            // هەوڵدانی ئۆتۆماتیک (ڕەنگە کارنەکات بەڵام هەوڵدەدەین)
-            setTimeout(() => {
-                playMusic();
-            }, 500);
-            
-            // پەیامەکە
             setTimeout(() => {
                 typeMessage();
             }, 2500);
