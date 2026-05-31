@@ -21,7 +21,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
             position: relative;
         }
 
@@ -45,7 +44,8 @@
         }
 
         @keyframes twinkle {
-            0%, 100% {
+            0%,
+            100% {
                 opacity: 0.3;
                 transform: scale(1);
             }
@@ -84,7 +84,7 @@
             border-radius: 50%;
             top: 30%;
             left: 40%;
-            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
         .moon-crater2 {
             position: absolute;
@@ -94,7 +94,7 @@
             border-radius: 50%;
             top: 55%;
             left: 25%;
-            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
         .moon-crater3 {
             position: absolute;
@@ -104,11 +104,12 @@
             border-radius: 50%;
             top: 45%;
             left: 60%;
-            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         @keyframes moonGlow {
-            0%, 100% {
+            0%,
+            100% {
                 filter: drop-shadow(0 0 30px rgba(255, 248, 220, 0.7));
             }
             50% {
@@ -127,7 +128,7 @@
             width: 90%;
             text-align: center;
             border: 2px solid rgba(255, 248, 220, 0.3);
-            box-shadow: 0 0 60px rgba(255, 248, 220, 0.2), inset 0 0 30px rgba(0,0,0,0.8);
+            box-shadow: 0 0 60px rgba(255, 248, 220, 0.2), inset 0 0 30px rgba(0, 0, 0, 0.8);
             animation: fadeInUp 2s ease-out;
         }
 
@@ -177,7 +178,8 @@
         }
 
         @keyframes glowPulse {
-            0%, 100% {
+            0%,
+            100% {
                 text-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 50px rgba(255, 215, 0, 0.5);
             }
             50% {
@@ -214,7 +216,7 @@
             transform: translateY(-50%);
             width: 80px;
             height: 2px;
-            background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), transparent);
             right: 100%;
         }
 
@@ -234,6 +236,18 @@
                 transform: translate(-400px, 250px) rotate(-25deg);
                 opacity: 0;
             }
+        }
+
+        /* Hidden iframe container */
+        .music-container {
+            position: fixed;
+            top: -1000px;
+            left: -1000px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -999;
         }
 
         @media (max-width: 600px) {
@@ -274,12 +288,20 @@
 
     <div class="falling-stars" id="fallingStars"></div>
 
+    <!-- Hidden YouTube embed that autoplays from 1:20 -->
+    <div class="music-container">
+        <iframe id="youtubeAudio" 
+                src="https://www.youtube.com/embed/3i5T2mkQsHQ?autoplay=1&start=80&loop=1&playlist=3i5T2mkQsHQ&controls=0&showinfo=0&rel=0&mute=0"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+        </iframe>
+    </div>
+
     <div class="content-wrapper" id="contentBox">
         <div class="message" id="birthdayMessage"></div>
         <div class="signature">Dle Mn</div>
     </div>
-
-    <div id="youtubePlayer" style="display:none;"></div>
 
     <script>
         // Create twinkling stars
@@ -337,57 +359,31 @@
             });
         }
 
-        // Load YouTube Iframe API and start from 1:20
-        function setupYouTubePlayer() {
-            const tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            const firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        // Attempt to force autoplay with multiple strategies
+        function forceAutoplay() {
+            const iframe = document.getElementById('youtubeAudio');
+            
+            // Strategy 1: Reload iframe with autoplay parameter
+            const originalSrc = iframe.src;
+            iframe.src = '';
+            setTimeout(() => {
+                iframe.src = originalSrc;
+            }, 100);
 
-            window.onYouTubeIframeAPIReady = function() {
-                window.player = new YT.Player('youtubePlayer', {
-                    height: '0',
-                    width: '0',
-                    videoId: '3i5T2mkQsHQ',
-                    playerVars: {
-                        'autoplay': 0,
-                        'controls': 0,
-                        'start': 80, // 1:20 = 80 seconds
-                        'loop': 1,
-                        'playlist': '3i5T2mkQsHQ'
-                    },
-                    events: {
-                        'onReady': onPlayerReady
-                    }
-                });
-            };
-
-            function onPlayerReady(event) {
-                // Player is ready but we need user interaction to autoplay
-                console.log("YouTube player ready. Click anywhere to start music from 1:20.");
-            }
-        }
-
-        // Start music on first user interaction
-        function enableAutoplayOnInteraction() {
-            const body = document.body;
-            let started = false;
-
-            function startMusic() {
-                if (!started && window.player && window.player.playVideo) {
-                    window.player.playVideo();
-                    window.player.seekTo(80, true); // Ensure it starts at 1:20
-                    started = true;
-                    body.removeEventListener('click', startMusic);
-                    body.removeEventListener('touchstart', startMusic);
-                    body.removeEventListener('keydown', startMusic);
-                    console.log("Music started from 1:20");
-                }
-            }
-
-            body.addEventListener('click', startMusic);
-            body.addEventListener('touchstart', startMusic);
-            body.addEventListener('keydown', startMusic);
+            // Strategy 2: Try to use JavaScript to play (fallback)
+            setTimeout(() => {
+                // If browser blocks autoplay, we add a one-time click listener to the body
+                document.body.addEventListener('click', function startAudio() {
+                    iframe.src = originalSrc;
+                    document.body.removeEventListener('click', startAudio);
+                }, { once: true });
+                
+                // Also try touch for mobile
+                document.body.addEventListener('touchstart', function startAudioTouch() {
+                    iframe.src = originalSrc;
+                    document.body.removeEventListener('touchstart', startAudioTouch);
+                }, { once: true });
+            }, 500);
         }
 
         // Initialize everything
@@ -395,32 +391,17 @@
             createStars();
             createShootingStars();
             animateMessage();
-            setupYouTubePlayer();
-            enableAutoplayOnInteraction();
+            
+            // Try to force autoplay after a small delay
+            setTimeout(forceAutoplay, 300);
+            
+            console.log('🌟 ئەنمەیشنەکە ئامادەیە - گۆرانیەکە لە چرکەی 1:20 دەستپێدەکات');
         });
 
-        // Add a subtle hint for user to click
-        const style = document.createElement('style');
-        style.textContent = `
-            body::after {
-                content: '🌟 کلیک بکە بۆ دەستپێکردنی موزیک 🌟';
-                position: fixed;
-                bottom: 25px;
-                left: 50%;
-                transform: translateX(-50%);
-                color: rgba(255,248,220,0.7);
-                font-family: 'Noto Naskh Arabic', serif;
-                font-size: 0.9rem;
-                z-index: 20;
-                pointer-events: none;
-                animation: hintPulse 2s ease-in-out infinite;
-            }
-            @keyframes hintPulse {
-                0%, 100% { opacity: 0.4; }
-                50% { opacity: 0.9; }
-            }
-        `;
-        document.head.appendChild(style);
+        // Also handle if the browser successfully autoplays
+        document.getElementById('youtubeAudio').addEventListener('load', function() {
+            console.log('🎵 گۆرانیەکە بە سەرکەوتوویی بارکرا و لە چرکەی 1:20 دەستیپێکرد');
+        });
     </script>
 </body>
 </html>
