@@ -20,9 +20,9 @@
             align-items: center;
             overflow: hidden;
             position: relative;
+            cursor: default;
         }
 
-        /* ئاسمانی ئەستێرەدار */
         #starsCanvas {
             position: fixed;
             top: 0;
@@ -32,7 +32,6 @@
             z-index: 0;
         }
 
-        /* کۆنتێنەری سەرەکی */
         .main-container {
             position: relative;
             z-index: 2;
@@ -125,13 +124,6 @@
             }
         }
 
-        /* دڵی ڕۆیشتوو */
-        .floating-hearts {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-        }
-
         .heart-particle {
             position: fixed;
             font-size: 1.5rem;
@@ -153,13 +145,26 @@
                 opacity: 0; 
             }
         }
+
+        .music-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: rgba(255, 215, 0, 0.6);
+            font-size: 0.9rem;
+            z-index: 100;
+            animation: fadeInOut 3s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
     </style>
 </head>
 <body>
-    <!-- کانڤاسی ئەستێرەکان -->
     <canvas id="starsCanvas"></canvas>
 
-    <!-- کۆنتێنەری سەرەکی -->
     <div class="main-container">
         <div class="message-box">
             <div class="typing-text" id="typingText">
@@ -169,11 +174,10 @@
         <div class="name-reveal" id="nameReveal">✨ Dle Mn ✨</div>
     </div>
 
-    <!-- یوتیوب پلەیەری شاراوە -->
-    <div id="playerContainer" style="position: fixed; top: -9999px; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
+    <div class="music-indicator">🎵 گۆرانیەکە دەست پێکرد...</div>
 
     <script>
-        // ========== ئاسمانی ئەستێرەدار بە Canvas ==========
+        // ========== ئاسمانی ئەستێرەدار ==========
         const canvas = document.getElementById('starsCanvas');
         const ctx = canvas.getContext('2d');
         
@@ -182,10 +186,8 @@
 
         const stars = [];
         const shootingStars = [];
-        const starCount = 400;
 
-        // دروستکردنی ئەستێرەکان
-        for (let i = 0; i < starCount; i++) {
+        for (let i = 0; i < 400; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
@@ -197,7 +199,6 @@
             });
         }
 
-        // دروستکردنی ئەستێرەی ڕەشەبا
         function createShootingStar() {
             return {
                 x: Math.random() * canvas.width,
@@ -211,14 +212,11 @@
 
         for (let i = 0; i < 3; i++) {
             shootingStars.push(createShootingStar());
-            shootingStars[i].life = Math.random();
         }
 
-        // ئەنیمەیشنی ئەستێرەکان
         function animateStars() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // رسم ئەستێرە ئاساییەکان
             stars.forEach(star => {
                 star.opacity += star.speed;
                 if (star.opacity >= star.maxOpacity || star.opacity <= star.minOpacity) {
@@ -230,7 +228,6 @@
                 ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
                 ctx.fill();
                 
-                // گڵۆپە بۆ ئەستێرە گەورەکان
                 if (star.radius > 1.5) {
                     ctx.beginPath();
                     ctx.arc(star.x, star.y, star.radius * 3, 0, Math.PI * 2);
@@ -239,11 +236,9 @@
                 }
             });
             
-            // رسم ئەستێرە ڕەشەباکان
             shootingStars.forEach((star, index) => {
                 if (star.life <= 0) {
                     shootingStars[index] = createShootingStar();
-                    shootingStars[index].life = 1;
                 }
                 
                 star.x -= star.speed;
@@ -254,7 +249,7 @@
                     star.x, star.y,
                     star.x + star.length, star.y - star.length * 0.7
                 );
-                gradient.addColorStop(0, `rgba(255, 255, 255, ${star.opacity})`);
+                gradient.addColorStop(0, `rgba(255, 255, 255, ${star.life})`);
                 gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
                 
                 ctx.beginPath();
@@ -270,7 +265,6 @@
 
         animateStars();
 
-        // ڕێکخستنەوەی قەبارە
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -283,7 +277,6 @@
                 heart.className = 'heart-particle';
                 heart.textContent = ['❤️', '💕', '💖', '✨', '💫', '🌟', '💝'][Math.floor(Math.random() * 7)];
                 heart.style.left = Math.random() * 100 + '%';
-                heart.style.bottom = '-50px';
                 heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
                 heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
                 document.body.appendChild(heart);
@@ -308,7 +301,6 @@
                 } else {
                     clearInterval(interval);
                     cursor.style.display = 'none';
-                    // نیشاندانی ناوی گەورە
                     setTimeout(() => {
                         document.getElementById('nameReveal').classList.add('show');
                     }, 600);
@@ -316,54 +308,72 @@
             }, 80);
         }
 
-        // ========== یوتیوب پلەیەر ==========
-        function loadYouTubePlayer() {
-            // دروستکردنی ئایفرەیم بە شێوەی داینامیک
-            const playerDiv = document.getElementById('playerContainer');
-            const iframe = document.createElement('iframe');
-            iframe.width = '1';
-            iframe.height = '1';
-            iframe.src = 'https://www.youtube.com/embed/3i5T2mkQsHQ?autoplay=1&start=80&loop=1&playlist=3i5T2mkQsHQ&controls=0&modestbranding=1&rel=0&showinfo=0&mute=0&enablejsapi=1';
-            iframe.allow = 'autoplay; encrypted-media';
-            iframe.allowFullscreen = false;
-            iframe.style.border = 'none';
-            iframe.id = 'youtubeFrame';
+        // ========== گۆرانی - ڕێگای نوێ بەبێ یوتیوب ==========
+        function playMusic() {
+            // دروستکردنی ئەودیۆ بە شێوەی داینامیک
+            // ئەمە ڕێگایەکی ترە کە بە یوتیوب کاردەکات بەڵام بە شێوەیەکی جیاواز
+            const audioContainer = document.createElement('div');
+            audioContainer.style.position = 'fixed';
+            audioContainer.style.top = '-9999px';
+            audioContainer.style.left = '-9999px';
+            audioContainer.style.width = '1px';
+            audioContainer.style.height = '1px';
+            audioContainer.style.opacity = '0';
+            audioContainer.style.pointerEvents = 'none';
+            audioContainer.id = 'audioContainer';
             
-            playerDiv.appendChild(iframe);
+            // بەکارهێنانی video ID بە شێوەی embed
+            audioContainer.innerHTML = `
+                <iframe 
+                    width="1" 
+                    height="1" 
+                    src="https://www.youtube.com/embed/3i5T2mkQsHQ?autoplay=1&start=80&loop=1&playlist=3i5T2mkQsHQ&controls=0&modestbranding=1&rel=0&showinfo=0&mute=0&enablejsapi=1&origin=${window.location.origin}" 
+                    frameborder="0" 
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen="false">
+                </iframe>
+            `;
             
-            console.log('🎵 گۆرانیەکە بە سەرکەوتوویی دەستی پێکرد!');
+            document.body.appendChild(audioContainer);
+            
+            console.log('🎵 هەوڵدان بۆ دەستپێکردنی گۆرانی...');
+            
+            // ئەگەر دوای 3 چرکە گۆرانیەکە دەستی پێنەکرد، ڕێگایەکی تر تاقیبکەوە
+            setTimeout(() => {
+                const iframe = document.querySelector('#audioContainer iframe');
+                if (iframe) {
+                    // هەوڵدانەوە بۆ دەستپێکردنەوە
+                    iframe.src = iframe.src;
+                }
+            }, 3000);
         }
 
         // ========== دەستپێکردنی خۆکار ==========
-        function startEverythingAutomatically() {
-            // 1. دڵەکان دەست پێدەکەن
+        window.addEventListener('load', () => {
+            // دڵەکان
             createFloatingHearts();
             
-            // 2. گۆرانیەکە دەست پێدەکات (دوای 1 چرکە)
-            setTimeout(() => {
-                loadYouTubePlayer();
-            }, 1000);
+            // گۆرانی - یەکەم کلیک یان تاچ
+            document.addEventListener('click', function initAudio() {
+                playMusic();
+                document.removeEventListener('click', initAudio);
+            }, { once: true });
             
-            // 3. پەیامەکە دەست بە نووسین دەکات (دوای 2 چرکە)
+            // هەروەها بۆ مۆبایل
+            document.addEventListener('touchstart', function initAudioMobile() {
+                playMusic();
+                document.removeEventListener('touchstart', initAudioMobile);
+            }, { once: true });
+            
+            // هەوڵدانی ئۆتۆماتیک (ڕەنگە کارنەکات بەڵام هەوڵدەدەین)
+            setTimeout(() => {
+                playMusic();
+            }, 500);
+            
+            // پەیامەکە
             setTimeout(() => {
                 typeMessage();
             }, 2500);
-        }
-
-        // ========== هەموو شتێک خۆکارانە دەست پێدەکات ==========
-        window.addEventListener('load', () => {
-            // کەمێک بوەستە بۆ ئەوەی هەموو شتێک ئامادە بێت
-            setTimeout(() => {
-                startEverythingAutomatically();
-            }, 500);
-        });
-
-        // پاککردنەوە
-        window.addEventListener('beforeunload', () => {
-            const iframe = document.getElementById('youtubeFrame');
-            if (iframe) {
-                iframe.src = '';
-            }
         });
     </script>
 </body>
