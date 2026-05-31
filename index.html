@@ -1,277 +1,559 @@
 <!DOCTYPE html>
-<html lang="ckb">
+<html lang="ckb" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎂 ڕۆژی لەدایکبوونت پیرۆز - Dle Mn</title>
+    <title>ڕۆژی لە دایک بوونت پیرۆز بیت - Dle Mn</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            min-height: 100vh;
-            background: radial-gradient(ellipse at center, #0a0f1e 0%, #03060c 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', 'Vazir', Tahoma, sans-serif;
-            padding: 20px;
-            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a1a;
+            cursor: default;
+            user-select: none;
         }
-        .stars {
+
+        /* یوتیوب ڤیدیۆ شاراوە */
+        .youtube-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -999;
+            overflow: hidden;
+        }
+
+        .youtube-container iframe {
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+        }
+
+        /* ئاسمانی تاریک */
+        .sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                #0a0a2e 0%, 
+                #0f0f3a 10%,
+                #1a1a4e 30%,
+                #0d0d30 50%,
+                #080820 70%,
+                #050515 100%);
+            z-index: -1;
+        }
+
+        /* ئەستێرەکان */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.8);
+            }
+        }
+
+        /* هەوری ئاسمان */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: floatCloud var(--cloud-duration) linear infinite;
+            animation-delay: var(--cloud-delay);
+        }
+
+        @keyframes floatCloud {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+            25% {
+                transform: translateX(-30px) translateY(-10px);
+            }
+            50% {
+                transform: translateX(10px) translateY(-20px);
+            }
+            75% {
+                transform: translateX(40px) translateY(-5px);
+            }
+            100% {
+                transform: translateX(0) translateY(0);
+            }
+        }
+
+        /* ناوەڕۆکی سەرەکی */
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* پەیام */
+        .message-box {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 40px 35px;
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 100px rgba(138, 43, 226, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                transparent,
+                rgba(138, 43, 226, 0.08),
+                transparent,
+                rgba(75, 0, 130, 0.08),
+                transparent
+            );
+            animation: rotateGlow 8s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message-text {
+            position: relative;
+            z-index: 1;
+            color: #ffffff;
+            font-size: 1.5rem;
+            line-height: 2.2;
+            min-height: 300px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .message-text .char {
+            display: inline-block;
+            opacity: 0;
+            animation: charAppear 0.5s ease-out forwards;
+            animation-delay: calc(var(--char-index) * 0.08s);
+        }
+
+        @keyframes charAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.5);
+                color: #ff6b9d;
+            }
+            50% {
+                opacity: 0.7;
+                color: #c44dff;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                color: #ffffff;
+            }
+        }
+
+        /* ناوی گەورە لە کۆتایی */
+        .big-name {
+            position: relative;
+            z-index: 1;
+            margin-top: 30px;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, 
+                #ff6b9d 0%, 
+                #c44dff 25%, 
+                #ff6b9d 50%, 
+                #ff9a56 75%, 
+                #ff6b9d 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            animation: shineName 3s ease-in-out infinite;
+            letter-spacing: 8px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .big-name.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @keyframes shineName {
+            0%, 100% {
+                background-position: 0% 50%;
+                filter: brightness(1);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: brightness(1.3);
+            }
+        }
+
+        /* دڵی ڕازاوە */
+        .hearts {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 5;
         }
-        .star {
+
+        .heart {
             position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 2s infinite alternate;
-        }
-        @keyframes twinkle {
-            0% { opacity: 0.2; transform: scale(1);}
-            100% { opacity: 1; transform: scale(1.3);}
-        }
-        .card {
-            position: relative;
-            z-index: 10;
-            max-width: 800px;
-            width: 100%;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            padding: 2rem;
-            border: 1px solid rgba(255,215,0,0.5);
-            box-shadow: 0 25px 40px rgba(0,0,0,0.5);
-            text-align: center;
-        }
-        h1 {
-            color: #ffdd99;
             font-size: 1.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 8px #ff9900;
-        }
-        .message-box {
-            background: rgba(0,0,0,0.5);
-            border-radius: 32px;
-            padding: 2rem 1.2rem;
-            margin: 20px 0;
-            min-height: 350px;
-            border-left: 4px solid #ffaa44;
-            border-right: 4px solid #ffaa44;
-        }
-        .message-text {
-            font-size: 1.3rem;
-            line-height: 2rem;
-            color: #fff5e6;
-            text-shadow: 0 0 5px #ff884d;
-            direction: rtl;
-            text-align: center;
-            font-weight: 500;
-            word-break: break-word;
-        }
-        .signature {
-            margin-top: 28px;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #ffcc77;
-            text-shadow: 0 0 12px #ff4400;
+            animation: floatUp var(--heart-duration) ease-in forwards;
+            animation-delay: var(--heart-delay);
             opacity: 0;
-            transition: opacity 1s ease;
         }
-        .signature.show { opacity: 1; }
-        button {
-            background: linear-gradient(135deg, #ffaa33, #ff7700);
-            border: none;
-            padding: 12px 28px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 60px;
-            margin: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #2c1a00;
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(1.5) rotate(var(--rotate));
+            }
         }
-        button:hover { transform: scale(1.02); background: #ffaa44; }
-        .status {
-            margin: 12px auto;
-            background: #000000aa;
-            display: inline-block;
-            padding: 6px 18px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            color: #ddd;
+
+        /* بەرسیارکردن */
+        .hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            text-align: center;
+            animation: pulse 2s ease-in-out infinite;
         }
-        audio {
-            margin-top: 18px;
-            width: 100%;
-            border-radius: 60px;
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
         }
-        .file-input {
-            margin: 15px auto;
-            background: #222;
-            padding: 8px;
-            border-radius: 40px;
-            color: #ffcc77;
-            font-size: 0.8rem;
-        }
-        input[type="file"] {
-            background: #ffaa33;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 30px;
-            margin-top: 5px;
-        }
-        @media (max-width: 550px) {
-            .message-text { font-size: 1rem; line-height: 1.5rem; }
-            .signature { font-size: 1.4rem; }
+
+        /* ڕیسپۆنسیڤ */
+        @media (max-width: 600px) {
+            .message-text {
+                font-size: 1.1rem;
+                line-height: 2;
+            }
+            .message-box {
+                padding: 25px 20px;
+            }
+            .big-name {
+                font-size: 2.2rem;
+                letter-spacing: 4px;
+            }
         }
     </style>
 </head>
 <body>
-<div class="stars" id="starsContainer"></div>
-<div class="card">
-    <h1>🌟 ڕۆژی لەدایکبوونت پیرۆز بێت 🌟</h1>
-    <div class="message-box">
-        <div class="message-text" id="typingMessage"></div>
-        <div class="signature" id="signatureDle">✨ Dle Mn ✨</div>
-    </div>
-    
-    <div class="file-input">
-        📁 تکایە فایلی گۆرانی (MP3) کە لە یوتیوبەوە دابگرتووە دیاری بکە:<br>
-        <input type="file" id="songFile" accept="audio/mp3,audio/mpeg">
-    </div>
-    
-    <audio id="birthdaySong" preload="auto" controls style="display:none;"></audio>
-    
-    <div class="control-group">
-        <button id="startBtn">🎵 دەستپێکردن (گۆرانی+پەیام)</button>
-        <button id="resetBtn">🔄 دووبارە پەیام</button>
-    </div>
-    <div class="status" id="infoStatus">📀 فایلی گۆرانی MP3 هەڵبژێرە، ئینجا کلیک لە دەستپێکردن بکە</div>
-    <div style="font-size:11px; margin-top: 10px; color:#aaa;">💡 گۆرانی لە ۱:۲۰ دەست پێ دەکات • پەیام پیت بە پیت هۆڵ دەبێت</div>
-</div>
 
-<script>
-    const fullMessage = "ڕۆژی لە دایک بوونت پیرۆز بیت دادەی من یارەبی تەمەنت هەزار ساڵ بینتن خوا لۆمن و ئازیزانت بێلیت دلی من هەر نەخۆشیەکت دیتبیت لەو ساڵەدا لۆت ببیتە خۆشی دڵخۆشی میوانی هەمیشەیت بیت رۆحی من باشە کە هەیت لەژیانم دوبارەو هەزار جار ڕۆژی لەدایک بوونت پیرۆز بیت خوشکە گەورەی من";
-    
-    let typedDiv = document.getElementById("typingMessage");
-    let signatureEl = document.getElementById("signatureDle");
-    let currentIdx = 0;
-    let intervalId = null;
-    let audio = document.getElementById("birthdaySong");
-    let selectedSongBlob = null;
-    
-    function stopTyping() {
-        if (intervalId) { clearInterval(intervalId); intervalId = null; }
-    }
-    
-    function startTyping(reset = true) {
-        if (reset) {
-            stopTyping();
-            typedDiv.innerHTML = "";
-            currentIdx = 0;
-            signatureEl.classList.remove("show");
-        }
-        if (intervalId) return;
-        
-        intervalId = setInterval(() => {
-            if (currentIdx < fullMessage.length) {
-                typedDiv.innerHTML += fullMessage[currentIdx];
-                currentIdx++;
-            } else {
-                clearInterval(intervalId);
-                intervalId = null;
-                signatureEl.classList.add("show");
-                document.getElementById("infoStatus").innerHTML = "💖 پەیام تەواو بوو + Dle Mn 💖";
-            }
-        }, 85);
-    }
-    
-    // دەستپێکردنی گۆرانی لە 80 چرکە (1:20)
-    function playSongFrom80() {
-        if (!selectedSongBlob) {
-            document.getElementById("infoStatus").innerHTML = "⚠️ تکایە یەکەمجار فایلی MP3 هەڵبژێرە!";
-            return false;
-        }
-        if (audio.readyState >= 2) {
-            audio.currentTime = 80;
-            audio.play().catch(e => {
-                console.log("Autoplay blocked:", e);
-                document.getElementById("infoStatus").innerHTML = "🔊 کلیک لە دوگمەی play بکە لەسەر پلێیەرەکە";
+    <!-- ئاسمانی تاریک -->
+    <div class="sky" id="sky"></div>
+
+    <!-- یوتیوب ڤیدیۆی شاراوە -->
+    <div class="youtube-container" id="youtubeContainer">
+        <div id="youtubePlayer"></div>
+    </div>
+
+    <!-- دڵەکان -->
+    <div class="hearts" id="hearts"></div>
+
+    <!-- ناوەڕۆکی سەرەکی -->
+    <div class="container">
+        <div class="message-box">
+            <div class="message-text" id="messageText"></div>
+            <div class="big-name" id="bigName">Dle Mn</div>
+        </div>
+    </div>
+
+    <!-- ڕێنمایی -->
+    <div class="hint" id="hint">🎵 بۆ دەستپێکردنی گۆرانی کرتە بکە 🎵</div>
+
+    <!-- YouTube IFrame API -->
+    <script>
+        // ==================== یوتیوب API ====================
+        let player;
+        let youtubeReady = false;
+        let musicStarted = false;
+
+        // بارکردنی API ی یوتیوب
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        function onYouTubeIframeAPIReady() {
+            youtubeReady = true;
+            player = new YT.Player('youtubePlayer', {
+                videoId: '3i5T2mkQsHQ',
+                playerVars: {
+                    autoplay: 1,
+                    controls: 0,
+                    disablekb: 1,
+                    enablejsapi: 1,
+                    fs: 0,
+                    iv_load_policy: 3,
+                    modestbranding: 1,
+                    rel: 0,
+                    showinfo: 0,
+                    mute: 0,
+                    start: 80,  // 1:20 = 80 چرکە
+                    playsinline: 1,
+                },
+                events: {
+                    onReady: onPlayerReady,
+                    onStateChange: onPlayerStateChange
+                }
             });
-            return true;
-        } else {
-            audio.addEventListener('canplay', () => {
-                audio.currentTime = 80;
-                audio.play().catch(e=>console.log(e));
-            }, { once: true });
-            return true;
         }
-    }
-    
-    // هەڵبژاردنی فایلی دەنگ
-    document.getElementById("songFile").addEventListener("change", function(e) {
-        const file = e.target.files[0];
-        if (file && file.type.includes("audio")) {
-            selectedSongBlob = URL.createObjectURL(file);
-            audio.src = selectedSongBlob;
-            audio.style.display = "block";
-            document.getElementById("infoStatus").innerHTML = "✅ گۆرانی بارکرا! ئێستا کلیک لە دەستپێکردن بکە.";
-        } else {
-            alert("تکایە فایلێکی MP3 ی دروست هەڵبژێرە");
+
+        function onPlayerReady(event) {
+            console.log('✅ یوتیوب پلەیەر ئامادەیە');
+            player.unMute();
+            player.setVolume(60);
         }
-    });
-    
-    // دەستپێکردنی هەموو شتێک
-    document.getElementById("startBtn").addEventListener("click", () => {
-        if (!selectedSongBlob) {
-            document.getElementById("infoStatus").innerHTML = "❌ یەکەمجار فایلی گۆرانی MP3 هەڵبژێرە!";
-            return;
+
+        function onPlayerStateChange(event) {
+            // کاتێک ڤیدیۆ دەست پێ دەکات
+            if (event.data === YT.PlayerState.PLAYING) {
+                if (!musicStarted) {
+                    musicStarted = true;
+                    document.getElementById('hint').style.display = 'none';
+                    startMessageAnimation();
+                    createHeartsContinuous();
+                    console.log('🎵 گۆرانی دەست پێ کرد');
+                }
+            }
+            
+            // ئەگەر ڤیدیۆ تەواو بوو، دووبارە بکەرەوە
+            if (event.data === YT.PlayerState.ENDED) {
+                player.seekTo(80); // بگەڕێوە بۆ 1:20
+                player.playVideo();
+            }
         }
-        // Reset message if needed
-        if (typedDiv.innerHTML.length === fullMessage.length || currentIdx >= fullMessage.length) {
-            typedDiv.innerHTML = "";
-            currentIdx = 0;
-            signatureEl.classList.remove("show");
-            stopTyping();
+
+        // دەستپێکردنی گۆرانی بە کرتە
+        document.body.addEventListener('click', function startMusic() {
+            if (!musicStarted && youtubeReady && player && player.playVideo) {
+                player.playVideo();
+                document.body.removeEventListener('click', startMusic);
+            }
+        });
+
+        // ==================== ئەستێرەکان ====================
+        function createStars() {
+            const sky = document.getElementById('sky');
+            const starCount = 150;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', (Math.random() * 3 + 1.5) + 's');
+                star.style.setProperty('--delay', Math.random() * 5 + 's');
+                
+                // هەندێ ئەستێرە ڕەنگیان هەیە
+                if (Math.random() < 0.2) {
+                    const colors = ['#ff9999', '#99ccff', '#ffcc99', '#cc99ff', '#99ffcc'];
+                    star.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    star.style.boxShadow = `0 0 ${size * 3}px ${star.style.background}`;
+                }
+                
+                sky.appendChild(star);
+            }
         }
-        startTyping(true);
-        playSongFrom80();
-        document.getElementById("infoStatus").innerHTML = "🎵 گۆرانی لە 1:20 دەستی پێکرد + پەیام هۆڵ دەبێت 🎵";
-    });
-    
-    document.getElementById("resetBtn").addEventListener("click", () => {
-        stopTyping();
-        typedDiv.innerHTML = "";
-        currentIdx = 0;
-        signatureEl.classList.remove("show");
-        document.getElementById("infoStatus").innerHTML = "پەیام ڕێسێت کرا. دووبارە کلیک لە دەستپێکردن بکە.";
-    });
-    
-    // دروستکردنی ئەستێرەکان
-    function createStars() {
-        const starsDiv = document.getElementById("starsContainer");
-        for (let i = 0; i < 200; i++) {
-            let star = document.createElement("div");
-            star.classList.add("star");
-            star.style.left = Math.random() * 100 + "%";
-            star.style.top = Math.random() * 100 + "%";
-            star.style.width = (Math.random() * 3 + 1) + "px";
-            star.style.height = star.style.width;
-            star.style.animationDuration = (Math.random() * 2 + 1) + "s";
-            star.style.animationDelay = (Math.random() * 3) + "s";
-            starsDiv.appendChild(star);
+
+        // ==================== هەورەکان ====================
+        function createClouds() {
+            const sky = document.getElementById('sky');
+            const cloudCount = 8;
+
+            for (let i = 0; i < cloudCount; i++) {
+                const cloud = document.createElement('div');
+                cloud.classList.add('cloud');
+                
+                const size = Math.random() * 200 + 100;
+                cloud.style.width = size + 'px';
+                cloud.style.height = size * 0.6 + 'px';
+                cloud.style.left = Math.random() * 100 + '%';
+                cloud.style.top = Math.random() * 60 + '%';
+                cloud.style.setProperty('--cloud-duration', (Math.random() * 15 + 10) + 's');
+                cloud.style.setProperty('--cloud-delay', Math.random() * 10 + 's');
+                
+                sky.appendChild(cloud);
+            }
         }
-    }
-    createStars();
-</script>
+
+        // ==================== دڵەکان ====================
+        function createHeartsContinuous() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartEmojis = ['❤️', '💕', '💖', '💗', '💝', '✨', '🌟', '💜', '💙', '🩷'];
+            
+            setInterval(() => {
+                const heart = document.createElement('span');
+                heart.classList.add('heart');
+                heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                heart.style.left = Math.random() * 95 + '%';
+                heart.style.top = '100%';
+                heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                heart.style.setProperty('--heart-duration', (Math.random() * 4 + 3) + 's');
+                heart.style.setProperty('--heart-delay', '0s');
+                heart.style.setProperty('--rotate', (Math.random() * 60 - 30) + 'deg');
+                
+                heartsContainer.appendChild(heart);
+                
+                // لابردنی دڵ دوای ئەنیمەیشن
+                setTimeout(() => {
+                    if (heart.parentNode) {
+                        heart.parentNode.removeChild(heart);
+                    }
+                }, 7000);
+            }, 600);
+        }
+
+        // ==================== پیت بە پیت نووسینی پەیام ====================
+        function startMessageAnimation() {
+            const messageText = document.getElementById('messageText');
+            const bigName = document.getElementById('bigName');
+            
+            const fullMessage = `ڕۆژی لە دایک بوونت پیرۆز بیت دادەی من
+یارەبی تەمەنت هەزار ساڵ بینتن
+خوا لۆمن و ئازیزانت بێلیت
+دلی من هەر نەخۆشیەکت دیتبیت لەو ساڵەدا
+لۆت ببیتە خۆشی دڵخۆشی
+میوانی هەمیشەیت بیت رۆحی من
+باشە کە هەیت لەژیانم
+دوبارەو هەزار جار
+ڕۆژی لەدایک بوونت پیرۆز بیت
+خوشکە گەورەی من`;
+
+            messageText.innerHTML = '';
+            const chars = [...fullMessage];
+            
+            chars.forEach((char, index) => {
+                const span = document.createElement('span');
+                span.classList.add('char');
+                span.style.setProperty('--char-index', index);
+                span.textContent = char === '\n' ? '\n' : char;
+                
+                if (char === '\n') {
+                    span.style.display = 'block';
+                    span.style.height = '10px';
+                }
+                
+                messageText.appendChild(span);
+            });
+
+            // کۆی ژمارەی پیتەکان بۆ حسابی کاتی نیشاندانی ناوی گەورە
+            const totalChars = chars.filter(c => c !== '\n').length;
+            const totalAnimationTime = totalChars * 80; // 80ms بۆ هەر پیتێک
+            const nameDelay = totalAnimationTime + 500; // 500ms دوای تەواو بوونی پەیام
+
+            // نیشاندانی ناوی گەورە
+            setTimeout(() => {
+                bigName.classList.add('visible');
+                // زیادکردنی ئەنیمەیشنی تایبەت بۆ ناوەکە
+                bigName.style.animation = 'shineName 3s ease-in-out infinite, namePulse 0.6s ease-out';
+                
+                // لابردنی پەڵس دوای ئەنیمەیشن
+                setTimeout(() => {
+                    bigName.style.animation = 'shineName 3s ease-in-out infinite';
+                }, 600);
+            }, nameDelay);
+        }
+
+        // ==================== دەستپێکردن ====================
+        function init() {
+            createStars();
+            createClouds();
+            
+            // زیادکردنی ستایلی بۆ namePulse
+            const styleEl = document.createElement('style');
+            styleEl.textContent = `
+                @keyframes namePulse {
+                    0% { transform: scale(0.5); }
+                    50% { transform: scale(1.15); }
+                    70% { transform: scale(0.95); }
+                    100% { transform: scale(1); }
+                }
+            `;
+            document.head.appendChild(styleEl);
+            
+            console.log('🌟 هەموو شت ئامادەیە - تکایە کرتە بکە بۆ دەستپێکردنی گۆرانی');
+            console.log('📝 پەیام: ڕۆژی لە دایک بوونت پیرۆز بیت...');
+            console.log('👤 ناو: Dle Mn');
+            console.log('⏱️ گۆرانی لە 1:20 دەست پێ دەکات');
+        }
+
+        // دەستپێکردن کاتێک پەڕە بار دەبێت
+        window.addEventListener('load', init);
+    </script>
 </body>
 </html>
