@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ڕۆژی لەدایک بوونت پیرۆز بیت</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Scheherazade+New:wght@400;700&family=Amiri:wght@400;700&display=swap');
 
         * {
             margin: 0;
@@ -17,7 +17,7 @@
             background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000000 100%);
             min-height: 100vh;
             overflow: hidden;
-            font-family: 'Noto Naskh Arabic', serif;
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -123,8 +123,8 @@
             background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(15px);
             border-radius: 30px;
-            padding: 40px 50px;
-            max-width: 700px;
+            padding: 45px 55px;
+            max-width: 800px;
             width: 90%;
             text-align: center;
             border: 2px solid rgba(255, 248, 220, 0.3);
@@ -145,12 +145,14 @@
 
         .message {
             color: #fff8dc;
-            font-size: 1.5rem;
-            line-height: 2.2;
+            font-size: 1.8rem;
+            line-height: 2.8;
             text-shadow: 0 0 15px rgba(255, 248, 220, 0.5);
-            word-spacing: 4px;
-            margin-bottom: 25px;
-            white-space: pre-line;
+            word-spacing: 8px;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
+            font-weight: 400;
         }
 
         .message span {
@@ -158,6 +160,7 @@
             animation: wordAppear 0.8s ease-out forwards;
             opacity: 0;
             transform: translateY(20px);
+            margin: 0 4px;
         }
 
         @keyframes wordAppear {
@@ -169,12 +172,13 @@
 
         .signature {
             color: #ffd700;
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 700;
             text-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 50px rgba(255, 215, 0, 0.5);
-            letter-spacing: 8px;
-            margin-top: 20px;
+            letter-spacing: 10px;
+            margin-top: 30px;
             animation: glowPulse 2s ease-in-out infinite;
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
         }
 
         @keyframes glowPulse {
@@ -238,28 +242,47 @@
             }
         }
 
-        /* Hidden iframe container */
-        .music-container {
+        .audio-control {
             position: fixed;
-            top: -1000px;
-            left: -1000px;
-            width: 1px;
-            height: 1px;
-            opacity: 0;
-            pointer-events: none;
-            z-index: -999;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 248, 220, 0.3);
+            color: #fff8dc;
+            font-family: 'Scheherazade New', serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .audio-control:hover {
+            background: rgba(0, 0, 0, 0.8);
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .play-icon {
+            font-size: 1.5rem;
         }
 
         @media (max-width: 600px) {
             .content-wrapper {
-                padding: 25px 20px;
+                padding: 30px 25px;
             }
             .message {
-                font-size: 1.1rem;
-                line-height: 2;
+                font-size: 1.3rem;
+                line-height: 2.5;
+                word-spacing: 5px;
             }
             .signature {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
             .moon {
                 width: 80px;
@@ -288,14 +311,15 @@
 
     <div class="falling-stars" id="fallingStars"></div>
 
-    <!-- Hidden YouTube embed that autoplays from 1:20 -->
-    <div class="music-container">
-        <iframe id="youtubeAudio" 
-                src="https://www.youtube.com/embed/3i5T2mkQsHQ?autoplay=1&start=80&loop=1&playlist=3i5T2mkQsHQ&controls=0&showinfo=0&rel=0&mute=0"
-                frameborder="0"
-                allow="autoplay; encrypted-media"
-                allowfullscreen>
-        </iframe>
+    <!-- Audio element for better control -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://docs.google.com/uc?export=download&id=1YEbM1Gj5Z1SXvB4x2klGZMfhH3j5Fh1m" type="audio/mpeg">
+    </audio>
+
+    <!-- Button to start music -->
+    <div class="audio-control" id="musicControl" onclick="toggleMusic()">
+        <span class="play-icon">🎵</span>
+        <span id="musicText">کلیک بکە بۆ گۆرانی</span>
     </div>
 
     <div class="content-wrapper" id="contentBox">
@@ -307,7 +331,7 @@
         // Create twinkling stars
         function createStars() {
             const container = document.getElementById('starsContainer');
-            const starCount = 200;
+            const starCount = 250;
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.classList.add('star');
@@ -325,7 +349,7 @@
         // Create shooting stars
         function createShootingStars() {
             const container = document.getElementById('fallingStars');
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 5; i++) {
                 const shooter = document.createElement('div');
                 shooter.classList.add('shooting-star');
                 shooter.style.left = `${Math.random() * 80 + 10}%`;
@@ -353,37 +377,92 @@
 
             words.forEach((word, index) => {
                 const span = document.createElement('span');
-                span.textContent = word + ' ';
-                span.style.animationDelay = `${index * 0.2}s`;
+                span.textContent = word;
+                span.style.animationDelay = `${index * 0.25}s`;
                 messageDiv.appendChild(span);
+                
+                // Add space after each word
+                if (index < words.length - 1) {
+                    messageDiv.appendChild(document.createTextNode(' '));
+                }
             });
         }
 
-        // Attempt to force autoplay with multiple strategies
-        function forceAutoplay() {
-            const iframe = document.getElementById('youtubeAudio');
-            
-            // Strategy 1: Reload iframe with autoplay parameter
-            const originalSrc = iframe.src;
-            iframe.src = '';
-            setTimeout(() => {
-                iframe.src = originalSrc;
-            }, 100);
+        // YouTube player setup for background music
+        let player;
+        let musicStarted = false;
 
-            // Strategy 2: Try to use JavaScript to play (fallback)
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtubePlayer', {
+                height: '0',
+                width: '0',
+                videoId: '3i5T2mkQsHQ',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'start': 80, // Start at 1:20
+                    'loop': 1,
+                    'playlist': '3i5T2mkQsHQ',
+                    'mute': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log('YouTube player ready');
+            // Auto-start music after a short delay
             setTimeout(() => {
-                // If browser blocks autoplay, we add a one-time click listener to the body
-                document.body.addEventListener('click', function startAudio() {
-                    iframe.src = originalSrc;
-                    document.body.removeEventListener('click', startAudio);
-                }, { once: true });
-                
-                // Also try touch for mobile
-                document.body.addEventListener('touchstart', function startAudioTouch() {
-                    iframe.src = originalSrc;
-                    document.body.removeEventListener('touchstart', startAudioTouch);
-                }, { once: true });
-            }, 500);
+                if (!musicStarted) {
+                    startMusic();
+                }
+            }, 1000);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                musicStarted = true;
+                updateMusicButton(true);
+            } else if (event.data === YT.PlayerState.PAUSED) {
+                updateMusicButton(false);
+            }
+        }
+
+        function startMusic() {
+            if (player && player.playVideo) {
+                player.seekTo(80); // Ensure start at 1:20
+                player.playVideo();
+                player.unMute();
+                musicStarted = true;
+                updateMusicButton(true);
+            }
+        }
+
+        function toggleMusic() {
+            if (!musicStarted) {
+                startMusic();
+            } else if (player) {
+                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                } else {
+                    player.playVideo();
+                }
+            }
+        }
+
+        function updateMusicButton(isPlaying) {
+            const musicText = document.getElementById('musicText');
+            const playIcon = document.querySelector('.play-icon');
+            if (isPlaying) {
+                musicText.textContent = 'گۆرانی بڕە';
+                playIcon.textContent = '⏸️';
+            } else {
+                musicText.textContent = 'گۆرانی لێبە';
+                playIcon.textContent = '🎵';
+            }
         }
 
         // Initialize everything
@@ -392,16 +471,27 @@
             createShootingStars();
             animateMessage();
             
-            // Try to force autoplay after a small delay
-            setTimeout(forceAutoplay, 300);
+            // Load YouTube API
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
             
-            console.log('🌟 ئەنمەیشنەکە ئامادەیە - گۆرانیەکە لە چرکەی 1:20 دەستپێدەکات');
+            // Fallback: Try to start music on first user interaction
+            document.body.addEventListener('click', function initMusic() {
+                if (!musicStarted && player) {
+                    startMusic();
+                }
+                document.body.removeEventListener('click', initMusic);
+            }, { once: true });
         });
 
-        // Also handle if the browser successfully autoplays
-        document.getElementById('youtubeAudio').addEventListener('load', function() {
-            console.log('🎵 گۆرانیەکە بە سەرکەوتوویی بارکرا و لە چرکەی 1:20 دەستیپێکرد');
-        });
+        // Make onYouTubeIframeAPIReady global
+        window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
     </script>
+
+    <!-- Hidden YouTube player -->
+    <div id="youtubePlayer" style="position: fixed; top: -1000px; left: -1000px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
+
 </body>
 </html>
