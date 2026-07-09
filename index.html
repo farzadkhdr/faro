@@ -2,11 +2,13 @@
 <html lang="ckb" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>بانگێشت نامەی هاوسەرگیری - ڕەیان</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        /* ===== Google Font ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap');
 
+        /* ===== Reset ===== */
         * {
             margin: 0;
             padding: 0;
@@ -17,17 +19,27 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            background: #0a0a14;
-            font-family: 'Tahoma', 'Segoe UI', 'Scheherazade New', 'Amiri', serif;
+            background: #0a0a1a;
+            font-family: 'Noto Naskh Arabic', 'Tahoma', 'Segoe UI', serif;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             user-select: none;
             -webkit-user-select: none;
+            touch-action: manipulation;
         }
 
-        /* Ambient particles */
+        /* ===== Background gradient overlay ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, #16203a 0%, #0a0a18 70%);
+            z-index: 0;
+        }
+
+        /* ===== Particles (Blue Bubbles) ===== */
         .particles-container {
             position: fixed;
             top: 0;
@@ -35,7 +47,8 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
+            overflow: hidden;
         }
 
         .particle {
@@ -43,6 +56,7 @@
             border-radius: 50%;
             pointer-events: none;
             animation: floatUpParticle linear forwards;
+            will-change: transform, opacity;
         }
 
         @keyframes floatUpParticle {
@@ -50,44 +64,51 @@
                 transform: translateY(0) translateX(0) scale(1);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.9;
+            8% {
+                opacity: 0.95;
             }
-            90% {
+            92% {
                 opacity: 0.3;
             }
             100% {
-                transform: translateY(-110vh) translateX(var(--drift)) scale(0.2);
+                transform: translateY(-120vh) translateX(var(--drift)) scale(0.1);
                 opacity: 0;
             }
         }
 
-        /* Main scene */
+        /* ===== Scene ===== */
         .scene {
             position: relative;
             z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            justify-content: center;
+            gap: 18px;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
         }
 
-        /* Wedding card */
+        /* ===== Card Container ===== */
         .wedding-card-container {
             position: relative;
-            perspective: 1500px;
-            animation: cardAppear 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            perspective: 1200px;
+            animation: cardAppear 2.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
             opacity: 0;
+            width: 90%;
+            max-width: 480px;
+            aspect-ratio: 4 / 5.2;
         }
 
         @keyframes cardAppear {
             0% {
                 opacity: 0;
-                transform: translateY(80px) scale(0.5) rotateY(30deg);
+                transform: translateY(60px) scale(0.6) rotateY(25deg);
             }
             60% {
                 opacity: 1;
-                transform: translateY(-15px) scale(1.03) rotateY(-3deg);
+                transform: translateY(-10px) scale(1.02) rotateY(-2deg);
             }
             100% {
                 opacity: 1;
@@ -95,43 +116,46 @@
             }
         }
 
+        /* ===== Wedding Card ===== */
         .wedding-card {
-            width: 480px;
-            height: 600px;
+            width: 100%;
+            height: 100%;
             position: relative;
             cursor: pointer;
             transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            touch-action: manipulation;
         }
 
-        .wedding-card:hover {
-            transform: translateY(-8px);
+        .wedding-card:active {
+            transform: scale(0.97);
         }
 
         .wedding-card.opened {
-            transform: rotateY(-8deg) translateY(-5px);
+            transform: rotateY(-6deg) scale(1.02);
         }
 
-        /* Card front cover */
+        /* ===== Card Cover ===== */
         .card-cover {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(160deg, #1a1a3e 0%, #0d0d28 30%, #1a1a3e 60%, #0d0d28 100%);
-            border-radius: 20px;
+            background: linear-gradient(150deg, #1f1f4a 0%, #0d0d2b 35%, #1a1a40 65%, #0b0b20 100%);
+            border-radius: 24px;
             box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.7),
-                0 0 0 3px rgba(180, 150, 70, 0.6),
-                0 0 0 8px rgba(180, 150, 70, 0.3),
-                0 0 0 14px rgba(180, 150, 70, 0.15),
-                0 0 60px rgba(100, 150, 220, 0.4);
+                0 25px 70px rgba(0, 0, 0, 0.8),
+                0 0 0 2px rgba(200, 175, 80, 0.5),
+                0 0 0 6px rgba(200, 175, 80, 0.2),
+                0 0 0 12px rgba(200, 175, 80, 0.08),
+                0 0 80px rgba(80, 130, 220, 0.25);
             overflow: hidden;
             z-index: 3;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            backface-visibility: hidden;
         }
 
         .card-cover.opened {
@@ -141,194 +165,248 @@
             transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Ornate border on cover */
+        /* ===== Cover Ornaments ===== */
         .cover-border {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
-            border: 2px solid rgba(200, 170, 80, 0.6);
-            border-radius: 12px;
+            top: 14px;
+            left: 14px;
+            right: 14px;
+            bottom: 14px;
+            border: 2px solid rgba(210, 185, 90, 0.5);
+            border-radius: 16px;
             pointer-events: none;
         }
-
         .cover-border-inner {
             position: absolute;
             top: 22px;
             left: 22px;
             right: 22px;
             bottom: 22px;
-            border: 1px solid rgba(200, 170, 80, 0.3);
-            border-radius: 8px;
+            border: 1px solid rgba(210, 185, 90, 0.2);
+            border-radius: 10px;
             pointer-events: none;
         }
 
-        /* Cover decorations */
         .cover-pattern {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.08;
+            inset: 0;
+            opacity: 0.06;
             background:
-                radial-gradient(circle at 20% 30%, #c9a84c 1px, transparent 1px),
-                radial-gradient(circle at 80% 70%, #c9a84c 1px, transparent 1px),
-                radial-gradient(circle at 50% 50%, #c9a84c 2px, transparent 2px);
-            background-size: 30px 30px, 30px 30px, 60px 60px;
+                radial-gradient(circle at 25% 30%, #d4b85a 1.5px, transparent 1.5px),
+                radial-gradient(circle at 75% 70%, #d4b85a 1.5px, transparent 1.5px),
+                radial-gradient(circle at 50% 50%, #d4b85a 2.5px, transparent 2.5px);
+            background-size: 40px 40px, 40px 40px, 70px 70px;
             pointer-events: none;
         }
 
+        /* ===== Cover Content ===== */
         .cover-content {
             position: relative;
-            z-index: 1;
+            z-index: 2;
             text-align: center;
-            color: #e0d5b0;
+            color: #e8ddb8;
+            padding: 10px;
+            width: 100%;
         }
 
         .cover-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-            animation: gentleFloat 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(200, 170, 80, 0.6));
+            font-size: clamp(48px, 12vw, 70px);
+            margin-bottom: 10px;
+            animation: gentleFloat 3.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 25px rgba(200, 175, 80, 0.5));
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-14px);
+            }
         }
 
+        /* ===== فۆنتە جوانەکەی ناوی سەرەوە ===== */
         .cover-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
+            font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
+            font-size: clamp(30px, 8vw, 46px);
             font-weight: 700;
-            color: #d4b860;
-            letter-spacing: 4px;
-            text-shadow: 0 0 30px rgba(200, 170, 80, 0.5);
-            margin-bottom: 8px;
+            font-style: italic;
+            color: #f0e088;
+            letter-spacing: 5px;
+            text-shadow: 0 0 40px rgba(210, 185, 90, 0.4), 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 4px;
+            line-height: 1.3;
         }
 
         .cover-subtitle {
-            font-size: 16px;
-            color: #b8a060;
-            letter-spacing: 6px;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(14px, 3.5vw, 20px);
+            color: #c9b06a;
+            letter-spacing: 8px;
+            font-weight: 400;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
         }
 
         .cover-line {
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #c9a84c, transparent);
-            margin: 15px auto;
+            width: min(100px, 25vw);
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, #d4b85a, transparent);
+            margin: 14px auto;
+            border-radius: 2px;
         }
 
         .cover-names {
-            font-size: 20px;
-            color: #d4b860;
-            letter-spacing: 2px;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(18px, 5vw, 30px);
+            color: #f0e088;
+            letter-spacing: 4px;
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(210, 185, 90, 0.3);
         }
 
-        /* Card inside */
+        .cover-names span {
+            display: inline-block;
+            animation: gentleFloat 3s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+
+        /* ===== تێکستی "کرتە لەسەر نامەکە بکە" ===== */
+        .cover-click-hint {
+            position: absolute;
+            bottom: 28px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 5;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(14px, 3vw, 18px);
+            color: rgba(220, 200, 150, 0.7);
+            letter-spacing: 3px;
+            animation: pulseHint 2.8s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(200, 175, 80, 0.2);
+            pointer-events: none;
+        }
+
+        @keyframes pulseHint {
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-4px);
+            }
+        }
+
+        .cover-click-hint .icon {
+            display: block;
+            font-size: clamp(20px, 4vw, 30px);
+            margin-bottom: 4px;
+        }
+
+        /* ===== Card Inside ===== */
         .card-inside {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(160deg, #fef9f0 0%, #fdf4e5 25%, #fef7ed 50%, #fdf3e3 75%, #fef8f0 100%);
-            border-radius: 20px;
+            background: linear-gradient(155deg, #fdf8ee 0%, #fcf3e2 30%, #fdf7ec 60%, #fcf2e0 100%);
+            border-radius: 24px;
             box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.7),
-                0 0 0 3px rgba(180, 150, 70, 0.6),
-                0 0 0 8px rgba(180, 150, 70, 0.3),
-                0 0 0 14px rgba(180, 150, 70, 0.15);
+                0 25px 70px rgba(0, 0, 0, 0.8),
+                0 0 0 2px rgba(200, 175, 80, 0.5),
+                0 0 0 6px rgba(200, 175, 80, 0.2),
+                0 0 0 12px rgba(200, 175, 80, 0.08);
             z-index: 2;
-            padding: 35px 30px;
+            padding: 6% 5%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            backface-visibility: hidden;
         }
 
         /* Gold foil texture */
         .card-inside::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background:
-                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200, 170, 100, 0.04) 3px, rgba(200, 170, 100, 0.04) 6px),
-                radial-gradient(ellipse at 30% 20%, rgba(220, 190, 110, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(220, 190, 110, 0.08) 0%, transparent 50%);
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200, 180, 100, 0.04) 3px, rgba(200, 180, 100, 0.04) 6px),
+                radial-gradient(ellipse at 30% 20%, rgba(220, 195, 120, 0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 70% 80%, rgba(220, 195, 120, 0.08) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
-            border-radius: 20px;
+            border-radius: 24px;
         }
 
-        /* Ornate corners */
+        /* ===== Ornate Corners ===== */
         .ornate-corner {
             position: absolute;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.5;
+            opacity: 0.4;
+            font-size: clamp(30px, 7vw, 48px);
+            color: #b8942e;
         }
         .ornate-tl {
             top: 12px;
-            left: 15px;
-            font-size: 40px;
-            color: #b8942e;
+            left: 16px;
             transform: rotate(0deg);
         }
         .ornate-tr {
             top: 12px;
-            right: 15px;
-            font-size: 40px;
-            color: #b8942e;
+            right: 16px;
             transform: rotate(90deg);
         }
         .ornate-bl {
             bottom: 12px;
-            left: 15px;
-            font-size: 40px;
-            color: #b8942e;
+            left: 16px;
             transform: rotate(-90deg);
         }
         .ornate-br {
             bottom: 12px;
-            right: 15px;
-            font-size: 40px;
-            color: #b8942e;
+            right: 16px;
             transform: rotate(180deg);
         }
 
+        /* ===== Inside Content ===== */
         .card-inside-content {
             position: relative;
             z-index: 2;
             text-align: center;
             width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
         }
 
         .bismillah {
-            font-size: 28px;
-            color: #8b6914;
-            margin-bottom: 10px;
+            font-family: 'Noto Naskh Arabic', serif;
+            font-size: clamp(22px, 5.5vw, 34px);
+            color: #7a6518;
+            margin-bottom: 2px;
             letter-spacing: 2px;
         }
 
         .wedding-rings {
-            font-size: 40px;
-            margin: 8px 0;
-            animation: gentleFloat 3s ease-in-out infinite;
+            font-size: clamp(30px, 7vw, 48px);
+            margin: 2px 0;
+            animation: gentleFloat 3.5s ease-in-out infinite;
         }
 
         .invitation-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
+            font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
+            font-size: clamp(20px, 5vw, 32px);
             font-weight: 700;
-            color: #5a3e1a;
-            letter-spacing: 2px;
-            margin: 8px 0;
+            color: #4d3516;
+            letter-spacing: 3px;
+            margin: 2px 0;
         }
 
         .ornamental-line {
@@ -336,10 +414,10 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin: 10px 0;
+            margin: 6px 0;
         }
         .ornamental-line .line {
-            width: 50px;
+            width: clamp(40px, 12vw, 70px);
             height: 1px;
             background: linear-gradient(90deg, transparent, #b8942e, transparent);
         }
@@ -348,47 +426,53 @@
             height: 6px;
             background: #b8942e;
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .card-text {
-            font-size: 15px;
-            line-height: 2.5;
+            font-size: clamp(13px, 3.2vw, 18px);
+            line-height: 2.6;
             color: #3d2b1f;
             text-align: center;
-            margin: 10px 0;
+            margin: 4px 0;
+            padding: 0 2px;
         }
 
         .card-text .highlight {
-            color: #8b6914;
-            font-weight: bold;
-            font-size: 16px;
+            color: #7a6518;
+            font-weight: 700;
+            font-size: clamp(14px, 3.5vw, 20px);
         }
 
         .card-text .gold {
             color: #b8860b;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: clamp(14px, 3.5vw, 20px);
         }
 
         .signature-text {
             font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            color: #5a3e1a;
-            margin-top: 10px;
-            letter-spacing: 1px;
+            font-size: clamp(16px, 4vw, 24px);
+            color: #4d3516;
+            margin-top: 4px;
+            letter-spacing: 2px;
+            font-weight: 700;
         }
 
         .footer-text {
-            font-size: 13px;
-            color: #8b6914;
-            margin-top: 5px;
+            font-size: clamp(11px, 2.5vw, 15px);
+            color: #7a6518;
+            margin-top: 2px;
+            letter-spacing: 1px;
         }
 
-        /* Sparkle effect */
+        /* ===== Sparkle ===== */
         .sparkle {
             position: absolute;
             pointer-events: none;
-            z-index: 5;
-            animation: sparkleAnim 1.5s ease-out forwards;
+            z-index: 8;
+            animation: sparkleAnim 1.4s ease-out forwards;
+            font-size: clamp(14px, 3vw, 24px);
         }
 
         @keyframes sparkleAnim {
@@ -397,69 +481,177 @@
                 opacity: 1;
             }
             100% {
-                transform: scale(2) rotate(180deg);
+                transform: scale(2.5) rotate(200deg);
                 opacity: 0;
             }
         }
 
-        /* Instruction */
+        /* ===== Instruction below card ===== */
         .instruction-text {
-            color: rgba(200, 210, 230, 0.8);
-            font-size: 14px;
+            color: rgba(200, 210, 240, 0.6);
+            font-size: clamp(13px, 3vw, 17px);
             text-align: center;
-            animation: pulse 2.5s infinite;
+            animation: pulse 2.6s ease-in-out infinite;
             letter-spacing: 2px;
+            font-family: 'Playfair Display', serif;
+            padding: 0 20px;
+            transition: opacity 0.8s ease;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 0.9; }
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.85;
+            }
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            .wedding-card {
-                width: 340px;
-                height: 440px;
+        /* ===== Responsive: Mobile优化 ===== */
+        @media (max-width: 480px) {
+            .wedding-card-container {
+                max-width: 92%;
+                aspect-ratio: 4 / 5.4;
+            }
+
+            .card-cover {
+                border-radius: 18px;
+            }
+            .card-inside {
+                border-radius: 18px;
+                padding: 5% 4%;
+            }
+
+            .cover-border {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                border-radius: 12px;
+            }
+            .cover-border-inner {
+                top: 17px;
+                left: 17px;
+                right: 17px;
+                bottom: 17px;
+                border-radius: 8px;
+            }
+
+            .cover-click-hint {
+                bottom: 18px;
+                font-size: 12px;
+            }
+            .cover-click-hint .icon {
+                font-size: 20px;
+            }
+
+            .ornate-corner {
+                font-size: 24px;
+            }
+            .ornate-tl,
+            .ornate-tr {
+                top: 8px;
+            }
+            .ornate-bl,
+            .ornate-br {
+                bottom: 8px;
+            }
+            .ornate-tl,
+            .ornate-bl {
+                left: 10px;
+            }
+            .ornate-tr,
+            .ornate-br {
+                right: 10px;
+            }
+
+            .card-text {
+                line-height: 2.4;
+                font-size: 12.5px;
+            }
+            .card-text .highlight,
+            .card-text .gold {
+                font-size: 13.5px;
+            }
+
+            .scene {
+                gap: 12px;
+                padding: 6px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .wedding-card-container {
+                max-width: 96%;
+                aspect-ratio: 4 / 5.6;
+            }
+            .card-text {
+                font-size: 11.5px;
+                line-height: 2.2;
+            }
+            .card-text .highlight,
+            .card-text .gold {
+                font-size: 12px;
+            }
+            .invitation-title {
+                font-size: 17px;
+            }
+            .bismillah {
+                font-size: 20px;
+            }
+            .signature-text {
+                font-size: 14px;
             }
             .cover-title {
                 font-size: 24px;
             }
-            .cover-icon {
-                font-size: 45px;
+        }
+
+        /* ===== Landscape orientation ===== */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .wedding-card-container {
+                max-width: 70vh;
+                aspect-ratio: 4 / 5.2;
             }
-            .invitation-title {
-                font-size: 20px;
+            .scene {
+                gap: 8px;
+            }
+            .instruction-text {
+                font-size: 12px;
+            }
+            .cover-click-hint {
+                bottom: 12px;
+                font-size: 11px;
+            }
+            .cover-click-hint .icon {
+                font-size: 16px;
             }
             .card-text {
-                font-size: 13px;
-                line-height: 2.2;
-            }
-            .card-inside {
-                padding: 20px 18px;
-            }
-            .ornate-tl, .ornate-tr, .ornate-bl, .ornate-br {
-                font-size: 28px;
+                font-size: 11px;
+                line-height: 2;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Particles container -->
+    <!-- ===== Particles ===== -->
     <div class="particles-container" id="particlesContainer"></div>
 
-    <!-- Main scene -->
+    <!-- ===== Scene ===== -->
     <div class="scene">
-        <!-- Wedding card -->
+
+        <!-- ===== Card ===== -->
         <div class="wedding-card-container" id="cardContainer">
             <div class="wedding-card" id="weddingCard" onclick="openCard()">
 
-                <!-- Front cover -->
+                <!-- ===== Cover ===== -->
                 <div class="card-cover" id="cardCover">
                     <div class="cover-border"></div>
                     <div class="cover-border-inner"></div>
                     <div class="cover-pattern"></div>
+
                     <div class="cover-content">
                         <div class="cover-icon">💒</div>
                         <div class="cover-title">بِسْمِ اللَّهِ</div>
@@ -468,9 +660,15 @@
                         <div class="cover-line"></div>
                         <div class="cover-names">💕 ڕەیان 💕</div>
                     </div>
+
+                    <!-- ===== تێکستی "کرتە لەسەر نامەکە بکە" ===== -->
+                    <div class="cover-click-hint">
+                        <span class="icon">👆</span>
+                        کرتە لەسەر نامەکە بکە بۆ بینین
+                    </div>
                 </div>
 
-                <!-- Inside card -->
+                <!-- ===== Inside ===== -->
                 <div class="card-inside" id="cardInside">
                     <span class="ornate-corner ornate-tl">❦</span>
                     <span class="ornate-corner ornate-tr">❦</span>
@@ -521,13 +719,13 @@
             </div>
         </div>
 
-        <!-- Instruction -->
+        <!-- ===== Instruction ===== -->
         <div class="instruction-text" id="instruction">
             💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی
         </div>
     </div>
 
-    <!-- YouTube player -->
+    <!-- ===== YouTube ===== -->
     <div id="youtubePlayer" style="position: fixed; bottom: -100px; left: -100px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
 
     <script>
@@ -572,13 +770,13 @@
             playerPlayAttempted = true;
             if (isPlayerReady && player && player.playVideo) {
                 player.unMute();
-                player.setVolume(50);
+                player.setVolume(45);
                 player.playVideo();
             } else {
                 setTimeout(function() {
                     if (isPlayerReady && player && player.playVideo) {
                         player.unMute();
-                        player.setVolume(50);
+                        player.setVolume(45);
                         player.playVideo();
                     }
                 }, 1500);
@@ -597,23 +795,24 @@
             const particle = document.createElement('div');
             particle.classList.add('particle');
 
-            const size = Math.random() * 20 + 8;
+            const size = Math.random() * 22 + 8;
             const startX = Math.random() * 96;
             const duration = Math.random() * 7 + 5;
-            const drift = (Math.random() - 0.5) * 80;
-            const delay = Math.random() * 1.5;
+            const drift = (Math.random() - 0.5) * 90;
+            const delay = Math.random() * 1.8;
 
             particle.style.width = size + 'px';
             particle.style.height = size + 'px';
             particle.style.left = startX + '%';
-            particle.style.bottom = '-40px';
+            particle.style.bottom = '-50px';
             particle.style.setProperty('--drift', drift + 'px');
             particle.style.animationDuration = duration + 's';
             particle.style.animationDelay = delay + 's';
 
-            const hue = 195 + Math.random() * 30;
-            particle.style.background = 'radial-gradient(circle at 30% 30%, hsla(' + hue + ', 85%, 75%, 0.9), hsla(' + hue + ', 70%, 55%, 0.6))';
-            particle.style.boxShadow = '0 0 ' + (10 + Math.random() * 20) + 'px hsla(' + hue + ', 90%, 70%, 0.6), 0 0 ' + (25 + Math.random() * 35) + 'px hsla(' + hue + ', 80%, 60%, 0.3)';
+            const hue = 190 + Math.random() * 35;
+            particle.style.background = 'radial-gradient(circle at 30% 30%, hsla(' + hue + ', 85%, 80%, 0.9), hsla(' + hue + ', 70%, 55%, 0.6))';
+            particle.style.boxShadow = '0 0 ' + (10 + Math.random() * 25) + 'px hsla(' + hue + ', 90%, 70%, 0.5), 0 0 ' + (30 + Math.random() * 40) + 'px hsla(' + hue + ', 80%, 60%, 0.25)';
+            particle.style.border = '1px solid rgba(255,255,255,0.15)';
 
             container.appendChild(particle);
 
@@ -625,21 +824,21 @@
         }
 
         function startParticles() {
-            for (let i = 0; i < 35; i++) {
-                setTimeout(function() { createParticle(); }, i * 50);
+            for (let i = 0; i < 40; i++) {
+                setTimeout(function() { createParticle(); }, i * 45);
             }
             setInterval(function() {
                 const count = Math.floor(Math.random() * 3) + 1;
                 for (let i = 0; i < count; i++) {
-                    setTimeout(function() { createParticle(); }, i * 100);
+                    setTimeout(function() { createParticle(); }, i * 120);
                 }
-            }, 250);
+            }, 280);
         }
 
         function burstParticles(count) {
             count = count || 100;
             for (let i = 0; i < count; i++) {
-                setTimeout(function() { createParticle(); }, i * 18);
+                setTimeout(function() { createParticle(); }, i * 15);
             }
         }
 
@@ -652,7 +851,6 @@
             sparkle.classList.add('sparkle');
             sparkle.style.left = x + 'px';
             sparkle.style.top = y + 'px';
-            sparkle.style.fontSize = (Math.random() * 20 + 10) + 'px';
             sparkle.textContent = '✨';
 
             card.appendChild(sparkle);
@@ -668,12 +866,13 @@
             const card = document.getElementById('cardInside');
             if (!card) return;
             const rect = card.getBoundingClientRect();
-            for (let i = 0; i < 25; i++) {
+            const cardRect = card.getBoundingClientRect();
+            for (let i = 0; i < 30; i++) {
                 setTimeout(function() {
                     const x = Math.random() * rect.width;
                     const y = Math.random() * rect.height;
                     createSparkle(x, y);
-                }, i * 40);
+                }, i * 35);
             }
         }
 
@@ -691,6 +890,9 @@
             if (instruction) {
                 instruction.style.opacity = '0';
                 instruction.style.transition = 'opacity 0.6s ease';
+                setTimeout(function() {
+                    instruction.style.display = 'none';
+                }, 800);
             }
 
             if (cover) {
@@ -702,14 +904,15 @@
             }
 
             // Burst particles
-            setTimeout(function() { burstParticles(120); }, 200);
-            setTimeout(function() { burstParticles(70); }, 1200);
-            setTimeout(function() { burstParticles(50); }, 2200);
-            setTimeout(function() { burstParticles(35); }, 3500);
+            setTimeout(function() { burstParticles(130); }, 200);
+            setTimeout(function() { burstParticles(80); }, 1100);
+            setTimeout(function() { burstParticles(60); }, 2100);
+            setTimeout(function() { burstParticles(40); }, 3300);
 
-            // Sparkles on card
-            setTimeout(function() { burstSparkles(); }, 600);
-            setTimeout(function() { burstSparkles(); }, 1800);
+            // Sparkles
+            setTimeout(function() { burstSparkles(); }, 500);
+            setTimeout(function() { burstSparkles(); }, 1600);
+            setTimeout(function() { burstSparkles(); }, 2800);
 
             attemptPlay();
         }
@@ -719,7 +922,7 @@
         // ===== INIT =====
         function init() {
             startParticles();
-            setTimeout(function() { burstParticles(50); }, 600);
+            setTimeout(function() { burstParticles(60); }, 500);
             setTimeout(function() { attemptPlay(); }, 1000);
         }
 
@@ -729,5 +932,6 @@
         console.log('💙 پەپولە شینەکان لە دەوری کارتەکە دەردەکەون');
         console.log('💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی');
     </script>
+
 </body>
 </html>
