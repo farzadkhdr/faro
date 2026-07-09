@@ -3,391 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشت نامە - شین و پەپولە</title>
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <title>بانگێشت‌نامە - ڕەیان و تاجی سەرم</title>
+    <!-- Google Font for a beautiful, handwritten style -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #0b1a2e;
-            font-family: 'Patrick Hand', cursive;
-            overflow: hidden;
-            position: relative;
-        }
-        .butterfly-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        .bfly {
-            position: absolute;
-            font-size: 2.4rem;
-            opacity: 0.6;
-            animation: flyAround 16s infinite ease-in-out;
-            filter: drop-shadow(0 0 8px #7fc9ff);
-            color: #8fd6ff;
-            text-shadow: 0 0 15px #3f9eff;
-            will-change: transform;
-        }
-        .bfly:nth-child(1) { left: 2%; animation-duration: 18s; font-size: 3.2rem; }
-        .bfly:nth-child(2) { left: 15%; animation-duration: 13s; font-size: 2rem; animation-delay: 0.8s; }
-        .bfly:nth-child(3) { left: 28%; animation-duration: 20s; font-size: 3.8rem; animation-delay: 0.3s; }
-        .bfly:nth-child(4) { left: 42%; animation-duration: 15s; font-size: 2.6rem; animation-delay: 1.2s; }
-        .bfly:nth-child(5) { left: 55%; animation-duration: 22s; font-size: 3rem; animation-delay: 0.1s; }
-        .bfly:nth-child(6) { left: 68%; animation-duration: 14s; font-size: 2.2rem; animation-delay: 0.9s; }
-        .bfly:nth-child(7) { left: 80%; animation-duration: 19s; font-size: 3.5rem; animation-delay: 0.5s; }
-        .bfly:nth-child(8) { left: 92%; animation-duration: 16s; font-size: 2.8rem; animation-delay: 1.5s; }
-        .bfly:nth-child(9) { left: 8%; animation-duration: 21s; font-size: 2rem; animation-delay: 0.2s; top: 75%; }
-        .bfly:nth-child(10) { left: 48%; animation-duration: 17s; font-size: 3.6rem; animation-delay: 0.7s; top: 80%; }
-        .bfly:nth-child(11) { left: 78%; animation-duration: 14s; font-size: 2.9rem; animation-delay: 1.1s; top: 70%; }
-
-        @keyframes flyAround {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            25% { transform: translate(40px, -50px) scale(1.15) rotate(10deg); }
-            50% { transform: translate(-30px, 30px) scale(0.85) rotate(-8deg); }
-            75% { transform: translate(50px, 20px) scale(1.1) rotate(7deg); }
-            100% { transform: translate(-15px, -35px) scale(1) rotate(-4deg); }
-        }
-
-        .wrapper {
-            position: relative;
-            z-index: 10;
-            width: 90%;
-            max-width: 750px;
-            margin: 20px;
-            display: flex;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(145deg, #0b2b3f, #1a4a5f);
+            font-family: 'Noto Naskh Arabic', 'Segoe UI', Tahoma, sans-serif;
+            padding: 20px;
+            overflow-x: hidden;
         }
 
-        .invitation-card {
+        /* envelope / card container */
+        .invitation-wrapper {
+            position: relative;
             width: 100%;
-            background: #d4eefe;
-            background-image: linear-gradient(145deg, #c0e4ff, #e3f2ff);
-            border-radius: 32px;
-            padding: 2.6rem 2.2rem;
-            box-shadow: 0 30px 50px rgba(0, 20, 40, 0.7), 0 0 0 3px #b0d4f5 inset, 0 0 0 6px #cce6ff inset;
-            transform: rotate(-0.3deg);
-            color: #082a47;
-            text-align: center;
-            border: 1px solid #b0d4f5;
-            font-family: 'Patrick Hand', cursive;
+            max-width: 700px;
+            perspective: 1200px;
+            z-index: 10;
+        }
+
+        /* the card itself – elegant, soft blue, handwritten style */
+        .card {
+            background: #d9eaf7;  /* soft pale blue */
+            background-image: radial-gradient(circle at 10% 30%, rgba(255,255,255,0.3) 0%, transparent 30%);
+            padding: 2.2rem 2rem 2.5rem;
+            border-radius: 36px 12px 36px 12px;
+            box-shadow: 0 30px 45px -15px rgba(0,0,0,0.6), 
+                        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+                        0 0 0 3px #b7d7e8 inset;
             position: relative;
-            opacity: 0;
-            transform: scale(0.7) rotate(-8deg);
-            animation: openCard 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            animation-delay: 0.3s;
+            transition: transform 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(1px);
+            font-family: 'Great Vibes', 'Noto Naskh Arabic', cursive;
+            transform: rotate(0.5deg);
+            /* make it look like a slightly imperfect paper card */
         }
 
-        @keyframes openCard {
-            0% { opacity: 0; transform: scale(0.5) rotate(-12deg); }
-            60% { opacity: 1; transform: scale(1.05) rotate(1deg); }
-            100% { opacity: 1; transform: scale(1) rotate(-0.3deg); }
-        }
-
-        .envelope-butterfly {
+        /* subtle paper texture overlay */
+        .card::before {
+            content: '';
             position: absolute;
-            top: -30px; left: -20px;
-            font-size: 4.5rem;
-            animation: bringEnvelope 2.2s ease-out forwards;
-            z-index: 20;
-            filter: drop-shadow(0 8px 20px rgba(60, 160, 255, 0.6));
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.05"/></svg>');
+            opacity: 0.15;
             pointer-events: none;
-        }
-        @keyframes bringEnvelope {
-            0% { transform: translate(-80px, -80px) scale(0.2) rotate(-30deg); opacity: 0; }
-            50% { transform: translate(10px, -10px) scale(1.3) rotate(10deg); opacity: 1; }
-            70% { transform: translate(-5px, 5px) scale(0.95) rotate(-3deg); }
-            100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
-        }
-        .second-butterfly {
-            position: absolute;
-            bottom: -20px; right: -15px;
-            font-size: 3.8rem;
-            animation: secondOpen 2.6s ease-out forwards;
-            animation-delay: 0.8s;
-            opacity: 0;
-            filter: drop-shadow(0 0 18px #8fcbff);
-            z-index: 15;
-            pointer-events: none;
-        }
-        @keyframes secondOpen {
-            0% { opacity: 0; transform: translate(60px, 60px) scale(0.1) rotate(40deg); }
-            60% { opacity: 1; transform: translate(-8px, -8px) scale(1.2) rotate(-10deg); }
-            100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(2deg); }
+            border-radius: inherit;
         }
 
+        /* handwritten style text */
         .handwritten {
-            font-family: 'Patrick Hand', cursive;
-            font-size: 1.15rem;
-            line-height: 2;
-            text-align: justify;
-            color: #05283f;
-            letter-spacing: 0.4px;
-            margin: 0.3rem 0;
-        }
-        .handwritten strong { font-weight: 700; color: #003675; }
-        .title-name {
-            font-size: 2.4rem;
-            font-weight: 700;
-            color: #002b60;
-            text-shadow: 2px 2px 0 rgba(0, 70, 150, 0.12);
-            margin-bottom: 0.2rem;
-            transform: rotate(-0.6deg);
-        }
-        .sub-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #003f7a;
-            margin: 0.2rem 0 0.8rem 0;
-            border-bottom: 2px dashed #7bb3d9;
-            padding-bottom: 0.3rem;
-            display: inline-block;
-        }
-        .time-place {
-            background: #b7daf5;
-            padding: 0.6rem 1.6rem;
-            border-radius: 60px;
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #003b70;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
-            display: inline-block;
-            margin: 0.3rem 0.2rem;
-        }
-        .seal {
-            display: inline-block;
-            background: #9fc9ed;
-            color: #002f5a;
-            padding: 0.3rem 1.4rem;
-            border-radius: 40px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            border: 2px solid #6a9fd1;
-            box-shadow: 0 3px 0 #3a74a0;
-            transform: rotate(1deg);
-            margin: 0.2rem 0;
-        }
-        .card-footer {
-            margin-top: 1.6rem;
-            font-size: 1.15rem;
-            border-top: 2px dashed #7bb3d9;
-            padding-top: 1.2rem;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
+            font-family: 'Great Vibes', 'Noto Naskh Arabic', cursive;
+            font-weight: 400;
+            color: #1f3d4d;
+            line-height: 1.7;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+            letter-spacing: 0.3px;
         }
 
-        /* ڤیدیۆی بچوک لە خوارەوە */
-        .video-wrapper {
+        .title {
+            font-size: 2.4rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #12303e;
+            border-bottom: 2px dashed #6f9bb0;
+            padding-bottom: 0.4rem;
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .greeting {
+            font-size: 1.7rem;
+            text-align: center;
+            margin: 0.8rem 0 0.2rem;
+        }
+
+        .message {
+            font-size: 1.35rem;
+            text-align: justify;
+            padding: 0.4rem 0.2rem;
+            margin: 0.5rem 0;
+            word-spacing: 2px;
+            font-family: 'Noto Naskh Arabic', 'Great Vibes', cursive;
+        }
+
+        .message i {
+            font-style: italic;
+            color: #1f4b5e;
+        }
+
+        .highlight {
+            background: rgba(255, 255, 200, 0.2);
+            padding: 0 6px;
+            border-radius: 20px;
+        }
+
+        .invitee {
+            font-size: 1.7rem;
+            text-align: center;
+            background: rgba(255,255,240,0.2);
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 0.2rem auto;
+            font-weight: 700;
+            color: #0a2f40;
+        }
+
+        .details {
+            font-size: 1.25rem;
+            text-align: center;
+            background: #b7d7e8;
+            padding: 0.6rem 0.8rem;
+            border-radius: 60px;
+            margin: 1.2rem 0 0.8rem;
+            color: #05212b;
+            border: 1px solid #97bdcf;
+            display: inline-block;
+            width: auto;
+            backdrop-filter: blur(2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .signature {
+            font-size: 1.8rem;
+            text-align: right;
+            margin-top: 0.5rem;
+            padding-right: 0.5rem;
+            border-top: 1px solid #8fb6c9;
+            padding-top: 0.8rem;
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .closing {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 0.8rem;
+            font-style: italic;
+            color: #184756;
+        }
+
+        /* decorative elements to mimic "کەپات" (fold / tape) */
+        .tape {
+            position: absolute;
+            width: 70px;
+            height: 20px;
+            background: rgba(210, 230, 245, 0.6);
+            border: 1px solid #b7d7e8;
+            border-radius: 40px;
+            transform: rotate(-4deg);
+            backdrop-filter: blur(3px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            pointer-events: none;
+        }
+
+        .tape1 { top: -6px; left: 20%; }
+        .tape2 { bottom: -6px; right: 20%; }
+
+        /* floating butterflies / petals (پەپولە) */
+        .petals-container {
             position: fixed;
-            bottom: 15px;
-            right: 15px;
-            z-index: 9999;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            border: 2px solid rgba(255,255,255,0.15);
-            cursor: pointer;
-            transition: all 0.4s ease;
-            width: 40px;
-            height: 40px;
-            background: #0a1a2e;
-        }
-        .video-wrapper:hover {
-            width: 250px;
-            height: 150px;
-            border-color: #8fc9ff;
-        }
-        .video-wrapper iframe {
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            border: 0;
-            pointer-events: auto;
-        }
-        .video-wrapper.active {
-            width: 250px;
-            height: 150px;
-            border-color: #5fb0ff;
-        }
-
-        /* پەیام */
-        .hint {
-            position: fixed;
-            bottom: 65px;
-            right: 15px;
-            color: rgba(255,255,255,0.2);
-            font-size: 0.6rem;
-            z-index: 9998;
-            font-family: 'Patrick Hand', cursive;
             pointer-events: none;
-            text-align: right;
-            transition: 1s;
+            z-index: 9999;
+            overflow: hidden;
         }
 
+        .petal {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: radial-gradient(circle at 30% 30%, #b3ddf2, #7bb4d1);
+            border-radius: 70% 0 60% 30%;
+            opacity: 0.65;
+            filter: drop-shadow(0 6px 8px rgba(0, 40, 60, 0.15));
+            transform-origin: center;
+            animation: floatPetal linear infinite;
+            transition: transform 0.1s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(150, 210, 240, 0.2);
+        }
+
+        .petal::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.5), transparent 60%);
+            border-radius: inherit;
+        }
+
+        /* different petal shapes */
+        .petal:nth-child(odd) {
+            border-radius: 30% 70% 30% 60%;
+            background: radial-gradient(circle at 60% 30%, #bfe2f5, #6fa5c2);
+        }
+
+        .petal:nth-child(3n) {
+            width: 22px;
+            height: 30px;
+            background: radial-gradient(circle at 40% 30%, #cce9ff, #5f97b7);
+        }
+
+        .petal:nth-child(5n+2) {
+            width: 35px;
+            height: 25px;
+            background: radial-gradient(circle at 20% 50%, #d4eef9, #89b9d4);
+        }
+
+        /* animation */
+        @keyframes floatPetal {
+            0% {
+                transform: translateY(110vh) rotate(0deg) scale(0.6);
+                opacity: 0.2;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(-10vh) rotate(720deg) scale(1.2);
+                opacity: 0.1;
+            }
+        }
+
+        /* YouTube embed - subtle, autoplay */
+        .youtube-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 200px;
+            height: 120px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            border: 2px solid #c5ddee;
+            z-index: 100;
+            opacity: 0.85;
+            transition: 0.3s;
+        }
+        .youtube-container:hover {
+            opacity: 1;
+            width: 240px;
+            height: 140px;
+        }
+        .youtube-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* responsive */
         @media (max-width: 600px) {
-            .invitation-card { padding: 1.8rem 1.2rem; }
-            .title-name { font-size: 1.8rem; }
-            .handwritten { font-size: 1rem; }
-            .time-place { font-size: 1rem; padding: 0.4rem 1rem; }
-            .envelope-butterfly { font-size: 3.2rem; top: -15px; left: -10px; }
-            .second-butterfly { font-size: 2.8rem; bottom: -10px; right: -8px; }
-            .video-wrapper:hover { width: 40px; height: 40px; }
-            .video-wrapper.active { width: 150px; height: 100px; }
+            .card { padding: 1.8rem 1.2rem; }
+            .title { font-size: 1.8rem; }
+            .message { font-size: 1.0rem; }
+            .greeting { font-size: 1.4rem; }
+            .signature { font-size: 1.5rem; }
+            .details { font-size: 1rem; }
+            .youtube-container { width: 140px; height: 90px; bottom: 10px; right: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="butterfly-bg" id="butterflyBg"></div>
+    <!-- Floating petals (پەپولە) container -->
+    <div class="petals-container" id="petalsContainer"></div>
 
-    <!-- ڤیدیۆی بچوک لە خوارەوە -->
-    <div class="video-wrapper" id="videoWrapper">
-        <iframe id="youtubePlayer" 
-            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0&modestbranding=1"
-            allow="autoplay; encrypted-media; fullscreen">
-        </iframe>
-    </div>
-    <div class="hint" id="hint">🎵 گۆرانی پشتزەمینە</div>
-
-    <div class="wrapper">
-        <div class="invitation-card">
-            <div class="envelope-butterfly">🦋✨</div>
-            <div class="second-butterfly">🦋💌</div>
-
-            <div class="title-name">👑 ئەمیر تاجدار 👑</div>
-            <div class="sub-title">~ بانگێشتێکی تایبەت ~</div>
+    <!-- Invitation card -->
+    <div class="invitation-wrapper">
+        <div class="card">
+            <!-- decorative tape (قەپات) -->
+            <div class="tape tape1"></div>
+            <div class="tape tape2"></div>
 
             <div class="handwritten">
-                <p><strong>بە ناوی خۆم و تاجی سەرم،</strong> ئێمە بە خۆشحاڵییەوە بانگێشتی <strong>هەردوو هاوڕێکانی رەیان</strong> دەکەین بۆ ئاهەنگێکی بچووک لە دوای رەنج و ماندووبنێکی زۆر و چاوڕوانی تاڵ. لە کۆتایدا خودا بەو رۆژەی شاد کردین و بە یەکتری گەیاندن و جوابی نزاو پاڕانەوەکانی داوە.</p>
-                <p style="margin-top: 0.4rem;">دەمانەوێت <strong>هەردووکتان بەشدار بن و ئامادەبن</strong> لە:</p>
-            </div>
+                <div class="title">💠 بانگێشت‌نامە 💠</div>
+                <div class="greeting">🏵️ بە ناوی خۆم و تاجی سەرم 🏵️</div>
+                
+                <div style="text-align: center; margin: 0.2rem 0;">
+                    <span class="invitee">✨ ڕەیان ✨</span>
+                    <span style="margin:0 6px;">&</span>
+                    <span class="invitee">✨ هاوڕێیەکان ✨</span>
+                </div>
 
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0;">
-                <span class="time-place">⏰ کاتژمێر 2:30 نیوەڕۆ</span>
-                <span class="time-place">📍 کۆمەڵگای رووپەسەند</span>
-            </div>
+                <div class="message">
+                    <p>🕊️ دوای <span class="highlight">رەنج و ماندووبنێکی زۆر</span> و 
+                    <span class="highlight">چاوڕوانی تاڵ</span>، لە کۆتایدا خودا بەو رۆژەی شاد کردین و بە یەکتری گەیاندن، 
+                    و جوابی نزاو پاڕانەوەکانی داوە.</p>
+                    <p style="margin-top: 0.5rem;">💙 دەمانەوێت هەردووکتان بەشدار بن و ئامادەبن لە 
+                    <strong>کاتژمێر ٢ی نیورۆ</strong> لە <strong>کۆمەڵگای رووپەسەند</strong>.</p>
+                </div>
 
-            <div style="margin: 0.5rem 0 0.2rem 0;">
-                <span class="seal">📨 قەپات کرایەوە 💌</span>
-            </div>
+                <div style="text-align: center;">
+                    <span class="details">⏳ ٢ی نیورۆ • کۆمەڵگای رووپەسەند ⌛</span>
+                </div>
 
-            <div style="margin-top: 0.6rem; font-size: 1.8rem; letter-spacing: 12px; opacity: 0.8;">
-                🦋 ✦ 🦋 ✦ 🦋
-            </div>
-
-            <div class="card-footer">
-                <span>💙 بە خۆشحاڵییەوە چاوەڕوانین</span>
-                <span>🌸 ھەرگیز بیری ناکەین</span>
+                <div class="signature">
+                    ~ بە خەتاتی نوسراوە ~ <br>
+                    <span style="font-size: 1.2rem;">(ئەم نامەیە لەسەر کارتەکە نوسراوە، نەک نوسینی کۆمپیوتەری)</span>
+                </div>
+                <div class="closing">
+                    ❀ چاوەڕوانی تەواوتان دەکەین ❀
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- YouTube Shorts autoplay (embedded with autoplay) -->
+    <div class="youtube-container">
+        <iframe 
+            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=1&loop=1&playlist=gsxJsmbA4BY&controls=0&modestbranding=1&rel=0"
+            title="YouTube Shorts"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+    </div>
+
     <script>
         (function() {
-            // پەپولەکان
-            const bg = document.getElementById('butterflyBg');
-            for (let i = 0; i < 35; i++) {
-                const b = document.createElement('div');
-                b.className = 'bfly';
-                b.textContent = '🦋';
-                b.style.left = Math.random() * 98 + '%';
-                b.style.top = Math.random() * 95 + '%';
-                b.style.fontSize = (1.5 + Math.random() * 3) + 'rem';
-                b.style.animationDuration = (12 + Math.random() * 25) + 's';
-                b.style.animationDelay = (Math.random() * 5) + 's';
-                b.style.opacity = 0.3 + Math.random() * 0.6;
-                bg.appendChild(b);
+            // Generate floating petals (پەپولە) 
+            const container = document.getElementById('petalsContainer');
+            const petalCount = 60; // many petals for a beautiful effect
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                
+                // random position, size, animation duration, delay
+                const size = 16 + Math.random() * 28;
+                const posX = Math.random() * 100;
+                const duration = 12 + Math.random() * 20;
+                const delay = Math.random() * 25;
+                const rotationStart = Math.random() * 360;
+                
+                petal.style.width = size + 'px';
+                petal.style.height = size * (0.8 + Math.random() * 0.5) + 'px';
+                petal.style.left = posX + '%';
+                petal.style.top = '-10%';
+                petal.style.animationDuration = duration + 's';
+                petal.style.animationDelay = delay + 's';
+                petal.style.transform = `rotate(${rotationStart}deg)`;
+                
+                // random hues of soft blue
+                const hue = 195 + Math.random() * 30;
+                const sat = 40 + Math.random() * 40;
+                const lig = 60 + Math.random() * 30;
+                petal.style.background = `radial-gradient(circle at 30% 30%, hsl(${hue}, ${sat}%, ${lig+10}%), hsl(${hue-10}, ${sat-10}%, ${lig-15}%))`;
+                
+                container.appendChild(petal);
             }
 
-            const wrapper = document.getElementById('videoWrapper');
-            const iframe = document.getElementById('youtubePlayer');
-            const hint = document.getElementById('hint');
-            let isPlaying = false;
-            let attempts = 0;
-
-            function forcePlay() {
-                if (isPlaying) return;
-                attempts++;
-                
-                // ڕێگای یەکەم: گۆڕینی src بۆ autoplay
-                iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0&modestbranding=1';
-                
-                // ڕێگای دووەم: کلیکی خۆکار لەسەر ڤیدیۆ
-                try {
-                    wrapper.click();
-                    // هەوڵی کلیک لەسەر iframe
-                    const clickEvent = new MouseEvent('click', {
-                        view: window,
-                        bubbles: true,
-                        cancelable: true
-                    });
-                    iframe.dispatchEvent(clickEvent);
-                } catch(e) {}
-
-                // ڕێگای سێیەم: هەوڵی پخشکردن بە audio element (یەدەگ)
-                try {
-                    const audio = new Audio('https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1');
-                    audio.play().catch(() => {});
-                } catch(e) {}
-
-                isPlaying = true;
-                hint.textContent = '🔊 گۆرانی دەنگی هەیە';
-                hint.style.color = 'rgba(100, 200, 255, 0.6)';
-                wrapper.classList.add('active');
-                
-                setTimeout(() => {
-                    hint.style.opacity = '0';
-                }, 3000);
+            // add a few more special petals (larger, with more glow)
+            for (let i = 0; i < 15; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const size = 30 + Math.random() * 35;
+                petal.style.width = size + 'px';
+                petal.style.height = size * (0.7 + Math.random() * 0.6) + 'px';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.top = '-5%';
+                petal.style.animationDuration = 18 + Math.random() * 25 + 's';
+                petal.style.animationDelay = Math.random() * 30 + 's';
+                petal.style.opacity = '0.5';
+                petal.style.filter = 'drop-shadow(0 0 20px rgba(120, 200, 240, 0.3))';
+                const hue = 200 + Math.random() * 25;
+                petal.style.background = `radial-gradient(circle at 60% 20%, hsl(${hue}, 70%, 80%), hsl(${hue-15}, 60%, 60%))`;
+                container.appendChild(petal);
             }
 
-            // هەوڵی یەکەم: دوای 0.3 چرکە
-            setTimeout(forcePlay, 300);
-            
-            // هەوڵی دووەم: دوای 1 چرکە
-            setTimeout(forcePlay, 1000);
-            
-            // هەوڵی سێیەم: دوای 2.5 چرکە
-            setTimeout(forcePlay, 2500);
-
-            // کلیکی بینەر لەسەر ڤیدیۆ
-            wrapper.addEventListener('click', function(e) {
-                e.stopPropagation();
-                forcePlay();
-                this.classList.add('active');
+            // ensure the YouTube iframe autoplays even if not, we force reload after 1 sec
+            // but the src has autoplay=1, mute=1, loop=1 
+            // Some browsers may block autoplay, but we try.
+            const iframe = document.querySelector('.youtube-container iframe');
+            if (iframe) {
+                // reload after a tiny delay to ensure autoplay in most browsers
                 setTimeout(() => {
-                    this.classList.remove('active');
-                }, 4000);
+                    const src = iframe.src;
+                    if (src.includes('autoplay=1')) {
+                        // already good
+                    } else {
+                        iframe.src = src + '&autoplay=1&mute=1';
+                    }
+                }, 800);
+            }
+
+            // extra: make the card feel more "handwritten" with subtle mouse tilt
+            const card = document.querySelector('.card');
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 3;
+                const y = (e.clientY / window.innerHeight - 0.5) * -3;
+                card.style.transform = `rotate(${x*0.3}deg) skewX(${y*0.05}deg)`;
             });
-
-            // گوێگرتن لە کلیکی لاپەڕە (هەر شوێنێک)
-            document.addEventListener('click', function pageClick() {
-                if (!isPlaying) {
-                    forcePlay();
-                }
-            }, { once: true });
-
-            // بۆ مۆبایل
-            document.addEventListener('touchstart', function pageTouch() {
-                if (!isPlaying) {
-                    forcePlay();
-                }
-            }, { once: true });
-
-            // دوایین هەوڵ: دوای 5 چرکە
-            setTimeout(() => {
-                if (!isPlaying) {
-                    forcePlay();
-                }
-            }, 5000);
-
         })();
     </script>
 
