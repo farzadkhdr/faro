@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشت نامە - ڕەیان</title>
+    <title>بانگێشت نامە - بۆ ڕەیان</title>
     <style>
         * {
             margin: 0;
@@ -15,8 +15,8 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            background: #0a0a1a;
-            font-family: 'Tahoma', 'Segoe UI', sans-serif;
+            background: radial-gradient(ellipse at center, #0d1b2a 0%, #050d18 40%, #020810 100%);
+            font-family: 'Tahoma', 'Segoe UI', 'Scheherazade New', 'Amiri', serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,6 +24,27 @@
             user-select: none;
             -webkit-user-select: none;
             position: relative;
+        }
+
+        /* Stars background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.5); }
         }
 
         /* Bubble container */
@@ -40,52 +61,60 @@
         .bubble {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(100, 180, 255, 0.7), rgba(30, 80, 180, 0.5));
-            box-shadow: 0 0 20px rgba(80, 160, 255, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.3);
+            background: radial-gradient(circle at 35% 30%, rgba(140, 210, 255, 0.75), rgba(40, 100, 200, 0.45));
+            box-shadow: 0 0 18px rgba(100, 170, 255, 0.55), 0 0 35px rgba(60, 140, 255, 0.25), inset 0 0 12px rgba(255, 255, 255, 0.35);
             animation: floatUp linear forwards;
             pointer-events: none;
         }
 
         @keyframes floatUp {
             0% {
-                transform: translateY(0) translateX(0) scale(1);
-                opacity: 0.9;
+                transform: translateY(0) translateX(0) scale(0.6);
+                opacity: 0.85;
             }
-            25% {
-                transform: translateY(-25vh) translateX(30px) scale(1.1);
+            20% {
+                transform: translateY(-18vh) translateX(25px) scale(1);
                 opacity: 0.8;
             }
-            50% {
-                transform: translateY(-50vh) translateX(-20px) scale(0.9);
-                opacity: 0.6;
+            40% {
+                transform: translateY(-40vh) translateX(-15px) scale(1.1);
+                opacity: 0.65;
             }
-            75% {
-                transform: translateY(-75vh) translateX(15px) scale(0.7);
-                opacity: 0.3;
+            60% {
+                transform: translateY(-62vh) translateX(18px) scale(0.85);
+                opacity: 0.45;
+            }
+            80% {
+                transform: translateY(-82vh) translateX(-8px) scale(0.55);
+                opacity: 0.2;
             }
             100% {
-                transform: translateY(-105vh) translateX(-10px) scale(0.4);
+                transform: translateY(-110vh) translateX(5px) scale(0.25);
                 opacity: 0;
             }
         }
 
-        /* Envelope container */
+        /* Main envelope container */
         .envelope-wrapper {
             position: relative;
             z-index: 10;
-            perspective: 1200px;
-            animation: envelopeEntrance 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            perspective: 1300px;
+            animation: envelopeEntrance 1.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
             opacity: 0;
         }
 
         @keyframes envelopeEntrance {
             0% {
                 opacity: 0;
-                transform: scale(0.3) translateY(100px) rotate(-10deg);
+                transform: scale(0.2) translateY(120px) rotate(-15deg);
             }
-            60% {
+            50% {
+                opacity: 0.9;
+                transform: scale(1.04) translateY(-15px) rotate(3deg);
+            }
+            70% {
                 opacity: 1;
-                transform: scale(1.05) translateY(-10px) rotate(2deg);
+                transform: scale(0.97) translateY(5px) rotate(-1deg);
             }
             100% {
                 opacity: 1;
@@ -94,41 +123,57 @@
         }
 
         .envelope {
-            width: 500px;
-            height: 340px;
+            width: 520px;
+            height: 360px;
             position: relative;
             cursor: pointer;
             transition: transform 0.3s ease;
+            filter: drop-shadow(0 15px 40px rgba(30, 80, 160, 0.4));
         }
 
         .envelope:hover {
-            transform: scale(1.03);
+            transform: scale(1.04);
+            filter: drop-shadow(0 20px 50px rgba(40, 100, 200, 0.55));
         }
 
         .envelope-body {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 300px;
-            background: linear-gradient(180deg, #d4e6f9 0%, #b8d4f0 30%, #a3c6e8 60%, #8ab4de 100%);
-            border-radius: 8px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.4);
+            height: 320px;
+            background: linear-gradient(175deg, #e3f0fa 0%, #cde2f7 25%, #b8d3f0 50%, #a3c4e8 75%, #8fb5de 100%);
+            border-radius: 10px;
+            box-shadow: 0 12px 45px rgba(0, 0, 0, 0.45), inset 0 3px 15px rgba(255, 255, 255, 0.5);
             overflow: hidden;
             z-index: 2;
+            border: 2px solid rgba(255, 255, 255, 0.35);
         }
 
-        /* Decorative lines on envelope */
-        .envelope-body::before {
+        /* Inner glow on envelope body */
+        .envelope-body::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border: 3px solid rgba(255, 255, 255, 0.5);
             border-radius: 8px;
+            box-shadow: inset 0 0 40px rgba(150, 200, 240, 0.4);
             pointer-events: none;
-            z-index: 5;
+            z-index: 4;
+        }
+
+        /* Gold border decoration */
+        .gold-border {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1.5px dashed rgba(180, 150, 80, 0.5);
+            border-radius: 6px;
+            pointer-events: none;
+            z-index: 3;
         }
 
         .envelope-flap {
@@ -136,74 +181,94 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 180px;
-            background: linear-gradient(180deg, #c5ddf5 0%, #aecce8 40%, #9fc2e2 100%);
-            clip-path: polygon(0 0, 50% 65%, 100% 0);
-            border-radius: 8px 8px 0 0;
-            z-index: 4;
+            height: 195px;
+            background: linear-gradient(180deg, #d5e8fb 0%, #bdd6f0 35%, #a8c8e6 70%, #9abce0 100%);
+            clip-path: polygon(0 0, 50% 62%, 100% 0);
+            border-radius: 10px 10px 0 0;
+            z-index: 5;
             transform-origin: top center;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.9s cubic-bezier(0.68, -0.4, 0.27, 1.4);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .envelope-flap.open {
-            transform: rotateX(180deg);
+            transform: rotateX(185deg);
             z-index: 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
 
-        /* Seal/Wax stamp */
-        .seal {
+        /* Wax seal */
+        .seal-container {
             position: absolute;
-            top: 50%;
+            top: 52%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #ff6b6b 0%, #c0392b 100%);
+            z-index: 7;
+            pointer-events: none;
+        }
+
+        .seal {
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle at 40% 35%, #e74c3c 0%, #c0392b 50%, #8b1a1a 100%);
             border-radius: 50%;
-            z-index: 6;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(200, 160, 80, 0.5), 0 0 0 8px rgba(180, 140, 60, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .seal::before {
+            content: '';
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 215, 150, 0.7);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .seal::after {
             content: '💮';
-            font-size: 28px;
+            font-size: 30px;
             color: #fff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+            z-index: 1;
         }
 
         .seal.removed {
             opacity: 0;
-            transform: translate(-50%, -50%) scale(0);
-            transition: all 0.4s ease;
+            transform: scale(0) rotate(180deg);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        /* Card inside */
+        /* Card inside envelope */
         .card {
             position: absolute;
             bottom: 10px;
             left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            width: 440px;
-            height: 260px;
-            background: linear-gradient(135deg, #e8f4fd 0%, #d6ecfb 30%, #c8e4f9 60%, #d0e8fa 100%);
-            border-radius: 6px;
+            transform: translateX(-50%) translateY(25px);
+            width: 450px;
+            height: 275px;
+            background: linear-gradient(145deg, #fdf8f0 0%, #f8f0e5 20%, #f5ebdd 40%, #faf3e8 60%, #fdf6ed 80%, #f8efe0 100%);
+            border-radius: 8px;
             z-index: 1;
-            padding: 25px 30px;
-            transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: inset 0 0 30px rgba(100, 150, 200, 0.3);
+            padding: 20px 28px;
+            transition: transform 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
+            box-shadow: inset 0 0 35px rgba(180, 150, 100, 0.25), 0 3px 10px rgba(0,0,0,0.15);
             overflow: hidden;
+            border: 1px solid rgba(180, 150, 100, 0.4);
         }
 
         .card.slide-out {
-            transform: translateX(-50%) translateY(-220px);
+            transform: translateX(-50%) translateY(-240px);
         }
 
-        /* Paper texture overlay */
+        /* Paper texture */
         .card::before {
             content: '';
             position: absolute;
@@ -211,193 +276,280 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(180, 200, 220, 0.1) 2px, rgba(180, 200, 220, 0.1) 4px);
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200, 170, 120, 0.06) 3px, rgba(200, 170, 120, 0.06) 6px),
+                repeating-linear-gradient(90deg, transparent, transparent 25px, rgba(200, 170, 120, 0.04) 25px, rgba(200, 170, 120, 0.04) 26px);
             pointer-events: none;
-            z-index: 2;
-            border-radius: 6px;
+            z-index: 1;
+            border-radius: 8px;
         }
+
+        /* Gold corner decorations on card */
+        .card-corner {
+            position: absolute;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .corner-tl { top: 8px; left: 12px; }
+        .corner-tr { top: 8px; right: 12px; }
+        .corner-bl { bottom: 8px; left: 12px; }
+        .corner-br { bottom: 8px; right: 12px; }
 
         .card-content {
             position: relative;
             z-index: 3;
             text-align: center;
-            color: #1a3a5c;
-            font-size: 15px;
-            line-height: 2.2;
-            font-family: 'Tahoma', 'Scheherazade New', 'Amiri', serif;
+            color: #3d2b1f;
+            font-family: 'Tahoma', 'Scheherazade New', 'Amiri', 'Noto Nastaliq Urdu', serif;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .card-content .greeting {
+        .card-title {
             font-size: 20px;
             font-weight: bold;
-            color: #0d2b45;
-            margin-bottom: 5px;
+            color: #8b6914;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+
+        .card-body {
+            font-size: 14px;
+            line-height: 2.3;
+            color: #3d2b1f;
+            margin: 5px 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        .card-body .name-highlight {
+            color: #b8860b;
+            font-weight: bold;
+            font-size: 15px;
+            text-shadow: 0 0 8px rgba(184, 134, 11, 0.3);
+        }
+
+        .card-body .gold-text {
+            color: #8b6914;
+            font-weight: bold;
+        }
+
+        .card-signature {
+            margin-top: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            color: #5a3e1a;
             letter-spacing: 1px;
         }
 
-        .card-content .body-text {
+        .card-footer {
             font-size: 14px;
-            line-height: 2.4;
-            color: #1e3a5f;
-            margin: 10px 0;
+            color: #8b6914;
+            margin-top: 5px;
         }
 
-        .card-content .highlight {
-            color: #b8860b;
-            font-weight: bold;
-            font-size: 16px;
+        .divider {
+            color: #c9a84c;
+            font-size: 14px;
+            letter-spacing: 3px;
+            margin: 3px 0;
         }
-
-        .card-content .signature {
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #0d2b45;
-            font-family: 'Tahoma', 'Scheherazade New', 'Amiri', serif;
-            letter-spacing: 2px;
-        }
-
-        .card-content .decoration {
-            font-size: 22px;
-            color: #b8860b;
-            margin: 5px 0;
-        }
-
-        /* Floral decorations */
-        .floral-corner {
-            position: absolute;
-            font-size: 35px;
-            opacity: 0.4;
-            color: #2c5f8a;
-            z-index: 1;
-            pointer-events: none;
-        }
-        .floral-tl { top: 5px; left: 10px; }
-        .floral-tr { top: 5px; right: 10px; }
-        .floral-bl { bottom: 5px; left: 10px; }
-        .floral-br { bottom: 5px; right: 10px; }
 
         /* Instruction text */
         .instruction {
             position: fixed;
-            bottom: 30px;
+            bottom: 35px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(200, 220, 255, 0.8);
-            font-size: 14px;
+            color: rgba(180, 210, 240, 0.9);
+            font-size: 15px;
             z-index: 100;
             text-align: center;
-            animation: pulse 2s infinite;
+            animation: pulse 2.2s infinite;
             letter-spacing: 1px;
+            background: rgba(10, 20, 40, 0.5);
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(120, 170, 220, 0.3);
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+            0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.04); }
+        }
+
+        /* Glow effect around envelope */
+        .envelope-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 550px;
+            height: 380px;
+            background: radial-gradient(ellipse, rgba(80, 150, 220, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+            animation: glowPulse 3s infinite alternate;
+        }
+        @keyframes glowPulse {
+            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
+            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
         }
 
         /* Responsive */
         @media (max-width: 600px) {
             .envelope {
                 width: 340px;
-                height: 240px;
+                height: 250px;
             }
             .envelope-body {
-                height: 210px;
+                height: 220px;
             }
             .envelope-flap {
-                height: 130px;
+                height: 140px;
             }
             .card {
-                width: 300px;
-                height: 200px;
-                padding: 15px 20px;
+                width: 295px;
+                height: 195px;
+                padding: 12px 18px;
             }
             .card.slide-out {
                 transform: translateX(-50%) translateY(-170px);
             }
-            .card-content {
-                font-size: 12px;
-                line-height: 1.9;
-            }
-            .card-content .greeting {
+            .card-title {
                 font-size: 16px;
             }
-            .card-content .body-text {
+            .card-body {
                 font-size: 11px;
-                line-height: 2;
+                line-height: 1.9;
+            }
+            .card-body .name-highlight {
+                font-size: 12px;
+            }
+            .card-signature {
+                font-size: 14px;
             }
             .seal {
-                width: 45px;
-                height: 45px;
+                width: 48px;
+                height: 48px;
             }
             .seal::after {
                 font-size: 22px;
+            }
+            .seal::before {
+                width: 34px;
+                height: 34px;
+            }
+            .instruction {
+                font-size: 12px;
+                bottom: 20px;
+                padding: 6px 14px;
+            }
+            .envelope-glow {
+                width: 360px;
+                height: 270px;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- Stars -->
+    <div class="stars" id="starsContainer"></div>
+
     <!-- Bubbles container -->
     <div class="bubbles-container" id="bubblesContainer"></div>
+
+    <!-- Glow effect -->
+    <div class="envelope-glow"></div>
 
     <!-- Envelope -->
     <div class="envelope-wrapper" id="envelopeWrapper">
         <div class="envelope" id="envelope" onclick="openEnvelope()">
             <div class="envelope-body">
-                <!-- Floral decorations on envelope -->
-                <span class="floral-corner floral-tl">🌸</span>
-                <span class="floral-corner floral-tr">🌿</span>
-                <span class="floral-corner floral-bl">🌿</span>
-                <span class="floral-corner floral-br">🌸</span>
+                <div class="gold-border"></div>
 
                 <!-- Card inside -->
                 <div class="card" id="card">
+                    <!-- Corner decorations -->
+                    <span class="card-corner corner-tl">✦</span>
+                    <span class="card-corner corner-tr">✦</span>
+                    <span class="card-corner corner-bl">✦</span>
+                    <span class="card-corner corner-br">✦</span>
+
                     <div class="card-content">
-                        <div class="decoration">✨ 🌸 ✨</div>
-                        <div class="greeting">بە ناوی خودای گەورە و میهرەبان</div>
-                        <div class="decoration">— • —</div>
-                        <div class="body-text">
-                            بە ناوی خۆم و <span class="highlight">تاجی سەرم</span>، بانگێشتی هەردوو هاوڕێکانی خۆشەویستم <span class="highlight">ڕەیان</span> دەکەین.
-                            <br><br>
-                            دوای ڕەنج و ماندووبوونێکی زۆر و چاوەڕوانییەکی تاڵ، لە کۆتاییدا خودا بەو ڕۆژە شاد کردین و بە یەکتری گەیاندین، و وەڵامی نزاو پاڕانەوەکانیمانی دایەوە.
-                            <br><br>
-                            دەمانەوێت هەردووکتان بەشدار بن و ئامادەبن، <span class="highlight">کاتژمێر ٢:٠٠ ی نیوەڕۆ</span>، لە <span class="highlight">کۆمەڵگای ڕووپەسەند</span>.
+                        <div class="card-title">✨ بانگێشت نامە ✨</div>
+                        <div class="divider">— • ✿ • —</div>
+                        <div class="card-body">
+                            بۆ هەردوو هاوڕێی بەڕێزی
+                            <span class="name-highlight">ڕەیان</span>
+                            <br>
+                            بە ناوی خۆم و
+                            <span class="name-highlight">تاجی سەرم</span>
+                            ، مامۆستا
+                            <span class="name-highlight">ڕەیان</span>
+                            بانگێشتان دەکەم بۆ ئاهەنگەکەمان.
+                            <br>
+                            لە دوای نزا و پاڕانەوەی زۆر و دوای زەحمەت کێشان و چاوەڕوانی،
+                            <span class="gold-text">خودای میهرەبان</span>
+                            ئاوڕی لێداینەوە و ئێمەی بە یەکتر گەیاند.
+                            <br>
+                            ئینجا هیوادارم جەنابتان ئامادەبن، لەوێ پێ خۆشحاڵ دەبین.
                         </div>
-                        <div class="decoration">— • —</div>
-                        <div class="signature">بە هیوای دیدار ✨</div>
-                        <div class="decoration">🌷 🌿 🌷</div>
+                        <div class="divider">— • ✿ • —</div>
+                        <div class="card-signature">🌸 بە هیوای دیدار 🌸</div>
+                        <div class="card-footer">﷽</div>
                     </div>
                 </div>
             </div>
             <div class="envelope-flap" id="envelopeFlap"></div>
-            <div class="seal" id="seal"></div>
+            <div class="seal-container">
+                <div class="seal" id="seal"></div>
+            </div>
         </div>
     </div>
 
     <!-- Instruction -->
     <div class="instruction" id="instruction">
-        ✦ کرتە لەسەر نامەکە بکە بۆ کردنەوەی ✦
+        💌 کرتە لەسەر نامەکە بکە بۆ کردنەوەی
     </div>
 
-    <!-- YouTube iframe (hidden, for audio) -->
+    <!-- YouTube player container (hidden) -->
     <div id="youtubePlayer" style="position: fixed; bottom: -100px; left: -100px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
 
     <script>
+        // ===== CREATE STARS =====
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            for (let i = 0; i < 80; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                const size = Math.random() * 2.5 + 0.8;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(star);
+            }
+        }
+
         // ===== YOUTUBE AUDIO PLAYER =====
-        // Load YouTube IFrame API
         let player;
         let isPlayerReady = false;
         let playerPlayAttempted = false;
 
-        // Load the IFrame API asynchronously
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // Create YouTube player when API is ready
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('youtubePlayer', {
                 height: '1',
@@ -415,7 +567,7 @@
                     'rel': 0,
                     'showinfo': 0,
                     'mute': 0,
-                    'playlist': 'gsxJsmbA4BY' // Required for looping
+                    'playlist': 'gsxJsmbA4BY'
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -426,17 +578,15 @@
 
         function onPlayerReady(event) {
             isPlayerReady = true;
-            console.log('YouTube player ready');
-            // Try to play
+            console.log('✅ YouTube player ready');
             if (!playerPlayAttempted) {
                 attemptPlay();
             }
         }
 
         function onPlayerStateChange(event) {
-            // If video ended, it will loop automatically due to playlist parameter
             if (event.data === YT.PlayerState.ENDED) {
-                console.log('Video ended, looping...');
+                console.log('🔄 Looping audio...');
             }
         }
 
@@ -444,22 +594,21 @@
             playerPlayAttempted = true;
             if (isPlayerReady && player && player.playVideo) {
                 player.unMute();
-                player.setVolume(50);
+                player.setVolume(45);
                 player.playVideo();
-                console.log('Attempting to play audio...');
+                console.log('🎵 Playing audio...');
             } else {
-                // Retry after a short delay
                 setTimeout(() => {
                     if (isPlayerReady && player && player.playVideo) {
                         player.unMute();
-                        player.setVolume(50);
+                        player.setVolume(45);
                         player.playVideo();
                     }
-                }, 1000);
+                }, 1200);
             }
         }
 
-        // Also try to play on first user interaction (browsers often require this)
+        // Play on first user interaction
         document.addEventListener('click', function firstInteraction() {
             attemptPlay();
         }, { once: false });
@@ -470,53 +619,47 @@
             const bubble = document.createElement('div');
             bubble.classList.add('bubble');
 
-            const size = Math.random() * 25 + 10; // 10-35px
-            const startX = Math.random() * 100; // vw percentage
-            const duration = Math.random() * 4 + 4; // 4-8 seconds
-            const delay = Math.random() * 1;
+            const size = Math.random() * 22 + 10;
+            const startX = Math.random() * 100;
+            const duration = Math.random() * 5 + 4.5;
+            const delay = Math.random() * 0.8;
 
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
             bubble.style.left = startX + '%';
-            bubble.style.bottom = '-50px';
+            bubble.style.bottom = '-60px';
             bubble.style.animationDuration = duration + 's';
             bubble.style.animationDelay = delay + 's';
 
-            // Vary bubble colors slightly
-            const hue = 200 + Math.random() * 40; // 200-240 (blue range)
+            const hue = 200 + Math.random() * 35;
             const lightness = 55 + Math.random() * 25;
-            bubble.style.background = `radial-gradient(circle at 30% 30%, hsla(${hue}, 70%, ${lightness + 15}%, 0.8), hsla(${hue}, 60%, ${lightness}%, 0.5))`;
-            bubble.style.boxShadow = `0 0 ${10 + Math.random() * 20}px hsla(${hue}, 80%, 60%, 0.5), inset 0 0 10px rgba(255,255,255,0.3)`;
+            bubble.style.background = `radial-gradient(circle at 35% 30%, hsla(${hue}, 75%, ${lightness + 18}%, 0.8), hsla(${hue}, 60%, ${lightness}%, 0.5))`;
+            bubble.style.boxShadow = `0 0 ${12 + Math.random() * 22}px hsla(${hue}, 80%, 65%, 0.5), 0 0 ${25 + Math.random() * 35}px hsla(${hue}, 70%, 55%, 0.2), inset 0 0 10px rgba(255,255,255,0.3)`;
 
             container.appendChild(bubble);
 
-            // Remove bubble after animation ends
             setTimeout(() => {
                 if (bubble.parentNode) {
                     bubble.remove();
                 }
-            }, (duration + delay) * 1000 + 200);
+            }, (duration + delay) * 1000 + 300);
         }
 
-        // Create bubbles continuously
         function startBubbles() {
-            // Initial burst of bubbles
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => createBubble(), i * 80);
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => createBubble(), i * 70);
             }
-            // Continuous creation
             setInterval(() => {
                 const count = Math.floor(Math.random() * 3) + 1;
                 for (let i = 0; i < count; i++) {
-                    setTimeout(() => createBubble(), i * 150);
+                    setTimeout(() => createBubble(), i * 130);
                 }
-            }, 400);
+            }, 350);
         }
 
-        // Create massive burst of bubbles
-        function burstBubbles(count = 60) {
+        function burstBubbles(count = 70) {
             for (let i = 0; i < count; i++) {
-                setTimeout(() => createBubble(), i * 30);
+                setTimeout(() => createBubble(), i * 25);
             }
         }
 
@@ -532,62 +675,52 @@
             const card = document.getElementById('card');
             const instruction = document.getElementById('instruction');
 
-            // Hide instruction
             instruction.style.opacity = '0';
             instruction.style.transition = 'opacity 0.5s ease';
 
-            // Remove seal
             seal.classList.add('removed');
 
-            // Open flap after seal removal
             setTimeout(() => {
                 flap.classList.add('open');
-            }, 300);
+            }, 350);
 
-            // Slide out card
             setTimeout(() => {
                 card.classList.add('slide-out');
-            }, 700);
+            }, 750);
 
-            // Burst bubbles on open
             setTimeout(() => {
-                burstBubbles(80);
-            }, 500);
+                burstBubbles(90);
+            }, 400);
 
-            // Continuous extra bubbles for a while
             setTimeout(() => {
-                burstBubbles(40);
-            }, 1500);
-            setTimeout(() => {
-                burstBubbles(30);
-            }, 2500);
+                burstBubbles(50);
+            }, 1600);
 
-            // Ensure audio plays
+            setTimeout(() => {
+                burstBubbles(35);
+            }, 2800);
+
+            setTimeout(() => {
+                burstBubbles(25);
+            }, 4000);
+
             attemptPlay();
         }
 
         // ===== INITIALIZATION =====
         function init() {
+            createStars();
             startBubbles();
-
-            // Initial bubble burst on page load
-            setTimeout(() => burstBubbles(50), 300);
-
-            // Attempt audio play
-            setTimeout(() => attemptPlay(), 500);
+            setTimeout(() => burstBubbles(55), 400);
+            setTimeout(() => attemptPlay(), 600);
         }
 
-        // Run on load
         window.addEventListener('load', init);
 
-        // Handle window resize for bubble positioning
-        window.addEventListener('resize', () => {
-            // Bubbles will naturally adjust as they use vw units
-        });
-
-        console.log('✨ بانگێشت نامە - بۆ ڕەیان ✨');
-        console.log('🎵 گۆرانیەکە بە شێوەی خۆکار دەست پێدەکات...');
+        console.log('💌 بانگێشت نامە - بۆ ڕەیان 💌');
+        console.log('🎵 گۆرانی بە شێوەی خۆکار دەست پێدەکات...');
         console.log('📩 کرتە لەسەر نامەکە بکە بۆ کردنەوەی');
+        console.log('✨ خۆشحاڵ دەبین بە ئامادەبوونتان ✨');
     </script>
 </body>
 </html>
