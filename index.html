@@ -235,7 +235,7 @@
             justify-content: center;
             align-items: center;
             gap: clamp(8px, 2vw, 18px);
-            margin: 4px 0 8px 0;
+            margin: 4px 0 6px 0;
         }
 
         .cover-couple .person {
@@ -256,16 +256,16 @@
             filter: drop-shadow(0 0 15px rgba(255, 80, 120, 0.5));
         }
 
-        /* ===== بسم اللە بە فۆنتی قورئان ===== */
+        /* ===== بسم اللە بە فۆنتی قورئان - بچووکتر ===== */
         .cover-bismillah {
             font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
-            font-size: clamp(30px, 8vw, 50px);
+            font-size: clamp(22px, 5.5vw, 34px);
             font-weight: 700;
             color: #b8d8ff;
             text-shadow: 0 0 40px rgba(100, 180, 255, 0.3), 0 4px 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 4px;
             line-height: 1.4;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         /* ===== فۆنتی کوردی جوان بۆ نوسراوەکانی تر ===== */
@@ -282,7 +282,7 @@
             width: min(100px, 25vw);
             height: 1.5px;
             background: linear-gradient(90deg, transparent, #80bfff, transparent);
-            margin: 10px auto;
+            margin: 8px auto;
             border-radius: 2px;
         }
 
@@ -410,10 +410,10 @@
             gap: 3px;
         }
 
-        /* ===== بسم اللە لەناوەوە ===== */
+        /* ===== بسم اللە لەناوەوە - بچووکتر ===== */
         .inside-bismillah {
             font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
-            font-size: clamp(24px, 6vw, 38px);
+            font-size: clamp(18px, 4.5vw, 28px);
             font-weight: 700;
             color: #1a5a8a;
             margin-bottom: 2px;
@@ -453,7 +453,7 @@
             animation: gentleFloat 3.5s ease-in-out infinite;
         }
 
-        /* ===== سەردێڕی نوێ: بانگێشت نامەی هاوسەرگیری ===== */
+        /* ===== سەردێڕ: بانگێشت نامەی هاوسەرگیری ===== */
         .invitation-title {
             font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(20px, 5vw, 32px);
@@ -633,6 +633,13 @@
                 gap: 12px;
                 padding: 6px;
             }
+            /* بچووکترکردنی بسم اللە لە مۆبایلدا */
+            .cover-bismillah {
+                font-size: 20px;
+            }
+            .inside-bismillah {
+                font-size: 16px;
+            }
         }
 
         @media (max-width: 380px) {
@@ -652,10 +659,10 @@
                 font-size: 17px;
             }
             .cover-bismillah {
-                font-size: 24px;
+                font-size: 18px;
             }
             .inside-bismillah {
-                font-size: 20px;
+                font-size: 14px;
             }
             .signature-text {
                 font-size: 14px;
@@ -683,6 +690,12 @@
             .card-text {
                 font-size: 11px;
                 line-height: 2;
+            }
+            .cover-bismillah {
+                font-size: 18px;
+            }
+            .inside-bismillah {
+                font-size: 14px;
             }
         }
     </style>
@@ -716,7 +729,7 @@
                             <span class="person">🤵‍♂️</span>
                         </div>
 
-                        <!-- ===== بسم اللە بە فۆنتی قورئان ===== -->
+                        <!-- ===== بسم اللە بە فۆنتی قورئان - بچووکتر ===== -->
                         <div class="cover-bismillah">﷽</div>
 
                         <div class="cover-line"></div>
@@ -743,7 +756,7 @@
 
                     <div class="card-inside-content">
 
-                        <!-- ===== بسم اللە بە فۆنتی قورئان ===== -->
+                        <!-- ===== بسم اللە بە فۆنتی قورئان - بچووکتر ===== -->
                         <div class="inside-bismillah">﷽</div>
 
                         <!-- ===== دوو هاوسەر لەناو کارتەکە ===== -->
@@ -755,7 +768,7 @@
 
                         <div class="wedding-rings">💍 💒 💍</div>
 
-                        <!-- ===== سەردێڕی نوێ: بانگێشت نامەی هاوسەرگیری ===== -->
+                        <!-- ===== سەردێڕ: بانگێشت نامەی هاوسەرگیری ===== -->
                         <div class="invitation-title">بانگێشت نامەی هاوسەرگیری</div>
 
                         <div class="ornamental-line">
@@ -887,7 +900,6 @@
             particle.style.animationDuration = duration + 's';
             particle.style.animationDelay = delay + 's';
 
-            // ڕەنگی شین بۆ پەپوولەکان
             const hue = 195 + Math.random() * 35;
             particle.style.background = 'radial-gradient(circle at 30% 30%, hsla(' + hue + ', 90%, 80%, 0.9), hsla(' + hue + ', 80%, 55%, 0.6))';
             particle.style.boxShadow = '0 0 ' + (10 + Math.random() * 25) + 'px hsla(' + hue + ', 90%, 70%, 0.5), 0 0 ' + (30 + Math.random() * 40) + 'px hsla(' + hue + ', 80%, 60%, 0.25)';
