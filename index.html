@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشت نامە</title>
+    <title>بانگێشت نامە - شین و پەپولە</title>
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,7 +16,6 @@
             font-family: 'Patrick Hand', cursive;
             overflow: hidden;
             position: relative;
-            cursor: pointer;
         }
         .butterfly-bg {
             position: fixed;
@@ -186,39 +185,57 @@
             gap: 10px;
         }
 
-        .hidden-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 1px;
-            height: 1px;
-            z-index: -1;
-            opacity: 0;
-            pointer-events: none;
+        /* چارەسەری دەنگ - دوو ڕێگا */
+        .audio-solution {
+            margin: 1.2rem auto 0.2rem auto;
+            padding: 12px;
+            border-radius: 24px;
+            background: rgba(155, 200, 240, 0.2);
+            border: 2px dashed #8fc9ff;
+            max-width: 480px;
         }
-        .hidden-video iframe {
-            width: 1px;
-            height: 1px;
-            border: 0;
-        }
-
-        .click-hint {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.3);
-            font-size: 0.8rem;
-            z-index: 999;
-            animation: pulse 2s infinite;
+        .audio-btn {
+            background: linear-gradient(145deg, #1e6f9f, #135683);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 60px;
             font-family: 'Patrick Hand', cursive;
-            letter-spacing: 2px;
-            pointer-events: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #0b3b5a;
+            transition: 0.08s ease;
+            margin: 6px auto;
+            display: inline-block;
+            width: 100%;
+            max-width: 300px;
         }
-        @keyframes pulse {
-            0% { opacity: 0.3; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.3; }
+        .audio-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 1px 0 #0b3b5a;
+        }
+        .audio-btn.green {
+            background: linear-gradient(145deg, #2a8f5a, #1d6d42);
+            box-shadow: 0 6px 0 #145231;
+        }
+        .audio-label {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1rem;
+            color: #003f7a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .audio-label span {
+            background: #8fc9ff;
+            padding: 4px 16px;
+            border-radius: 40px;
+            color: #002a55;
+            font-weight: bold;
         }
 
         @media (max-width: 600px) {
@@ -234,13 +251,6 @@
 <body>
 
     <div class="butterfly-bg" id="butterflyBg"></div>
-
-    <div class="hidden-video">
-        <iframe id="youtubePlayer" 
-            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=0&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0"
-            allow="autoplay; encrypted-media">
-        </iframe>
-    </div>
 
     <div class="wrapper">
         <div class="invitation-card">
@@ -264,6 +274,29 @@
                 <span class="seal">📨 قەپات کرایەوە 💌</span>
             </div>
 
+            <!-- بەشی دەنگ - چارەسەری نوێ -->
+            <div class="audio-solution">
+                <div class="audio-label">
+                    <span>🎵 گۆرانی پشت‌زەمینە</span>
+                    <span style="background: transparent; box-shadow: none; font-size: 0.8rem;">🔊 کلیک بکە بۆ گوێگرتن</span>
+                </div>
+                
+                <button class="audio-btn" id="playBtn" onclick="playMusic()">
+                    🎵 کلیک بکە بۆ دەستپێکردنی گۆرانی
+                </button>
+                <p style="font-size: 0.75rem; color: #3a6f8f; margin-top: 6px; opacity: 0.7;">
+                    * گۆرانی دوای کلیک دەستپێدەکات (وێبگەڕەکان ڕێگە بە خۆکار نادەن)
+                </p>
+                
+                <!-- ڕێگای دووەم: لینکی ڕاستەوخۆ -->
+                <div style="margin-top: 10px; border-top: 1px dashed #8fc9ff; padding-top: 10px;">
+                    <a href="https://www.youtube.com/watch?v=gsxJsmbA4BY" target="_blank" 
+                       style="display: inline-block; background: #c0392b; color: white; padding: 8px 20px; border-radius: 40px; text-decoration: none; font-family: 'Patrick Hand', cursive; font-size: 1rem; box-shadow: 0 4px 0 #78281f;">
+                        🔗 لینکی گۆرانی لە یوتیوب
+                    </a>
+                </div>
+            </div>
+
             <div style="margin-top: 0.6rem; font-size: 1.8rem; letter-spacing: 12px; opacity: 0.8;">
                 🦋 ✦ 🦋 ✦ 🦋
             </div>
@@ -274,8 +307,6 @@
             </div>
         </div>
     </div>
-
-    <div class="click-hint">✨ کلیک لە هەر شوێنێک بکە بۆ دەستپێکردنی گۆرانی ✨</div>
 
     <script>
         (function() {
@@ -293,60 +324,35 @@
                 b.style.opacity = 0.3 + Math.random() * 0.6;
                 bg.appendChild(b);
             }
-
-            const iframe = document.getElementById('youtubePlayer');
-            let isPlaying = false;
-            let playAttempts = 0;
-
-            function startAudio() {
-                if (isPlaying) return;
-                
-                // گۆڕینی src بۆ autoplay
-                iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0';
-                isPlaying = true;
-                
-                // شارکردنەوەی پەیام
-                const hint = document.querySelector('.click-hint');
-                if (hint) {
-                    hint.textContent = '🎵 گۆرانی دەنگی هەیە...';
-                    hint.style.color = 'rgba(100, 200, 255, 0.6)';
-                    setTimeout(() => {
-                        hint.style.opacity = '0';
-                        setTimeout(() => {
-                            hint.style.display = 'none';
-                        }, 1000);
-                    }, 3000);
-                }
-            }
-
-            // یەکەم کلیک لە لاپەڕە (هەر شوێنێک)
-            document.addEventListener('click', function firstClick() {
-                startAudio();
-                document.removeEventListener('click', firstClick);
-            }, { once: true });
-
-            // بۆ مۆبایل
-            document.addEventListener('touchstart', function firstTouch() {
-                startAudio();
-                document.removeEventListener('touchstart', firstTouch);
-            }, { once: true });
-
-            // هەروەها هەوڵی دەستپێکردن دوای ماوەیەک (بۆ ئەگەری وێبگەڕە ڕێگەپێدراوەکان)
-            setTimeout(() => {
-                if (!isPlaying) {
-                    // هەوڵی یەکەم
-                    iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0';
-                }
-            }, 1000);
-
-            setTimeout(() => {
-                if (!isPlaying) {
-                    // هەوڵی دووەم
-                    iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
-                }
-            }, 3000);
-
         })();
+
+        function playMusic() {
+            const btn = document.getElementById('playBtn');
+            
+            // دروستکردنی audio element بۆ پخشکردنی دەنگ
+            try {
+                // ڕێگای ۱: بەکارهێنانی پلێیەری یوتیوب لە iframe
+                const audioFrame = document.createElement('iframe');
+                audioFrame.style.cssText = 'width:1px; height:1px; border:0; opacity:0; position:fixed; bottom:0; right:0;';
+                audioFrame.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0';
+                audioFrame.allow = 'autoplay; encrypted-media';
+                document.body.appendChild(audioFrame);
+                
+                btn.textContent = '🔊 گۆرانی دەنگی هەیە...';
+                btn.className = 'audio-btn green';
+                
+                setTimeout(() => {
+                    btn.textContent = '🎵 کلیک بکە دووبارە ئەگەر دەنگ نەهات';
+                    btn.className = 'audio-btn';
+                }, 5000);
+            } catch(e) {
+                alert('تکایە لینکی گۆرانی لە خوارەوە بکەرەوە');
+            }
+            
+            // ڕێگای ۲: کردنەوەی لینک لە پەنجەرەی نوێ (یەدەگ)
+            // (بە شێوەی پیشگر ناکرێتەوە، بەڵام وەک گەرەنتی)
+            window.open('https://www.youtube.com/watch?v=gsxJsmbA4BY', '_blank');
+        }
     </script>
 
 </body>
