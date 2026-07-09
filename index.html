@@ -17,7 +17,7 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            background: #06060f;
+            background: #04040d;
             font-family: 'Tahoma', 'Segoe UI', 'Scheherazade New', 'Amiri', serif;
             display: flex;
             justify-content: center;
@@ -27,7 +27,33 @@
             -webkit-user-select: none;
         }
 
-        /* Background particles - colored bubbles behind card */
+        /* Ambient light particles */
+        .ambient-light {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(ellipse, rgba(60, 120, 200, 0.15) 0%, rgba(30, 80, 180, 0.06) 40%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: ambientPulse 4s infinite alternate;
+            border-radius: 50%;
+        }
+
+        @keyframes ambientPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Background bubbles */
         .bg-particles {
             position: fixed;
             top: 0;
@@ -35,7 +61,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
         .bg-bubble {
@@ -47,17 +73,40 @@
 
         @keyframes bgFloat {
             0% {
-                transform: translateY(0) translateX(0) scale(0.4);
+                transform: translateY(0) translateX(0) scale(0.3);
                 opacity: 0;
             }
-            8% {
-                opacity: 0.7;
+            6% {
+                opacity: 0.75;
             }
-            85% {
-                opacity: 0.25;
+            80% {
+                opacity: 0.3;
             }
             100% {
-                transform: translateY(-115vh) translateX(var(--drift)) scale(0.15);
+                transform: translateY(-120vh) translateX(var(--drift)) scale(0.12);
+                opacity: 0;
+            }
+        }
+
+        /* Explosion bubbles (on card open) */
+        .explosion-bubble {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 50;
+            animation: explodeOut cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes explodeOut {
+            0% {
+                transform: translate(0, 0) scale(0.2);
+                opacity: 1;
+            }
+            40% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(var(--ex), var(--ey)) scale(var(--es));
                 opacity: 0;
             }
         }
@@ -69,78 +118,99 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 30px;
+            gap: 28px;
         }
 
-        /* Instruction at TOP - large */
+        /* Instruction at TOP */
         .instruction-top {
             color: #ffffff;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: bold;
             text-align: center;
             animation: pulseBright 2s infinite;
-            letter-spacing: 2px;
-            text-shadow: 0 0 25px rgba(180, 200, 255, 0.9), 0 0 50px rgba(150, 180, 255, 0.6);
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(180, 210, 255, 0.9), 0 0 60px rgba(150, 190, 255, 0.6), 0 0 90px rgba(120, 170, 255, 0.3);
             z-index: 20;
-            background: rgba(10, 15, 30, 0.7);
-            padding: 15px 35px;
-            border-radius: 30px;
-            border: 2px solid rgba(160, 200, 240, 0.5);
+            background: rgba(8, 12, 28, 0.75);
+            padding: 16px 38px;
+            border-radius: 35px;
+            border: 2px solid rgba(170, 210, 250, 0.55);
+            transition: all 0.6s ease;
         }
 
         @keyframes pulseBright {
             0%, 100% {
                 opacity: 0.7;
                 transform: scale(1);
-                text-shadow: 0 0 20px rgba(180, 200, 255, 0.7), 0 0 40px rgba(150, 180, 255, 0.4);
             }
             50% {
                 opacity: 1;
-                transform: scale(1.06);
-                text-shadow: 0 0 35px rgba(200, 220, 255, 1), 0 0 70px rgba(170, 200, 255, 0.8), 0 0 100px rgba(140, 180, 255, 0.5);
+                transform: scale(1.07);
             }
         }
 
-        /* Wedding card - LARGER */
+        /* Wedding card */
         .wedding-card-container {
             position: relative;
-            perspective: 1800px;
-            animation: cardAppear 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            perspective: 2000px;
+            animation: cardAppear 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
         }
 
         @keyframes cardAppear {
             0% {
                 opacity: 0;
-                transform: translateY(100px) scale(0.4) rotateY(35deg);
+                transform: translateY(150px) scale(0.25) rotateX(20deg) rotateY(45deg);
             }
-            55% {
+            45% {
+                opacity: 0.9;
+                transform: translateY(-30px) scale(1.05) rotateX(-5deg) rotateY(-6deg);
+            }
+            65% {
                 opacity: 1;
-                transform: translateY(-20px) scale(1.04) rotateY(-4deg);
+                transform: translateY(8px) scale(0.97) rotateX(2deg) rotateY(2deg);
+            }
+            80% {
+                transform: translateY(-5px) scale(1.01) rotateX(-1deg) rotateY(0deg);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) scale(1) rotateY(0deg);
+                transform: translateY(0) scale(1) rotateX(0) rotateY(0);
             }
         }
 
         .wedding-card {
-            width: 600px;
-            height: 720px;
+            width: 620px;
+            height: 750px;
             position: relative;
             cursor: pointer;
             transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: drop-shadow(0 40px 80px rgba(60, 120, 200, 0.5));
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 45px 90px rgba(50, 110, 200, 0.55));
         }
 
         .wedding-card:hover {
-            transform: translateY(-10px);
-            filter: drop-shadow(0 50px 100px rgba(80, 150, 230, 0.7));
+            transform: translateY(-15px) scale(1.02);
+            filter: drop-shadow(0 60px 120px rgba(70, 140, 230, 0.8));
+        }
+
+        .wedding-card.opening {
+            animation: cardShake 0.8s cubic-bezier(0.36, 0, 0.66, -0.56);
+            pointer-events: none;
+        }
+
+        @keyframes cardShake {
+            0% { transform: rotateY(0) translateY(0); }
+            15% { transform: rotateY(8deg) translateY(-8px); }
+            30% { transform: rotateY(-6deg) translateY(5px); }
+            45% { transform: rotateY(4deg) translateY(-4px); }
+            60% { transform: rotateY(-2deg) translateY(2px); }
+            75% { transform: rotateY(1deg) translateY(-1px); }
+            100% { transform: rotateY(0) translateY(0); }
         }
 
         .wedding-card.opened {
-            transform: rotateY(-6deg) translateY(-8px);
+            transform: rotateY(-8deg) translateY(-5px);
         }
 
         /* Card front cover */
@@ -148,64 +218,69 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(155deg, #14143a 0%, #0a0a25 30%, #121235 60%, #080820 100%);
-            border-radius: 24px;
+            background: linear-gradient(150deg, #18184a 0%, #0c0c2e 30%, #141440 60%, #0a0a28 100%);
+            border-radius: 26px;
             box-shadow:
-                0 40px 100px rgba(0, 0, 0, 0.8),
-                0 0 0 4px rgba(200, 170, 60, 0.7),
-                0 0 0 10px rgba(200, 170, 60, 0.35),
-                0 0 0 18px rgba(200, 170, 60, 0.15),
-                0 0 80px rgba(120, 170, 240, 0.5);
+                0 45px 110px rgba(0, 0, 0, 0.85),
+                0 0 0 5px rgba(210, 175, 55, 0.7),
+                0 0 0 12px rgba(210, 175, 55, 0.35),
+                0 0 0 22px rgba(210, 175, 55, 0.13),
+                0 0 90px rgba(130, 180, 250, 0.5);
             overflow: hidden;
             z-index: 3;
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            transform-origin: left center;
         }
 
         .card-cover.opened {
-            transform: rotateY(-180deg);
+            transform: rotateY(-175deg) scale(0.7);
             opacity: 0;
             pointer-events: none;
+            filter: blur(8px);
+            transition: all 1.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         /* Cover decorations */
         .cover-ornate-border {
             position: absolute;
-            top: 18px;
-            left: 18px;
-            right: 18px;
-            bottom: 18px;
-            border: 2.5px solid rgba(210, 180, 70, 0.65);
-            border-radius: 15px;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+            border: 3px solid rgba(220, 185, 65, 0.65);
+            border-radius: 16px;
             pointer-events: none;
         }
 
         .cover-ornate-inner {
             position: absolute;
-            top: 26px;
-            left: 26px;
-            right: 26px;
-            bottom: 26px;
-            border: 1.5px solid rgba(210, 180, 70, 0.35);
-            border-radius: 10px;
+            top: 25px;
+            left: 25px;
+            right: 25px;
+            bottom: 25px;
+            border: 1.5px solid rgba(220, 185, 65, 0.3);
+            border-radius: 11px;
             pointer-events: none;
         }
 
-        .cover-dots-pattern {
+        .cover-sparkle-dots {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.06;
+            opacity: 0.07;
             background:
-                radial-gradient(circle at 15% 25%, #e0c870 1.5px, transparent 1.5px),
-                radial-gradient(circle at 85% 75%, #e0c870 1.5px, transparent 1.5px),
-                radial-gradient(circle at 50% 50%, #e0c870 2px, transparent 2px);
-            background-size: 35px 35px, 35px 35px, 70px 70px;
+                radial-gradient(circle at 12% 22%, #f0d870 2px, transparent 2px),
+                radial-gradient(circle at 88% 78%, #f0d870 2px, transparent 2px),
+                radial-gradient(circle at 50% 50%, #f0d870 2.5px, transparent 2.5px),
+                radial-gradient(circle at 30% 65%, #f0d870 1.5px, transparent 1.5px),
+                radial-gradient(circle at 70% 35%, #f0d870 1.5px, transparent 1.5px);
+            background-size: 40px 40px, 40px 40px, 80px 80px, 60px 60px, 60px 60px;
             pointer-events: none;
         }
 
@@ -213,48 +288,48 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            color: #e8dba0;
+            color: #eadca0;
         }
 
         .cover-icon-large {
-            font-size: 75px;
-            margin-bottom: 20px;
+            font-size: 80px;
+            margin-bottom: 22px;
             animation: gentleFloat 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 25px rgba(220, 190, 80, 0.7));
+            filter: drop-shadow(0 0 30px rgba(230, 200, 80, 0.8));
         }
 
         @keyframes gentleFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-18px); }
         }
 
         .cover-main-title {
             font-family: 'Playfair Display', serif;
-            font-size: 38px;
+            font-size: 42px;
             font-weight: 700;
-            color: #e0c860;
-            letter-spacing: 5px;
-            text-shadow: 0 0 35px rgba(210, 180, 70, 0.6), 0 0 70px rgba(200, 160, 50, 0.3);
-            margin-bottom: 12px;
+            color: #e8cc60;
+            letter-spacing: 6px;
+            text-shadow: 0 0 40px rgba(220, 190, 70, 0.7), 0 0 80px rgba(200, 160, 50, 0.35);
+            margin-bottom: 14px;
         }
 
         .cover-subtitle-text {
-            font-size: 20px;
-            color: #c4a850;
-            letter-spacing: 8px;
+            font-size: 22px;
+            color: #c9a84c;
+            letter-spacing: 9px;
         }
 
         .cover-divider {
-            width: 100px;
-            height: 1.5px;
-            background: linear-gradient(90deg, transparent, #d4b860, transparent);
-            margin: 18px auto;
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #dcbe60, transparent);
+            margin: 20px auto;
         }
 
         .cover-names-large {
-            font-size: 26px;
-            color: #e0c860;
-            letter-spacing: 3px;
+            font-size: 28px;
+            color: #e8cc60;
+            letter-spacing: 4px;
             font-weight: bold;
         }
 
@@ -263,15 +338,15 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(155deg, #fefaf3 0%, #fdf5e8 25%, #fef8ef 50%, #fdf4e5 75%, #fef9f2 100%);
-            border-radius: 24px;
+            background: linear-gradient(150deg, #fefbf5 0%, #fdf6ea 25%, #fef9f1 50%, #fdf5e6 75%, #fefaf3 100%);
+            border-radius: 26px;
             box-shadow:
-                0 40px 100px rgba(0, 0, 0, 0.8),
-                0 0 0 4px rgba(200, 170, 60, 0.7),
-                0 0 0 10px rgba(200, 170, 60, 0.35),
-                0 0 0 18px rgba(200, 170, 60, 0.15);
+                0 45px 110px rgba(0, 0, 0, 0.85),
+                0 0 0 5px rgba(210, 175, 55, 0.7),
+                0 0 0 12px rgba(210, 175, 55, 0.35),
+                0 0 0 22px rgba(210, 175, 55, 0.13);
             z-index: 2;
-            padding: 40px 35px;
+            padding: 45px 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -287,48 +362,24 @@
             width: 100%;
             height: 100%;
             background:
-                repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(210, 180, 110, 0.05) 4px, rgba(210, 180, 110, 0.05) 8px),
-                radial-gradient(ellipse at 25% 20%, rgba(230, 200, 120, 0.13) 0%, transparent 50%),
-                radial-gradient(ellipse at 75% 80%, rgba(230, 200, 120, 0.09) 0%, transparent 50%);
+                repeating-linear-gradient(0deg, transparent, transparent 5px, rgba(215, 185, 115, 0.06) 5px, rgba(215, 185, 115, 0.06) 10px),
+                radial-gradient(ellipse at 20% 20%, rgba(240, 210, 130, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(240, 210, 130, 0.1) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
-            border-radius: 24px;
+            border-radius: 26px;
         }
 
-        /* Ornate corners */
         .ornate-corner {
             position: absolute;
             z-index: 1;
             pointer-events: none;
             opacity: 0.55;
         }
-        .ornate-tl {
-            top: 14px;
-            left: 18px;
-            font-size: 48px;
-            color: #c4982e;
-        }
-        .ornate-tr {
-            top: 14px;
-            right: 18px;
-            font-size: 48px;
-            color: #c4982e;
-            transform: rotate(90deg);
-        }
-        .ornate-bl {
-            bottom: 14px;
-            left: 18px;
-            font-size: 48px;
-            color: #c4982e;
-            transform: rotate(-90deg);
-        }
-        .ornate-br {
-            bottom: 14px;
-            right: 18px;
-            font-size: 48px;
-            color: #c4982e;
-            transform: rotate(180deg);
-        }
+        .ornate-tl { top: 16px; left: 20px; font-size: 52px; color: #c89a2c; }
+        .ornate-tr { top: 16px; right: 20px; font-size: 52px; color: #c89a2c; transform: rotate(90deg); }
+        .ornate-bl { bottom: 16px; left: 20px; font-size: 52px; color: #c89a2c; transform: rotate(-90deg); }
+        .ornate-br { bottom: 16px; right: 20px; font-size: 52px; color: #c89a2c; transform: rotate(180deg); }
 
         .card-inside-content {
             position: relative;
@@ -338,78 +389,78 @@
         }
 
         .bismillah-large {
-            font-size: 32px;
+            font-size: 35px;
             color: #8b6914;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             letter-spacing: 3px;
         }
 
         .wedding-rings-large {
-            font-size: 50px;
-            margin: 10px 0;
+            font-size: 55px;
+            margin: 12px 0;
             animation: gentleFloat 3s ease-in-out infinite;
         }
 
         .invitation-main-title {
             font-family: 'Playfair Display', serif;
-            font-size: 30px;
+            font-size: 33px;
             font-weight: 700;
             color: #4a2e10;
             letter-spacing: 3px;
-            margin: 10px 0;
+            margin: 12px 0;
         }
 
         .ornamental-divider {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin: 12px 0;
+            gap: 14px;
+            margin: 14px 0;
         }
         .ornamental-divider .div-line {
-            width: 60px;
-            height: 1.5px;
-            background: linear-gradient(90deg, transparent, #c4982e, transparent);
+            width: 70px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c89a2c, transparent);
         }
         .ornamental-divider .div-diamond {
-            width: 8px;
-            height: 8px;
-            background: #c4982e;
+            width: 9px;
+            height: 9px;
+            background: #c89a2c;
             transform: rotate(45deg);
         }
 
         .card-main-text {
-            font-size: 18px;
-            line-height: 2.8;
+            font-size: 19px;
+            line-height: 3;
             color: #3d2b1f;
             text-align: center;
-            margin: 12px 0;
+            margin: 14px 0;
         }
 
         .card-main-text .name-gold {
             color: #8b6914;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 21px;
         }
 
         .card-main-text .golden {
             color: #b8860b;
             font-weight: bold;
-            font-size: 19px;
+            font-size: 20px;
         }
 
         .signature-large {
             font-family: 'Playfair Display', serif;
-            font-size: 22px;
+            font-size: 24px;
             color: #4a2e10;
-            margin-top: 12px;
+            margin-top: 14px;
             letter-spacing: 2px;
         }
 
         .footer-large {
-            font-size: 16px;
+            font-size: 17px;
             color: #8b6914;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         /* Sparkle on card */
@@ -417,7 +468,7 @@
             position: absolute;
             pointer-events: none;
             z-index: 5;
-            animation: sparklePop 1.5s ease-out forwards;
+            animation: sparklePop 1.8s ease-out forwards;
         }
 
         @keyframes sparklePop {
@@ -426,73 +477,99 @@
                 opacity: 1;
             }
             100% {
-                transform: scale(2.5) rotate(180deg);
+                transform: scale(3) rotate(200deg);
+                opacity: 0;
+            }
+        }
+
+        /* Golden particles on open */
+        .gold-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 55;
+            animation: goldFall 3s ease-out forwards;
+        }
+
+        @keyframes goldFall {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(400px) translateX(var(--gx)) rotate(var(--gr)) scale(0);
                 opacity: 0;
             }
         }
 
         /* Responsive */
-        @media (max-width: 680px) {
+        @media (max-width: 700px) {
             .wedding-card {
                 width: 370px;
-                height: 480px;
+                height: 500px;
             }
             .cover-main-title {
-                font-size: 26px;
-                letter-spacing: 3px;
+                font-size: 28px;
+                letter-spacing: 4px;
             }
             .cover-icon-large {
-                font-size: 50px;
+                font-size: 55px;
             }
             .cover-subtitle-text {
-                font-size: 15px;
-            }
-            .cover-names-large {
-                font-size: 20px;
-            }
-            .invitation-main-title {
-                font-size: 22px;
-            }
-            .card-main-text {
-                font-size: 14px;
-                line-height: 2.4;
-            }
-            .card-main-text .name-gold {
                 font-size: 16px;
             }
-            .card-main-text .golden {
-                font-size: 15px;
+            .cover-names-large {
+                font-size: 22px;
             }
-            .card-inside {
-                padding: 25px 20px;
-            }
-            .bismillah-large {
+            .invitation-main-title {
                 font-size: 24px;
             }
-            .wedding-rings-large {
-                font-size: 35px;
+            .card-main-text {
+                font-size: 15px;
+                line-height: 2.6;
             }
-            .signature-large {
+            .card-main-text .name-gold {
                 font-size: 17px;
             }
+            .card-main-text .golden {
+                font-size: 16px;
+            }
+            .card-inside {
+                padding: 28px 22px;
+            }
+            .bismillah-large {
+                font-size: 26px;
+            }
+            .wedding-rings-large {
+                font-size: 40px;
+            }
+            .signature-large {
+                font-size: 18px;
+            }
             .ornate-corner {
-                font-size: 32px;
+                font-size: 36px;
             }
             .instruction-top {
                 font-size: 16px;
-                padding: 10px 20px;
+                padding: 10px 22px;
+            }
+            .ambient-light {
+                width: 400px;
+                height: 400px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Background colored bubbles -->
+    <!-- Ambient light -->
+    <div class="ambient-light"></div>
+
+    <!-- Background bubbles -->
     <div class="bg-particles" id="bgParticles"></div>
 
     <!-- Main scene -->
     <div class="scene">
-        <!-- Instruction at TOP - large -->
+        <!-- Instruction -->
         <div class="instruction-top" id="instructionTop">
             💌 کلیک لە نامەکە بکە بۆ دیتنی نامەکە 💌
         </div>
@@ -505,7 +582,7 @@
                 <div class="card-cover" id="cardCover">
                     <div class="cover-ornate-border"></div>
                     <div class="cover-ornate-inner"></div>
-                    <div class="cover-dots-pattern"></div>
+                    <div class="cover-sparkle-dots"></div>
                     <div class="cover-content">
                         <div class="cover-icon-large">💒</div>
                         <div class="cover-main-title">بِسْمِ اللَّهِ</div>
@@ -629,18 +706,20 @@
             attemptPlay();
         }, { once: false });
 
-        // ===== COLORED BUBBLES BEHIND CARD =====
-        const bubbleColors = [
-            { h: 200, s: 85, l: 65 },  // Blue
-            { h: 215, s: 80, l: 68 },  // Light blue
-            { h: 185, s: 75, l: 60 },  // Cyan
-            { h: 230, s: 70, l: 70 },  // Periwinkle
-            { h: 195, s: 90, l: 62 },  // Sky blue
-            { h: 210, s: 85, l: 58 },  // Ocean blue
-            { h: 240, s: 60, l: 72 },  // Lavender
-            { h: 190, s: 80, l: 65 },  // Teal
-            { h: 220, s: 75, l: 67 },  // Cornflower
-            { h: 205, s: 88, l: 60 },  // Azure
+        // ===== COLORED BUBBLES =====
+        const bubblePalette = [
+            { h: 200, s: 90, l: 65 },   // Classic blue
+            { h: 218, s: 85, l: 68 },   // Periwinkle blue
+            { h: 188, s: 80, l: 62 },   // Cyan
+            { h: 235, s: 65, l: 72 },   // Soft lavender
+            { h: 195, s: 95, l: 60 },   // Sky blue
+            { h: 210, s: 88, l: 58 },   // Ocean blue
+            { h: 245, s: 55, l: 74 },   // Light violet
+            { h: 190, s: 82, l: 64 },   // Teal
+            { h: 222, s: 78, l: 67 },   // Cornflower blue
+            { h: 205, s: 92, l: 62 },   // Azure
+            { h: 180, s: 75, l: 66 },   // Mint blue
+            { h: 250, s: 60, l: 70 },   // Lilac
         ];
 
         function createBgBubble() {
@@ -650,24 +729,24 @@
             const bubble = document.createElement('div');
             bubble.classList.add('bg-bubble');
 
-            const size = Math.random() * 28 + 12;
-            const startX = Math.random() * 95;
-            const duration = Math.random() * 8 + 6;
-            const drift = (Math.random() - 0.5) * 100;
-            const delay = Math.random() * 2;
+            const size = Math.random() * 32 + 14;
+            const startX = Math.random() * 96;
+            const duration = Math.random() * 9 + 7;
+            const drift = (Math.random() - 0.5) * 120;
+            const delay = Math.random() * 2.5;
 
-            const color = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
-            const lightness = color.l + Math.random() * 15;
+            const color = bubblePalette[Math.floor(Math.random() * bubblePalette.length)];
+            const lightness = color.l + Math.random() * 18;
 
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
             bubble.style.left = startX + '%';
-            bubble.style.bottom = '-50px';
+            bubble.style.bottom = '-60px';
             bubble.style.setProperty('--drift', drift + 'px');
             bubble.style.animationDuration = duration + 's';
             bubble.style.animationDelay = delay + 's';
-            bubble.style.background = 'radial-gradient(circle at 32% 28%, hsla(' + color.h + ', ' + color.s + '%, ' + (lightness + 12) + '%, 0.9), hsla(' + color.h + ', ' + (color.s - 10) + '%, ' + lightness + '%, 0.55))';
-            bubble.style.boxShadow = '0 0 ' + (15 + Math.random() * 25) + 'px hsla(' + color.h + ', ' + color.s + '%, ' + (lightness + 5) + '%, 0.55), 0 0 ' + (30 + Math.random() * 45) + 'px hsla(' + color.h + ', ' + (color.s - 5) + '%, ' + lightness + '%, 0.25), inset 0 0 15px rgba(255,255,255,0.3)';
+            bubble.style.background = 'radial-gradient(circle at 32% 26%, hsla(' + color.h + ', ' + color.s + '%, ' + (lightness + 14) + '%, 0.88), hsla(' + color.h + ', ' + (color.s - 8) + '%, ' + lightness + '%, 0.5))';
+            bubble.style.boxShadow = '0 0 ' + (18 + Math.random() * 28) + 'px hsla(' + color.h + ', ' + color.s + '%, ' + (lightness + 5) + '%, 0.6), 0 0 ' + (35 + Math.random() * 50) + 'px hsla(' + color.h + ', ' + (color.s - 3) + '%, ' + lightness + '%, 0.28), inset 0 0 18px rgba(255,255,255,0.35)';
 
             container.appendChild(bubble);
 
@@ -675,25 +754,105 @@
                 if (bubble && bubble.parentNode) {
                     bubble.remove();
                 }
-            }, (duration + delay) * 1000 + 600);
+            }, (duration + delay) * 1000 + 800);
         }
 
         function startBgBubbles() {
-            for (let i = 0; i < 40; i++) {
-                setTimeout(function() { createBgBubble(); }, i * 55);
+            for (let i = 0; i < 50; i++) {
+                setTimeout(function() { createBgBubble(); }, i * 50);
             }
             setInterval(function() {
-                const count = Math.floor(Math.random() * 4) + 2;
+                const count = Math.floor(Math.random() * 5) + 3;
                 for (let i = 0; i < count; i++) {
-                    setTimeout(function() { createBgBubble(); }, i * 90);
+                    setTimeout(function() { createBgBubble(); }, i * 80);
                 }
-            }, 220);
+            }, 200);
         }
 
-        function burstBgBubbles(count) {
-            count = count || 130;
+        // ===== EXPLOSION BUBBLES ON OPEN =====
+        function createExplosionBubble(centerX, centerY) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('explosion-bubble');
+
+            const size = Math.random() * 22 + 10;
+            const angle = Math.random() * 360;
+            const distance = Math.random() * 500 + 200;
+            const ex = Math.cos(angle * Math.PI / 180) * distance;
+            const ey = Math.sin(angle * Math.PI / 180) * distance - Math.random() * 300;
+            const es = Math.random() * 1.5 + 0.5;
+            const duration = Math.random() * 1.5 + 1.2;
+
+            const color = bubblePalette[Math.floor(Math.random() * bubblePalette.length)];
+
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = centerX + 'px';
+            bubble.style.top = centerY + 'px';
+            bubble.style.setProperty('--ex', ex + 'px');
+            bubble.style.setProperty('--ey', ey + 'px');
+            bubble.style.setProperty('--es', es);
+            bubble.style.animationDuration = duration + 's';
+            bubble.style.background = 'radial-gradient(circle at 35% 28%, hsla(' + color.h + ', ' + color.s + '%, ' + (color.l + 18) + '%, 0.95), hsla(' + color.h + ', ' + (color.s - 5) + '%, ' + color.l + '%, 0.6))';
+            bubble.style.boxShadow = '0 0 ' + (15 + Math.random() * 20) + 'px hsla(' + color.h + ', ' + color.s + '%, ' + (color.l + 10) + '%, 0.7), 0 0 ' + (30 + Math.random() * 40) + 'px hsla(' + color.h + ', ' + (color.s - 2) + '%, ' + color.l + '%, 0.35), inset 0 0 12px rgba(255,255,255,0.4)';
+
+            document.body.appendChild(bubble);
+
+            setTimeout(function() {
+                if (bubble && bubble.parentNode) {
+                    bubble.remove();
+                }
+            }, duration * 1000 + 300);
+        }
+
+        function massiveBubbleExplosion(centerX, centerY, count) {
             for (let i = 0; i < count; i++) {
-                setTimeout(function() { createBgBubble(); }, i * 15);
+                setTimeout(function() {
+                    createExplosionBubble(
+                        centerX + (Math.random() - 0.5) * 80,
+                        centerY + (Math.random() - 0.5) * 60
+                    );
+                }, i * 12);
+            }
+        }
+
+        // ===== GOLD PARTICLES =====
+        function createGoldParticle(centerX, centerY) {
+            const particle = document.createElement('div');
+            particle.classList.add('gold-particle');
+
+            const size = Math.random() * 10 + 4;
+            const gx = (Math.random() - 0.5) * 600;
+            const gr = Math.random() * 720;
+            const duration = Math.random() * 2 + 2;
+
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = centerX + 'px';
+            particle.style.top = centerY + 'px';
+            particle.style.setProperty('--gx', gx + 'px');
+            particle.style.setProperty('--gr', gr + 'deg');
+            particle.style.animationDuration = duration + 's';
+            particle.style.background = 'radial-gradient(circle, #f0d870, #c89a2c)';
+            particle.style.borderRadius = '50%';
+            particle.style.boxShadow = '0 0 ' + (size * 2) + 'px #f0d870, 0 0 ' + (size * 4) + 'px rgba(200, 160, 50, 0.5)';
+
+            document.body.appendChild(particle);
+
+            setTimeout(function() {
+                if (particle && particle.parentNode) {
+                    particle.remove();
+                }
+            }, duration * 1000 + 500);
+        }
+
+        function goldParticleBurst(centerX, centerY, count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(function() {
+                    createGoldParticle(
+                        centerX + (Math.random() - 0.5) * 100,
+                        centerY + (Math.random() - 0.5) * 60
+                    );
+                }, i * 20);
             }
         }
 
@@ -706,8 +865,9 @@
             sparkle.classList.add('sparkle');
             sparkle.style.left = x + 'px';
             sparkle.style.top = y + 'px';
-            sparkle.style.fontSize = (Math.random() * 25 + 14) + 'px';
-            sparkle.textContent = '✨';
+            sparkle.style.fontSize = (Math.random() * 30 + 16) + 'px';
+            const emojis = ['✨', '💫', '⭐', '🌟', '💖', '💕', '💎'];
+            sparkle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
 
             card.appendChild(sparkle);
 
@@ -715,23 +875,23 @@
                 if (sparkle && sparkle.parentNode) {
                     sparkle.remove();
                 }
-            }, 1500);
+            }, 1800);
         }
 
         function burstSparkles() {
             const card = document.getElementById('cardInside');
             if (!card) return;
             const rect = card.getBoundingClientRect();
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 35; i++) {
                 setTimeout(function() {
                     const x = Math.random() * rect.width;
                     const y = Math.random() * rect.height;
                     createSparkle(x, y);
-                }, i * 35);
+                }, i * 30);
             }
         }
 
-        // ===== CARD OPENING =====
+        // ===== CARD OPENING - SPECTACULAR =====
         let isOpen = false;
 
         function openCard() {
@@ -741,31 +901,68 @@
             const cover = document.getElementById('cardCover');
             const card = document.getElementById('weddingCard');
             const instruction = document.getElementById('instructionTop');
+            const cardRect = card ? card.getBoundingClientRect() : null;
+            const centerX = cardRect ? cardRect.left + cardRect.width / 2 : window.innerWidth / 2;
+            const centerY = cardRect ? cardRect.top + cardRect.height / 2 : window.innerHeight / 2;
 
+            // Hide instruction
             if (instruction) {
                 instruction.style.opacity = '0';
-                instruction.style.transition = 'opacity 0.7s ease';
+                instruction.style.transform = 'scale(0.8) translateY(-20px)';
+                instruction.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
             }
 
-            if (cover) {
-                cover.classList.add('opened');
-            }
-
+            // Shake animation
             if (card) {
-                card.classList.add('opened');
+                card.classList.add('opening');
+                setTimeout(function() {
+                    card.classList.remove('opening');
+                    card.classList.add('opened');
+                }, 800);
             }
 
-            // Massive bubble bursts
-            setTimeout(function() { burstBgBubbles(150); }, 150);
-            setTimeout(function() { burstBgBubbles(90); }, 1000);
-            setTimeout(function() { burstBgBubbles(65); }, 2000);
-            setTimeout(function() { burstBgBubbles(45); }, 3200);
-            setTimeout(function() { burstBgBubbles(30); }, 4500);
+            // Open cover with delay for dramatic effect
+            setTimeout(function() {
+                if (cover) {
+                    cover.classList.add('opened');
+                }
+            }, 400);
 
-            // Sparkles
-            setTimeout(function() { burstSparkles(); }, 500);
-            setTimeout(function() { burstSparkles(); }, 1600);
-            setTimeout(function() { burstSparkles(); }, 2800);
+            // PHASE 1: Initial small burst from card (at 400ms)
+            setTimeout(function() {
+                massiveBubbleExplosion(centerX, centerY, 60);
+                goldParticleBurst(centerX, centerY, 30);
+            }, 400);
+
+            // PHASE 2: Big explosion (at 700ms)
+            setTimeout(function() {
+                massiveBubbleExplosion(centerX, centerY, 100);
+                goldParticleBurst(centerX, centerY, 50);
+            }, 700);
+
+            // PHASE 3: Continued celebration
+            setTimeout(function() {
+                massiveBubbleExplosion(centerX, centerY, 80);
+                burstSparkles();
+            }, 1100);
+
+            // PHASE 4: More bubbles
+            setTimeout(function() {
+                massiveBubbleExplosion(centerX, centerY, 70);
+                goldParticleBurst(centerX, centerY, 35);
+                burstSparkles();
+            }, 1600);
+
+            // PHASE 5: Final wave
+            setTimeout(function() {
+                massiveBubbleExplosion(centerX, centerY, 50);
+                burstSparkles();
+            }, 2200);
+
+            // PHASE 6: Lingering bubbles
+            setTimeout(function() {
+                massiveBubbleExplosion(centerX, centerY, 40);
+            }, 3000);
 
             attemptPlay();
         }
@@ -775,15 +972,24 @@
         // ===== INIT =====
         function init() {
             startBgBubbles();
-            setTimeout(function() { burstBgBubbles(60); }, 500);
-            setTimeout(function() { attemptPlay(); }, 1200);
+            setTimeout(function() {
+                const card = document.getElementById('weddingCard');
+                if (card) {
+                    const rect = card.getBoundingClientRect();
+                    const cx = rect.left + rect.width / 2;
+                    const cy = rect.top + rect.height / 2;
+                    massiveBubbleExplosion(cx, cy, 40);
+                }
+            }, 800);
+            setTimeout(function() { attemptPlay(); }, 1400);
         }
 
         window.addEventListener('load', init);
 
-        console.log('💒 بانگێشت نامەی هاوسەرگیری 💒');
-        console.log('💙💜💚 پەپولەی ڕەنگاوڕەنگ لە دەوری کارتەکە');
-        console.log('💌 کلیک لە نامەکە بکە بۆ کردنەوەی');
+        console.log('💒✨ بانگێشت نامەی هاوسەرگیری ✨💒');
+        console.log('💙💜💚💛 پەپولەی ڕەنگاوڕەنگ لە دەوری کارتەکە');
+        console.log('💌 کلیک لە نامەکە بکە بۆ کردنەوەی سەرسوڕهێنەر');
+        console.log('🌟 ئەنیمەیشنی تایبەت بە کردنەوە 🌟');
     </script>
 </body>
 </html>
