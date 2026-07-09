@@ -1,288 +1,399 @@
 <!DOCTYPE html>
-<html lang="ckb">
+<html lang="ckb" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشت نامە</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>بانگێشت نامەی ڕەیانی بەڕێز</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(145deg, #0a1f3b 0%, #051525 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Arial', 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        body {
-            min-height: 100vh;
-            background: linear-gradient(145deg, #a0d2ff, #d4edff);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', 'Verdana', cursive, sans-serif;
-            overflow: hidden;
-            position: relative;
-        }
+    /* پەپولەی پاشبنەما */
+    .bubble {
+      position: absolute;
+      bottom: -120px;
+      background: radial-gradient(circle at 30% 30%, rgba(135, 206, 250, 0.7), rgba(30, 144, 255, 0.5));
+      border-radius: 50%;
+      box-shadow: 0 0 40px rgba(70, 130, 230, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.7);
+      animation: floatUp 8s infinite ease-in;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.8;
+    }
 
-        /* پەپولەکان */
-        .butterfly {
-            position: absolute;
-            font-size: 2.2rem;
-            opacity: 0.7;
-            animation: flyAround 18s infinite alternate ease-in-out;
-            pointer-events: none;
-            z-index: 0;
-            filter: drop-shadow(0 0 6px rgba(30, 144, 255, 0.5));
-        }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.8) rotate(0deg);
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.2) rotate(25deg);
+        opacity: 0;
+      }
+    }
 
-        @keyframes flyAround {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            20% { transform: translate(80px, -60px) scale(1.2) rotate(10deg); }
-            40% { transform: translate(-40px, 80px) scale(0.9) rotate(-8deg); }
-            60% { transform: translate(120px, 40px) scale(1.3) rotate(15deg); }
-            80% { transform: translate(-80px, -40px) scale(0.8) rotate(-12deg); }
-            100% { transform: translate(50px, 70px) scale(1.1) rotate(5deg); }
-        }
+    /* container سەرەکی */
+    .envelope-container {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 700px;
+      margin: 20px;
+    }
 
-        /* کارتە شینەکە */
-        .card {
-            position: relative;
-            z-index: 10;
-            width: 640px;
-            max-width: 94%;
-            background: #d4eeff;
-            background-image: radial-gradient(circle at 20% 30%, #e6f7ff, #b8dfff);
-            border-radius: 48px 48px 48px 48px;
-            box-shadow: 0 25px 45px rgba(0, 80, 150, 0.4), inset 0 0 0 2px rgba(255, 255, 255, 0.7);
-            padding: 30px 30px 40px;
-            transition: all 0.2s;
-            backdrop-filter: blur(2px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-        }
+    /* کارتی پەپولەی سەرەکی (شینێکی کاڵ) */
+    .main-card {
+      background: rgba(230, 244, 255, 0.25);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 60px 60px 60px 60px;
+      padding: 30px 25px;
+      box-shadow: 0 30px 50px rgba(0, 160, 255, 0.4), 0 0 0 3px rgba(173, 216, 250, 0.7), inset 0 0 30px rgba(255, 255, 255, 0.5);
+      width: 100%;
+      transition: all 0.5s ease;
+      border: 2px solid rgba(135, 206, 250, 0.9);
+      color: #0a2f4d;
+      position: relative;
+      animation: gentleGlow 3s infinite alternate;
+    }
 
-        .card-inner {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 32px;
-            padding: 25px 25px 30px;
-            box-shadow: inset 0 0 20px rgba(70, 150, 255, 0.2);
-        }
+    @keyframes gentleGlow {
+      0% { box-shadow: 0 25px 45px rgba(70, 180, 255, 0.5), 0 0 0 3px rgba(200, 230, 255, 0.8); }
+      100% { box-shadow: 0 35px 55px rgba(100, 200, 255, 0.7), 0 0 0 5px rgba(180, 220, 255, 0.9); }
+    }
 
-        /* نوسینی دەستی (handwriting) */
-        .handwritten {
-            font-family: 'Dancing Script', 'Segoe Script', 'Patrick Hand', cursive;
-            font-size: 1.8rem;
-            line-height: 2.5rem;
-            color: #003f7f;
-            text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
-            letter-spacing: 1px;
-            word-break: break-word;
-            background: transparent;
-            padding: 12px 8px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.15);
-        }
+    /* ناوەڕۆکی نامەکە بە شێوازی خەتاتی */
+    .letter-content {
+      background: #f0f9ff;
+      background-image: radial-gradient(circle at 10px 10px, #c2e2ff 1px, transparent 1px);
+      background-size: 30px 30px;
+      border-radius: 35px;
+      padding: 30px 20px;
+      box-shadow: inset 0 0 30px rgba(70, 130, 200, 0.5), 0 15px 25px rgba(0,0,0,0.2);
+      border: 2px solid #7bb3e0;
+      font-family: 'Amiri', 'Scheherazade New', 'Raya', 'Tahoma', serif;
+      text-align: center;
+      direction: rtl;
+      transition: all 0.4s;
+      color: #023b5e;
+      line-height: 2.3;
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(5px);
+      word-spacing: 3px;
+    }
 
-        .handwritten p {
-            margin-bottom: 18px;
-            font-weight: 500;
-            transform: rotate(-0.5deg);
-        }
+    /* ناونیشانی بانگێشت */
+    .invite-header {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: #004070;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 8px rgba(173, 216, 250, 0.9);
+      font-family: 'Amiri', 'Raya', serif;
+      border-bottom: 3px dashed #3d7ea6;
+      display: inline-block;
+      padding-bottom: 10px;
+      letter-spacing: 2px;
+    }
 
-        .handwritten p:last-child {
-            margin-bottom: 0;
-        }
+    /* دەقی خەتاتی - هەمووی بە فۆنتی جوان */
+    .handwritten {
+      font-family: 'Amiri', 'Scheherazade New', 'Reem Kufi', 'Raya', serif;
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: #033351;
+      text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      padding: 10px 15px;
+      display: block;
+      margin: 5px 0;
+      line-height: 2.6;
+      letter-spacing: 0.8px;
+    }
 
-        .signature {
-            text-align: left;
-            margin-top: 20px;
-            font-size: 1.9rem;
-            font-weight: 600;
-            color: #002b55;
-            letter-spacing: 2px;
-        }
+    .signature {
+      font-family: 'Amiri', 'Raya', serif;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #00263b;
+      margin-top: 25px;
+      text-align: left;
+      padding-left: 20px;
+      border-top: 2px solid #7aa9c7;
+      padding-top: 20px;
+    }
 
-        /* بۆ ئەوەی شێوەی خەتاتێکی ناڕێک بدات */
-        .handwritten span {
-            display: inline-block;
-            transform: rotate(var(--rot, 0deg));
-        }
+    /* دوگمەی کردنەوە/داخستن */
+    .toggle-btn {
+      background: #ffffffdd;
+      backdrop-filter: blur(20px);
+      border: none;
+      margin-top: 25px;
+      padding: 18px 40px;
+      border-radius: 60px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #014a75;
+      background: linear-gradient(135deg, #d4edff, #a5d0f0);
+      box-shadow: 0 15px 30px rgba(0,150,255,0.6), 0 0 20px #6bb5ff;
+      cursor: pointer;
+      transition: 0.4s;
+      letter-spacing: 2px;
+      border: 2px solid white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Amiri', serif;
+      z-index: 30;
+    }
 
-        /* لینکی گۆرانی (خۆکار دەستپێدەکات) */
-        .music-link {
-            display: none;
-        }
+    .toggle-btn:hover {
+      background: #b7e1ff;
+      box-shadow: 0 20px 40px #0088ff, 0 0 35px #a0d0ff;
+      transform: scale(1.05);
+    }
 
-        /* ئەنیمەیشنی کارت */
-        .card {
-            animation: cardAppear 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1);
-        }
+    /* شاردنەوەی ناوەڕۆک بۆ داخستنی نامە */
+    .hidden-content {
+      display: none;
+    }
 
-        @keyframes cardAppear {
-            0% { opacity: 0; transform: scale(0.7) rotate(-4deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
-        }
+    .visible-content {
+      display: block;
+    }
 
-        /* هەندێک پەپولەی زیادە */
-        .extra-butterflies {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+    /* هەندێک شێوازی تایبەت بۆ پەپولەی زیادە کاتێک نامە دەکرێتەوە */
+    .extra-bubbles-active .bubble {
+      animation-duration: 5s;
+      opacity: 0.9;
+    }
 
-        .extra-butterflies span {
-            position: absolute;
-            font-size: 2.6rem;
-            opacity: 0.5;
-            animation: floatAround 20s infinite alternate;
-            filter: drop-shadow(0 0 10px #7fc9ff);
-        }
+    /* بۆ وەڵامی مۆبایل */
+    @media (max-width: 500px) {
+      .handwritten {
+        font-size: 1.3rem;
+      }
+      .letter-content {
+        padding: 20px 10px;
+      }
+    }
 
-        @keyframes floatAround {
-            0% { transform: translate(0, 0) rotate(0deg) scale(0.9); }
-            100% { transform: translate(80px, -100px) rotate(30deg) scale(1.3); }
-        }
-
-        /* بۆ مۆبایل */
-        @media (max-width: 600px) {
-            .handwritten {
-                font-size: 1.4rem;
-                line-height: 2rem;
-            }
-            .card {
-                padding: 18px;
-            }
-        }
-    </style>
-    <!-- فۆنتی دەستی بۆ نوسینی خەتات -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
+    /* پەپولەی دەستکرد لە ڕێگەی javascript */
+    .floating-bubble {
+      position: absolute;
+      background: radial-gradient(circle at 30% 30%, #b3e0ff, #3f9eff);
+      border-radius: 50%;
+      filter: blur(1px);
+      opacity: 0.8;
+      animation: customFloat 7s infinite;
+      z-index: 5;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
+  <!-- پەپولە پاشبنەماییەکان (ستاتیک) -->
+  <div id="bubble-container" style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index:1;"></div>
 
-    <!-- پەپولەی سەرەکی (ژمارەیەکی زۆر) -->
-    <div class="butterfly" style="top: 8%; left: 3%; animation-duration: 16s;">🦋</div>
-    <div class="butterfly" style="top: 20%; right: 6%; animation-duration: 22s; animation-delay: 1s;">🦋</div>
-    <div class="butterfly" style="bottom: 18%; left: 9%; animation-duration: 19s; animation-delay: 0.5s;">🦋</div>
-    <div class="butterfly" style="top: 45%; left: 80%; animation-duration: 21s; animation-delay: 2s;">🦋</div>
-    <div class="butterfly" style="top: 70%; right: 15%; animation-duration: 17s; animation-delay: 1.2s;">🦋</div>
-    <div class="butterfly" style="bottom: 5%; right: 20%; animation-duration: 24s; animation-delay: 0.3s;">🦋</div>
-    <div class="butterfly" style="top: 10%; left: 50%; animation-duration: 20s; animation-delay: 2.5s;">🦋</div>
-    <div class="butterfly" style="bottom: 30%; left: 25%; animation-duration: 18s; animation-delay: 1.8s;">🦋</div>
-    <div class="butterfly" style="top: 60%; left: 10%; animation-duration: 23s; animation-delay: 0.9s;">🦋</div>
-    <div class="butterfly" style="bottom: 12%; right: 5%; animation-duration: 15s; animation-delay: 3s;">🦋</div>
-    <div class="butterfly" style="top: 30%; left: 70%; animation-duration: 25s; animation-delay: 1.4s;">🦋</div>
-    <div class="butterfly" style="top: 85%; left: 45%; animation-duration: 20s; animation-delay: 0.7s;">🦋</div>
-
-    <!-- کارتە سەرەکی -->
-    <div class="card">
-        <div class="card-inner">
-            <div class="handwritten">
-                <p>
-                    <span style="--rot:-1deg;">بانگێشت</span> 
-                    <span style="--rot:1.5deg;">نامە</span> 
-                    <span style="--rot:-0.5deg;">بۆ</span> 
-                    <span style="--rot:2deg;">هەردوو</span> 
-                    <span style="--rot:-1.2deg;">هاورێی</span> 
-                    <span style="--rot:0.8deg;">بەرێزی</span> 
-                    <span style="--rot:1.8deg; font-weight:700; color:#002f66;">رەیان</span>
-                </p>
-                <p>
-                    <span style="--rot:0.3deg;">بە</span> 
-                    <span style="--rot:-1.7deg;">ناوی</span> 
-                    <span style="--rot:1deg;">خۆم</span> 
-                    <span style="--rot:-0.5deg;">و</span> 
-                    <span style="--rot:2.2deg; font-weight:700; color:#002f66;">تاجی</span> 
-                    <span style="--rot:-1.3deg; font-weight:700; color:#002f66;">سەرم</span> 
-                    <span style="--rot:0.7deg;">مامۆستا</span> 
-                    <span style="--rot:1.5deg; font-weight:700;">رەیان</span>
-                </p>
-                <p>
-                    <span style="--rot:-0.8deg;">بانگێشتان</span> 
-                    <span style="--rot:1.2deg;">دەکەم</span> 
-                    <span style="--rot:-1deg;">بۆ</span> 
-                    <span style="--rot:0.5deg;">ئاهەنگەکەمان</span>
-                </p>
-                <p>
-                    <span style="--rot:1.1deg;">و</span> 
-                    <span style="--rot:-1.6deg;">لەدوای</span> 
-                    <span style="--rot:0.9deg;">نزاو</span> 
-                    <span style="--rot:-0.3deg;">پارانەوەی</span> 
-                    <span style="--rot:2deg;">و</span> 
-                    <span style="--rot:-1.4deg;">زۆر</span> 
-                    <span style="--rot:0.2deg;">و</span> 
-                    <span style="--rot:-2deg;">لەدوای</span> 
-                    <span style="--rot:1.8deg;">زەحمەت</span> 
-                    <span style="--rot:-0.7deg;">کێشان</span>
-                </p>
-                <p>
-                    <span style="--rot:1.3deg;">چاوڕوانی</span> 
-                    <span style="--rot:-1.2deg;">خودای</span> 
-                    <span style="--rot:0.6deg;">میهربان</span> 
-                    <span style="--rot:-1.8deg;">ئاوڕی</span> 
-                    <span style="--rot:0.4deg;">لیدای</span> 
-                    <span style="--rot:2.1deg;">نەور</span> 
-                    <span style="--rot:-0.9deg;">ئیمەی</span> 
-                    <span style="--rot:1.5deg;">بە</span> 
-                    <span style="--rot:-0.5deg;">یەکتر</span> 
-                    <span style="--rot:0.8deg;">گەیاند</span>
-                </p>
-                <p>
-                    <span style="--rot:-1.1deg;">ئینجا</span> 
-                    <span style="--rot:1.7deg;">هیوادارم</span> 
-                    <span style="--rot:-0.4deg;">جەنابتان</span> 
-                    <span style="--rot:0.9deg;">لەوێ</span> 
-                    <span style="--rot:-1.5deg;">ئاماددەبن</span>
-                </p>
-                <div class="signature">
-                    <span style="--rot:-2deg;">🖋️</span> 
-                    <span style="--rot:1.2deg;">تاجی سەرم</span> 
-                    <span style="--rot:-0.8deg;">&</span> 
-                    <span style="--rot:2deg;">خۆم</span>
-                </div>
-            </div>
+  <!-- پەپولەی سەرەکی جوان بۆ نامەکە -->
+  <div class="envelope-container">
+    <div class="main-card" id="mainCard">
+      <!-- ناوەڕۆکی نامە - سەرەتا دەبینرێت (کراوەیە) -->
+      <div id="letterBody" class="letter-content visible-content">
+        <div class="invite-header">✨ بانگێشت نامە ✨</div>
+        <div class="handwritten">
+          بۆ هەردوو هاوڕێی بەڕێزی ڕەیان<br>
+          بە ناوی خۆم و تاجی سەرم مامۆستا ڕەیان<br>
+          بانگێشتان دەکەم بۆ ئاهەنگەکەمان<br>
+          لە دوای نزاو پارانەوە و زۆر و لە دوای<br>
+          زەحمەت کێشان چاوەڕوانی خودای میهرەبان<br>
+          ئاوڕی لێداینەوە و ئێمەی بە یەکتر گەیاند<br>
+          ئینجا هیوادارم جەنابتان لەوێ ئامادەبن 🌿
         </div>
+        <div class="signature">
+          بە خۆشەویستییەوە<br>
+          ✍️ میوانداری ئێوە
+        </div>
+        <div style="text-align: left; font-size: 1.2rem; margin-top: 10px; opacity:0.8;">💙 شینی کاڵ</div>
+      </div>
     </div>
 
-    <!-- پەپولەی زیادە (دەربکەوێت بەسەر شاشەدا) -->
-    <div class="extra-butterflies">
-        <span style="top: 5%; left: 85%; animation-duration: 25s; animation-delay: 0s;">🦋</span>
-        <span style="top: 15%; left: 10%; animation-duration: 21s; animation-delay: 1.2s;">🦋</span>
-        <span style="top: 50%; left: 92%; animation-duration: 27s; animation-delay: 0.6s;">🦋</span>
-        <span style="top: 75%; left: 5%; animation-duration: 19s; animation-delay: 2s;">🦋</span>
-        <span style="top: 88%; left: 80%; animation-duration: 23s; animation-delay: 0.3s;">🦋</span>
-        <span style="top: 40%; left: 3%; animation-duration: 30s; animation-delay: 1.7s;">🦋</span>
-        <span style="top: 60%; left: 70%; animation-duration: 22s; animation-delay: 0.9s;">🦋</span>
-        <span style="top: 25%; left: 40%; animation-duration: 26s; animation-delay: 2.2s;">🦋</span>
-        <span style="top: 80%; left: 30%; animation-duration: 20s; animation-delay: 0.1s;">🦋</span>
-        <span style="top: 10%; left: 60%; animation-duration: 24s; animation-delay: 1.5s;">🦋</span>
-    </div>
+    <!-- دوگمەی کردنەوە/داخستنی نامەکە -->
+    <button class="toggle-btn" id="toggleButton">
+      <span>📩</span> داخستنی نامە <span>🔒</span>
+    </button>
+  </div>
 
-    <!-- لینکی گۆرانی (خۆکار دەست پێدەکات) -->
-    <iframe 
-        id="youtubePlayer"
-        width="0" 
-        height="0" 
-        src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&controls=0&loop=1&playlist=gsxJsmbA4BY" 
-        title="YouTube player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen>
-    </iframe>
+  <!-- زیادکردنی پەپولەی داینامیک و گۆرانی -->
+  <script>
+    (function() {
+      // ----- پەپولەی سەرەتایی پاشبنەما (زۆر) -----
+      function createBackgroundBubbles(count = 35) {
+        const container = document.getElementById('bubble-container');
+        container.innerHTML = ''; 
+        for (let i = 0; i < count; i++) {
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+          const size = Math.floor(Math.random() * 70 + 30); // 30px تا 100px
+          bubble.style.width = size + 'px';
+          bubble.style.height = size + 'px';
+          bubble.style.left = Math.random() * 100 + '%';
+          bubble.style.animationDelay = Math.random() * 8 + 's';
+          bubble.style.animationDuration = (Math.random() * 7 + 5) + 's';
+          // هەندێکیان رەنگی جیاوازتر
+          if (Math.random() > 0.6) {
+            bubble.style.background = 'radial-gradient(circle at 30% 30%, #c3e8ff, #1e90ff)';
+          }
+          container.appendChild(bubble);
+        }
+      }
+      createBackgroundBubbles(40);
 
-    <script>
-        // دڵنیابوون لە دەستپێکردنی گۆرانی (لە هەندێک وێبگەڕدا autoplay سنووردارە)
-        window.addEventListener('load', function() {
-            const player = document.getElementById('youtubePlayer');
-            // هەوڵبدە جارێکی تر autoplay بکات
-            setTimeout(() => {
-                player.src = "https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&controls=0&loop=1&playlist=gsxJsmbA4BY";
-            }, 500);
-        });
+      // ----- پەپولەی زیادە کاتێک نامە دەکرێتەوە (ئەنمەیشنی داینامیک) -----
+      function spawnExtraBubbles(amount = 25) {
+        const body = document.body;
+        for (let i = 0; i < amount; i++) {
+          const bubble = document.createElement('div');
+          bubble.className = 'floating-bubble';
+          const size = Math.floor(Math.random() * 50 + 20);
+          bubble.style.width = size + 'px';
+          bubble.style.height = size + 'px';
+          bubble.style.left = Math.random() * 90 + '%';
+          bubble.style.bottom = Math.random() * 30 + 10 + '%';
+          bubble.style.animationDelay = Math.random() * 2 + 's';
+          bubble.style.animationDuration = (Math.random() * 4 + 4) + 's';
+          bubble.style.position = 'fixed';
+          bubble.style.zIndex = '10';
+          body.appendChild(bubble);
+          
+          // دوای ماوەیەک پەپولە لادەبەین
+          setTimeout(() => {
+            if (bubble && bubble.parentNode) {
+              bubble.remove();
+            }
+          }, 5000);
+        }
+      }
 
-        // بۆ ئەوەی پەپولەکان زیاتر خۆش بکەین، هەندێک جار وردەکاری زیاد دەکەین
-        console.log('🦋 بانگێشت نامە بۆ رەیان و تاجی سەرم 🦋');
-    </script>
+      // ----- سێت ئەپ بۆ کردنەوە/داخستنی نامە -----
+      const letterBody = document.getElementById('letterBody');
+      const toggleBtn = document.getElementById('toggleButton');
+      const mainCard = document.getElementById('mainCard');
 
+      // دۆخی سەرەتا: نامە کراوەیە (دیارە)
+      let isOpen = true;
+
+      // فەنکشنی نوێکردنەوەی ڕوخسار
+      function updateEnvelopeState() {
+        if (isOpen) {
+          // نامە کراوە
+          letterBody.classList.remove('hidden-content');
+          letterBody.classList.add('visible-content');
+          toggleBtn.innerHTML = '<span>📩</span> داخستنی نامە <span>🔒</span>';
+          // پەپولەی زیادە دروست دەکەین (تەنیا کە دەکرێتەوە)
+          spawnExtraBubbles(18);
+          // هەندێک پەپولەی پاشبنەما زیاد دەکەین
+          createBackgroundBubbles(45);
+        } else {
+          // نامە قەپات کراوە (شاراوە)
+          letterBody.classList.add('hidden-content');
+          letterBody.classList.remove('visible-content');
+          toggleBtn.innerHTML = '<span>💌</span> کردنەوەی نامە <span>✨</span>';
+          // پەپولەکان کەمتر دەکەینەوە (ژمارەی ئاسایی)
+          createBackgroundBubbles(25);
+        }
+      }
+
+      // کلیک لەسەر دوگمە
+      toggleBtn.addEventListener('click', function(e) {
+        isOpen = !isOpen;
+        updateEnvelopeState();
+        
+        // ئەگەر نامە بکرێتەوە، زیادە پەپولە دروست دەکات
+        if (isOpen) {
+          // پەپولەی زیادەی خێرا
+          for(let i=0; i<12; i++) {
+            setTimeout(() => spawnExtraBubbles(5), i*80);
+          }
+        }
+      });
+
+      // سەرەتا هەر کراوەیە، پەپولە زیادە پیشان بدە
+      window.addEventListener('load', function() {
+        // دڵنیابین لە کراوەیی
+        if (isOpen) {
+          spawnExtraBubbles(20);
+        }
+        // گۆرانییەکە بە شێوەیەکی نەرم دەست پێدەکات (YouTube embed)
+        createYouTubeAudio();
+      });
+
+      // ----- دروستکردنی گۆرانی یوتیوب (پارچەکە) بە شێوەی شاراوە -----
+      function createYouTubeAudio() {
+        // لینکی یوتیوب short ـەکە: https://youtube.com/shorts/gsxJsmbA4BY
+        // ئایدی ڤیدیۆ: gsxJsmbA4BY
+        const videoId = "gsxJsmbA4BY";
+        
+        // دروستکردنی ئایفرەیمی شاراوە بۆ پلەی بەکگراوند
+        const iframe = document.createElement('iframe');
+        iframe.width = "0";
+        iframe.height = "0";
+        iframe.style.display = "none";
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&modestbranding=1&rel=0&mute=0&start=0`;
+        iframe.allow = "autoplay; encrypted-media";
+        iframe.allowFullscreen = false;
+        iframe.title = "گۆرانی بانگێشت";
+        
+        // زیادکردنی بۆ بەدی
+        document.body.appendChild(iframe);
+        
+        // هەندێک براوزەر پێویستی بە کارلەبەرە بۆ ئۆتۆپلەی
+        setTimeout(() => {
+          iframe.src = iframe.src; // ڕیفرێش
+        }, 300);
+      }
+
+      // زیادکردنی پەپولەی بەردەوام هەر چەند ساتێک (بۆ جوانی)
+      setInterval(() => {
+        if (isOpen) {
+          spawnExtraBubbles(4);
+        } else {
+          // کەمتر پەپولە دروست بکە
+          if (Math.random() > 0.7) spawnExtraBubbles(2);
+        }
+      }, 2800);
+
+      // پەپولە پاشبنەماییەکان بەردەوام نوێ دەکەینەوە
+      setInterval(() => {
+        if (isOpen) {
+          createBackgroundBubbles(38);
+        } else {
+          createBackgroundBubbles(20);
+        }
+      }, 10000);
+
+      console.log('💙 بانگێشت نامەکەت ئامادەیە! گۆرانییەکە دەست پێدەکات.');
+    })();
+  </script>
 </body>
 </html>
