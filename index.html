@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشت نامە - شین و پەپولە</title>
+    <title>بانگێشت نامە</title>
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,6 +16,7 @@
             font-family: 'Patrick Hand', cursive;
             overflow: hidden;
             position: relative;
+            cursor: pointer;
         }
         .butterfly-bg {
             position: fixed;
@@ -185,45 +186,39 @@
             gap: 10px;
         }
 
-        /* ڤیدیۆی نادیار (لە پشتەوە) */
         .hidden-video {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 1px;
+            height: 1px;
             z-index: -1;
             opacity: 0;
             pointer-events: none;
         }
         .hidden-video iframe {
-            width: 100%;
-            height: 100%;
+            width: 1px;
+            height: 1px;
             border: 0;
         }
 
-        /* دوگمەی دەستپێکردن (بۆ ئەگەری پێویست) */
-        .audio-trigger {
+        .click-hint {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: rgba(30, 100, 180, 0.7);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 0.8rem;
+            z-index: 999;
+            animation: pulse 2s infinite;
             font-family: 'Patrick Hand', cursive;
-            font-size: 1.1rem;
-            z-index: 9998;
-            border: 2px solid #8fc9ff;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            backdrop-filter: blur(8px);
-            transition: 0.3s;
-            display: none; /* بە شێوەی بنەڕەتی شاراوەیە */
+            letter-spacing: 2px;
+            pointer-events: none;
         }
-        .audio-trigger:hover {
-            background: rgba(30, 100, 180, 1);
-            transform: scale(1.05);
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
         }
 
         @media (max-width: 600px) {
@@ -238,14 +233,12 @@
 </head>
 <body>
 
-    <!-- پەپولەکانی پاشبنەما -->
     <div class="butterfly-bg" id="butterflyBg"></div>
 
-    <!-- ڤیدیۆی نادیار (یوتیوب) -->
-    <div class="hidden-video" id="hiddenVideo">
+    <div class="hidden-video">
         <iframe id="youtubePlayer" 
-            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3"
-            allow="autoplay; encrypted-media; fullscreen">
+            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=0&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0"
+            allow="autoplay; encrypted-media">
         </iframe>
     </div>
 
@@ -282,12 +275,11 @@
         </div>
     </div>
 
-    <!-- دوگمەی یەدەگ (شاراوە، بەڵام بۆ ئەگەری پێویست) -->
-    <button class="audio-trigger" id="audioTrigger">🎵 کلیک بکە بۆ گۆرانی</button>
+    <div class="click-hint">✨ کلیک لە هەر شوێنێک بکە بۆ دەستپێکردنی گۆرانی ✨</div>
 
     <script>
         (function() {
-            // زیادکردنی پەپولە
+            // پەپولەکان
             const bg = document.getElementById('butterflyBg');
             for (let i = 0; i < 30; i++) {
                 const b = document.createElement('div');
@@ -302,77 +294,58 @@
                 bg.appendChild(b);
             }
 
-            // کۆنترۆڵکردنی ڤیدیۆی نادیار
             const iframe = document.getElementById('youtubePlayer');
-            const triggerBtn = document.getElementById('audioTrigger');
-            let attempts = 0;
-            const maxAttempts = 5;
+            let isPlaying = false;
+            let playAttempts = 0;
 
-            function forcePlay() {
-                // هەوڵی گۆڕینی src بۆ autoplay
-                const src = iframe.src;
-                if (!src.includes('autoplay=1')) {
-                    iframe.src = src.replace('autoplay=0', 'autoplay=1');
-                }
+            function startAudio() {
+                if (isPlaying) return;
                 
-                // هەوڵی دووبارە بارکردنەوە
-                if (attempts < maxAttempts) {
-                    attempts++;
+                // گۆڕینی src بۆ autoplay
+                iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0';
+                isPlaying = true;
+                
+                // شارکردنەوەی پەیام
+                const hint = document.querySelector('.click-hint');
+                if (hint) {
+                    hint.textContent = '🎵 گۆرانی دەنگی هەیە...';
+                    hint.style.color = 'rgba(100, 200, 255, 0.6)';
                     setTimeout(() => {
-                        iframe.src = iframe.src;
-                    }, 500);
+                        hint.style.opacity = '0';
+                        setTimeout(() => {
+                            hint.style.display = 'none';
+                        }, 1000);
+                    }, 3000);
                 }
             }
 
-            // یەکەم هەوڵ: دوای 1 چرکە
-            setTimeout(forcePlay, 1000);
-
-            // دووەم هەوڵ: دوای 3 چرکە
-            setTimeout(forcePlay, 3000);
-
-            // سێیەم هەوڵ: دوای 6 چرکە
-            setTimeout(forcePlay, 6000);
-
-            // ئەگەر کار نەکرد، دوگمەکە پیشان بدە
-            setTimeout(() => {
-                // پشکنینی ئەگەر دەنگ کاردەکات
-                // (ناتوانین ڕاستەوخۆ پشکنین بکەین، بەڵام دوگمە پیشان دەدەین)
-                triggerBtn.style.display = 'block';
-            }, 8000);
-
-            // کلیک کردن لە دوگمە بۆ دەستپێکردن
-            triggerBtn.addEventListener('click', function() {
-                iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3';
-                this.textContent = '✅ گۆرانی دەستی پێکرد';
-                this.style.background = 'rgba(30, 180, 80, 0.8)';
-                this.style.borderColor = '#7ddfa0';
-                setTimeout(() => {
-                    this.textContent = '🎵 کلیک بکە دووبارە ئەگەر دەنگ نەهات';
-                }, 3000);
-            });
-
-            // هەوڵی زیاتر: بۆ ئەوەی لە هەموو وێبگەڕێکدا کاربکات
-            // هەندێک وێبگەڕ ڕێگە بە autoplay نادەن مەگەر بەکارهێنەر کارلێکی پێوە بکات
-            // بۆیە هەر کلیکێک لە لاپەڕە (بەدەست) دەنگ دەستپێدەکات
-            document.addEventListener('click', function firstUserClick() {
-                if (iframe.src && !iframe.src.includes('autoplay=1')) {
-                    iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
-                }
-                // دوگمە شاراوە بکەرەوە دوای کلیکی یەکەم
-                triggerBtn.style.display = 'none';
-                document.removeEventListener('click', firstUserClick);
+            // یەکەم کلیک لە لاپەڕە (هەر شوێنێک)
+            document.addEventListener('click', function firstClick() {
+                startAudio();
+                document.removeEventListener('click', firstClick);
             }, { once: true });
 
-            // بۆ مۆبایل: کلیکی تاچ
+            // بۆ مۆبایل
             document.addEventListener('touchstart', function firstTouch() {
-                if (iframe.src && !iframe.src.includes('autoplay=1')) {
-                    iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
-                }
-                triggerBtn.style.display = 'none';
+                startAudio();
                 document.removeEventListener('touchstart', firstTouch);
             }, { once: true });
 
-            console.log('🎵 ڤیدیۆی نادیار دەستپێدەکات...');
+            // هەروەها هەوڵی دەستپێکردن دوای ماوەیەک (بۆ ئەگەری وێبگەڕە ڕێگەپێدراوەکان)
+            setTimeout(() => {
+                if (!isPlaying) {
+                    // هەوڵی یەکەم
+                    iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0';
+                }
+            }, 1000);
+
+            setTimeout(() => {
+                if (!isPlaying) {
+                    // هەوڵی دووەم
+                    iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
+                }
+            }, 3000);
+
         })();
     </script>
 
