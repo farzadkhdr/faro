@@ -8,6 +8,9 @@
         /* ===== Google Fonts ===== */
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Scheherazade+New:wght@400;600;700&display=swap');
 
+        /* ===== Kurdish Font ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap');
+
         /* ===== Quran Font for Bismillah ===== */
         @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap');
 
@@ -75,6 +78,43 @@
             }
             100% {
                 transform: translateY(-120vh) translateX(var(--drift)) scale(0.1);
+                opacity: 0;
+            }
+        }
+
+        /* ===== Butterfly Container ===== */
+        .butterfly-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: clamp(24px, 5vw, 40px);
+            animation: flyButterfly linear forwards;
+            will-change: transform, opacity;
+            filter: drop-shadow(0 0 10px rgba(100, 200, 255, 0.3));
+        }
+
+        @keyframes flyButterfly {
+            0% {
+                transform: translate(0, 0) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--fly-x), var(--fly-y)) scale(1.2) rotate(360deg);
                 opacity: 0;
             }
         }
@@ -267,8 +307,20 @@
             letter-spacing: 2px;
         }
 
+        /* ===== Kurdish Text on Cover ===== */
+        .cover-kurdish-title {
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(20px, 5vw, 32px);
+            font-weight: 700;
+            color: #b8d8ff;
+            text-shadow: 0 0 30px rgba(100, 180, 255, 0.3);
+            letter-spacing: 3px;
+            line-height: 1.4;
+            margin: 4px 0;
+        }
+
         .cover-subtitle {
-            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
             font-size: clamp(14px, 3.5vw, 20px);
             color: #80bfff;
             letter-spacing: 6px;
@@ -285,8 +337,8 @@
         }
 
         .cover-names {
-            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
-            font-size: clamp(18px, 5vw, 30px);
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(22px, 5.5vw, 34px);
             color: #b8d8ff;
             letter-spacing: 4px;
             font-weight: 700;
@@ -301,23 +353,24 @@
             right: 0;
             text-align: center;
             z-index: 5;
-            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
             font-size: clamp(14px, 3vw, 18px);
-            color: rgba(160, 200, 255, 0.6);
+            color: #ffffff;
             letter-spacing: 3px;
             animation: pulseHint 2.8s ease-in-out infinite;
-            text-shadow: 0 0 20px rgba(100, 180, 255, 0.15);
+            text-shadow: 0 0 30px rgba(100, 180, 255, 0.4), 0 0 60px rgba(100, 180, 255, 0.2);
             pointer-events: none;
+            font-weight: 600;
         }
 
         @keyframes pulseHint {
             0%,
             100% {
-                opacity: 0.4;
+                opacity: 0.6;
                 transform: translateY(0);
             }
             50% {
-                opacity: 0.9;
+                opacity: 1;
                 transform: translateY(-4px);
             }
         }
@@ -451,8 +504,8 @@
         }
 
         .invitation-title {
-            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
-            font-size: clamp(20px, 5vw, 32px);
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(22px, 5.5vw, 34px);
             font-weight: 700;
             color: #0d3d66;
             letter-spacing: 3px;
@@ -481,8 +534,8 @@
         }
 
         .card-text {
-            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
-            font-size: clamp(13px, 3.2vw, 18px);
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(14px, 3.4vw, 19px);
             line-height: 2.6;
             color: #1a3a55;
             text-align: center;
@@ -494,18 +547,18 @@
         .card-text .highlight {
             color: #0d5a8a;
             font-weight: 700;
-            font-size: clamp(14px, 3.5vw, 20px);
+            font-size: clamp(15px, 3.7vw, 21px);
         }
 
         .card-text .gold {
             color: #b8860b;
             font-weight: 700;
-            font-size: clamp(14px, 3.5vw, 20px);
+            font-size: clamp(15px, 3.7vw, 21px);
         }
 
         .signature-text {
-            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
-            font-size: clamp(16px, 4vw, 24px);
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(18px, 4.5vw, 26px);
             color: #0d3d66;
             margin-top: 4px;
             letter-spacing: 2px;
@@ -513,8 +566,8 @@
         }
 
         .footer-text {
-            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
-            font-size: clamp(11px, 2.5vw, 15px);
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(12px, 2.7vw, 16px);
             color: #2a6a8a;
             margin-top: 2px;
             letter-spacing: 1px;
@@ -548,7 +601,7 @@
             text-align: center;
             animation: pulse 2.6s ease-in-out infinite;
             letter-spacing: 2px;
-            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
             padding: 0 20px;
             transition: opacity 0.8s ease;
         }
@@ -592,7 +645,7 @@
             }
             .cover-click-hint {
                 bottom: 18px;
-                font-size: 12px;
+                font-size: 13px;
             }
             .cover-click-hint .icon {
                 font-size: 20px;
@@ -618,11 +671,11 @@
             }
             .card-text {
                 line-height: 2.4;
-                font-size: 12.5px;
+                font-size: 13px;
             }
             .card-text .highlight,
             .card-text .gold {
-                font-size: 13.5px;
+                font-size: 14px;
             }
             .scene {
                 gap: 12px;
@@ -633,6 +686,9 @@
             }
             .inside-bismillah {
                 font-size: 16px;
+            }
+            .cover-kurdish-title {
+                font-size: 18px;
             }
             /* لاپرە لە مۆبایلدا */
             .card-cover.opened {
@@ -646,15 +702,15 @@
                 aspect-ratio: 4 / 5.6;
             }
             .card-text {
-                font-size: 11.5px;
+                font-size: 12px;
                 line-height: 2.2;
             }
             .card-text .highlight,
             .card-text .gold {
-                font-size: 12px;
+                font-size: 12.5px;
             }
             .invitation-title {
-                font-size: 17px;
+                font-size: 18px;
             }
             .cover-bismillah {
                 font-size: 18px;
@@ -663,7 +719,10 @@
                 font-size: 14px;
             }
             .signature-text {
-                font-size: 14px;
+                font-size: 15px;
+            }
+            .cover-kurdish-title {
+                font-size: 16px;
             }
             .card-cover.opened {
                 transform: perspective(1000px) rotateY(-90deg) translateX(-12px);
@@ -698,6 +757,9 @@
             .inside-bismillah {
                 font-size: 14px;
             }
+            .cover-kurdish-title {
+                font-size: 16px;
+            }
             .card-cover.opened {
                 transform: perspective(1200px) rotateY(-100deg) translateX(-15px);
             }
@@ -708,6 +770,9 @@
 
     <!-- ===== Particles (پەپوولە شینەکان) ===== -->
     <div class="particles-container" id="particlesContainer"></div>
+
+    <!-- ===== Butterflies ===== -->
+    <div class="butterfly-container" id="butterflyContainer"></div>
 
     <!-- ===== Scene ===== -->
     <div class="scene">
@@ -736,9 +801,11 @@
 
                         <div class="cover-line"></div>
 
-                        <div class="cover-subtitle">✦ بانگێشت نامە ✦</div>
+                        <!-- Kurdish Title on Cover -->
+                        <div class="cover-kurdish-title">💕 بانگێشت نامەی هاوسەرگیری 💕</div>
+
                         <div class="cover-line"></div>
-                        <div class="cover-names">💕 ڕەیان 💕</div>
+                        <div class="cover-names">✨ ڕەیان ✨</div>
                     </div>
 
                     <div class="cover-click-hint">
@@ -929,6 +996,55 @@
             }
         }
 
+        // ===== BUTTERFLIES =====
+        function createButterfly() {
+            const container = document.getElementById('butterflyContainer');
+            if (!container) return;
+
+            const butterfly = document.createElement('div');
+            butterfly.classList.add('butterfly');
+            butterfly.textContent = '🦋';
+
+            const startX = Math.random() * 80 + 10;
+            const startY = Math.random() * 80 + 10;
+            const flyX = (Math.random() - 0.5) * 400;
+            const flyY = (Math.random() - 0.5) * 400;
+            const duration = Math.random() * 8 + 6;
+            const delay = Math.random() * 2;
+
+            butterfly.style.left = startX + '%';
+            butterfly.style.top = startY + '%';
+            butterfly.style.setProperty('--fly-x', flyX + 'px');
+            butterfly.style.setProperty('--fly-y', flyY + 'px');
+            butterfly.style.animationDuration = duration + 's';
+            butterfly.style.animationDelay = delay + 's';
+            butterfly.style.fontSize = clamp(24 + Math.random() * 20, 3 + 'vw', 50 + 'px');
+
+            container.appendChild(butterfly);
+
+            setTimeout(function() {
+                if (butterfly && butterfly.parentNode) {
+                    butterfly.remove();
+                }
+            }, (duration + delay) * 1000 + 500);
+        }
+
+        function startButterflies() {
+            for (let i = 0; i < 12; i++) {
+                setTimeout(function() { createButterfly(); }, i * 600);
+            }
+            setInterval(function() {
+                createButterfly();
+            }, 3000);
+        }
+
+        function burstButterflies(count) {
+            count = count || 6;
+            for (let i = 0; i < count; i++) {
+                setTimeout(function() { createButterfly(); }, i * 150);
+            }
+        }
+
         // ===== SPARKLES =====
         function createSparkle(x, y) {
             const card = document.getElementById('cardInside');
@@ -985,7 +1101,6 @@
                 cover.classList.add('opened');
             }
 
-            // کارتەکە بەشێوەی لاپرە هەڵدەگیرێت
             if (card) {
                 card.style.transform = 'scale(1)';
             }
@@ -999,15 +1114,26 @@
             setTimeout(function() { burstSparkles(); }, 1600);
             setTimeout(function() { burstSparkles(); }, 2800);
 
+            setTimeout(function() { burstButterflies(8); }, 700);
+            setTimeout(function() { burstButterflies(6); }, 1800);
+            setTimeout(function() { burstButterflies(5); }, 3000);
+
             attemptPlay();
         }
 
         window.openCard = openCard;
 
+        // ===== Helper =====
+        function clamp(val, min, max) {
+            return Math.min(Math.max(val, min), max);
+        }
+
         // ===== INIT =====
         function init() {
             startParticles();
+            startButterflies();
             setTimeout(function() { burstParticles(60); }, 500);
+            setTimeout(function() { burstButterflies(4); }, 800);
             setTimeout(function() { attemptPlay(); }, 1000);
         }
 
@@ -1015,6 +1141,7 @@
 
         console.log('💒 بانگێشت نامەی هاوسەرگیری 💒');
         console.log('💙 پەپولە شینەکان لە دەوری کارتەکە دەردەکەون');
+        console.log('🦋 پەپوولەکان بەسەر نامەکەدا دەفڕن');
         console.log('📖 کارتەکە بەشێوەی لاپرە هەڵدەگیرێت');
         console.log('💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی');
     </script>
