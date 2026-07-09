@@ -1,399 +1,733 @@
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>بانگێشت نامەی ڕەیانی بەڕێز</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      background: linear-gradient(145deg, #0a1f3b 0%, #051525 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Arial', 'Segoe UI', sans-serif;
-      overflow-x: hidden;
-      position: relative;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بانگێشت نامەی هاوسەرگیری - ڕەیان</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
-    /* پەپولەی پاشبنەما */
-    .bubble {
-      position: absolute;
-      bottom: -120px;
-      background: radial-gradient(circle at 30% 30%, rgba(135, 206, 250, 0.7), rgba(30, 144, 255, 0.5));
-      border-radius: 50%;
-      box-shadow: 0 0 40px rgba(70, 130, 230, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.7);
-      animation: floatUp 8s infinite ease-in;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.8;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    @keyframes floatUp {
-      0% {
-        transform: translateY(0) scale(0.8) rotate(0deg);
-        opacity: 0.7;
-      }
-      50% {
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateY(-110vh) scale(1.2) rotate(25deg);
-        opacity: 0;
-      }
-    }
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #0a0a14;
+            font-family: 'Tahoma', 'Segoe UI', 'Scheherazade New', 'Amiri', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-    /* container سەرەکی */
-    .envelope-container {
-      position: relative;
-      z-index: 20;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 700px;
-      margin: 20px;
-    }
+        /* Ambient particles */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    /* کارتی پەپولەی سەرەکی (شینێکی کاڵ) */
-    .main-card {
-      background: rgba(230, 244, 255, 0.25);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border-radius: 60px 60px 60px 60px;
-      padding: 30px 25px;
-      box-shadow: 0 30px 50px rgba(0, 160, 255, 0.4), 0 0 0 3px rgba(173, 216, 250, 0.7), inset 0 0 30px rgba(255, 255, 255, 0.5);
-      width: 100%;
-      transition: all 0.5s ease;
-      border: 2px solid rgba(135, 206, 250, 0.9);
-      color: #0a2f4d;
-      position: relative;
-      animation: gentleGlow 3s infinite alternate;
-    }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatUpParticle linear forwards;
+        }
 
-    @keyframes gentleGlow {
-      0% { box-shadow: 0 25px 45px rgba(70, 180, 255, 0.5), 0 0 0 3px rgba(200, 230, 255, 0.8); }
-      100% { box-shadow: 0 35px 55px rgba(100, 200, 255, 0.7), 0 0 0 5px rgba(180, 220, 255, 0.9); }
-    }
+        @keyframes floatUpParticle {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-110vh) translateX(var(--drift)) scale(0.2);
+                opacity: 0;
+            }
+        }
 
-    /* ناوەڕۆکی نامەکە بە شێوازی خەتاتی */
-    .letter-content {
-      background: #f0f9ff;
-      background-image: radial-gradient(circle at 10px 10px, #c2e2ff 1px, transparent 1px);
-      background-size: 30px 30px;
-      border-radius: 35px;
-      padding: 30px 20px;
-      box-shadow: inset 0 0 30px rgba(70, 130, 200, 0.5), 0 15px 25px rgba(0,0,0,0.2);
-      border: 2px solid #7bb3e0;
-      font-family: 'Amiri', 'Scheherazade New', 'Raya', 'Tahoma', serif;
-      text-align: center;
-      direction: rtl;
-      transition: all 0.4s;
-      color: #023b5e;
-      line-height: 2.3;
-      font-size: 1.6rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      backdrop-filter: blur(5px);
-      word-spacing: 3px;
-    }
+        /* Main scene */
+        .scene {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
 
-    /* ناونیشانی بانگێشت */
-    .invite-header {
-      font-size: 2.3rem;
-      font-weight: 800;
-      color: #004070;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 8px rgba(173, 216, 250, 0.9);
-      font-family: 'Amiri', 'Raya', serif;
-      border-bottom: 3px dashed #3d7ea6;
-      display: inline-block;
-      padding-bottom: 10px;
-      letter-spacing: 2px;
-    }
+        /* Wedding card */
+        .wedding-card-container {
+            position: relative;
+            perspective: 1500px;
+            animation: cardAppear 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            opacity: 0;
+        }
 
-    /* دەقی خەتاتی - هەمووی بە فۆنتی جوان */
-    .handwritten {
-      font-family: 'Amiri', 'Scheherazade New', 'Reem Kufi', 'Raya', serif;
-      font-size: 1.8rem;
-      font-weight: 500;
-      color: #033351;
-      text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.9);
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 25px;
-      padding: 10px 15px;
-      display: block;
-      margin: 5px 0;
-      line-height: 2.6;
-      letter-spacing: 0.8px;
-    }
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(80px) scale(0.5) rotateY(30deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-15px) scale(1.03) rotateY(-3deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotateY(0deg);
+            }
+        }
 
-    .signature {
-      font-family: 'Amiri', 'Raya', serif;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #00263b;
-      margin-top: 25px;
-      text-align: left;
-      padding-left: 20px;
-      border-top: 2px solid #7aa9c7;
-      padding-top: 20px;
-    }
+        .wedding-card {
+            width: 480px;
+            height: 600px;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    /* دوگمەی کردنەوە/داخستن */
-    .toggle-btn {
-      background: #ffffffdd;
-      backdrop-filter: blur(20px);
-      border: none;
-      margin-top: 25px;
-      padding: 18px 40px;
-      border-radius: 60px;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #014a75;
-      background: linear-gradient(135deg, #d4edff, #a5d0f0);
-      box-shadow: 0 15px 30px rgba(0,150,255,0.6), 0 0 20px #6bb5ff;
-      cursor: pointer;
-      transition: 0.4s;
-      letter-spacing: 2px;
-      border: 2px solid white;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Amiri', serif;
-      z-index: 30;
-    }
+        .wedding-card:hover {
+            transform: translateY(-8px);
+        }
 
-    .toggle-btn:hover {
-      background: #b7e1ff;
-      box-shadow: 0 20px 40px #0088ff, 0 0 35px #a0d0ff;
-      transform: scale(1.05);
-    }
+        .wedding-card.opened {
+            transform: rotateY(-8deg) translateY(-5px);
+        }
 
-    /* شاردنەوەی ناوەڕۆک بۆ داخستنی نامە */
-    .hidden-content {
-      display: none;
-    }
+        /* Card front cover */
+        .card-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #1a1a3e 0%, #0d0d28 30%, #1a1a3e 60%, #0d0d28 100%);
+            border-radius: 20px;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.7),
+                0 0 0 3px rgba(180, 150, 70, 0.6),
+                0 0 0 8px rgba(180, 150, 70, 0.3),
+                0 0 0 14px rgba(180, 150, 70, 0.15),
+                0 0 60px rgba(100, 150, 220, 0.4);
+            overflow: hidden;
+            z-index: 3;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .visible-content {
-      display: block;
-    }
+        .card-cover.opened {
+            transform: rotateY(-180deg);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    /* هەندێک شێوازی تایبەت بۆ پەپولەی زیادە کاتێک نامە دەکرێتەوە */
-    .extra-bubbles-active .bubble {
-      animation-duration: 5s;
-      opacity: 0.9;
-    }
+        /* Ornate border on cover */
+        .cover-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid rgba(200, 170, 80, 0.6);
+            border-radius: 12px;
+            pointer-events: none;
+        }
 
-    /* بۆ وەڵامی مۆبایل */
-    @media (max-width: 500px) {
-      .handwritten {
-        font-size: 1.3rem;
-      }
-      .letter-content {
-        padding: 20px 10px;
-      }
-    }
+        .cover-border-inner {
+            position: absolute;
+            top: 22px;
+            left: 22px;
+            right: 22px;
+            bottom: 22px;
+            border: 1px solid rgba(200, 170, 80, 0.3);
+            border-radius: 8px;
+            pointer-events: none;
+        }
 
-    /* پەپولەی دەستکرد لە ڕێگەی javascript */
-    .floating-bubble {
-      position: absolute;
-      background: radial-gradient(circle at 30% 30%, #b3e0ff, #3f9eff);
-      border-radius: 50%;
-      filter: blur(1px);
-      opacity: 0.8;
-      animation: customFloat 7s infinite;
-      z-index: 5;
-      pointer-events: none;
-    }
-  </style>
+        /* Cover decorations */
+        .cover-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.08;
+            background:
+                radial-gradient(circle at 20% 30%, #c9a84c 1px, transparent 1px),
+                radial-gradient(circle at 80% 70%, #c9a84c 1px, transparent 1px),
+                radial-gradient(circle at 50% 50%, #c9a84c 2px, transparent 2px);
+            background-size: 30px 30px, 30px 30px, 60px 60px;
+            pointer-events: none;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: #e0d5b0;
+        }
+
+        .cover-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: gentleFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(200, 170, 80, 0.6));
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #d4b860;
+            letter-spacing: 4px;
+            text-shadow: 0 0 30px rgba(200, 170, 80, 0.5);
+            margin-bottom: 8px;
+        }
+
+        .cover-subtitle {
+            font-size: 16px;
+            color: #b8a060;
+            letter-spacing: 6px;
+        }
+
+        .cover-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+            margin: 15px auto;
+        }
+
+        .cover-names {
+            font-size: 20px;
+            color: #d4b860;
+            letter-spacing: 2px;
+        }
+
+        /* Card inside */
+        .card-inside {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #fef9f0 0%, #fdf4e5 25%, #fef7ed 50%, #fdf3e3 75%, #fef8f0 100%);
+            border-radius: 20px;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.7),
+                0 0 0 3px rgba(180, 150, 70, 0.6),
+                0 0 0 8px rgba(180, 150, 70, 0.3),
+                0 0 0 14px rgba(180, 150, 70, 0.15);
+            z-index: 2;
+            padding: 35px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Gold foil texture */
+        .card-inside::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200, 170, 100, 0.04) 3px, rgba(200, 170, 100, 0.04) 6px),
+                radial-gradient(ellipse at 30% 20%, rgba(220, 190, 110, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(220, 190, 110, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 20px;
+        }
+
+        /* Ornate corners */
+        .ornate-corner {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .ornate-tl {
+            top: 12px;
+            left: 15px;
+            font-size: 40px;
+            color: #b8942e;
+            transform: rotate(0deg);
+        }
+        .ornate-tr {
+            top: 12px;
+            right: 15px;
+            font-size: 40px;
+            color: #b8942e;
+            transform: rotate(90deg);
+        }
+        .ornate-bl {
+            bottom: 12px;
+            left: 15px;
+            font-size: 40px;
+            color: #b8942e;
+            transform: rotate(-90deg);
+        }
+        .ornate-br {
+            bottom: 12px;
+            right: 15px;
+            font-size: 40px;
+            color: #b8942e;
+            transform: rotate(180deg);
+        }
+
+        .card-inside-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+        }
+
+        .bismillah {
+            font-size: 28px;
+            color: #8b6914;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .wedding-rings {
+            font-size: 40px;
+            margin: 8px 0;
+            animation: gentleFloat 3s ease-in-out infinite;
+        }
+
+        .invitation-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #5a3e1a;
+            letter-spacing: 2px;
+            margin: 8px 0;
+        }
+
+        .ornamental-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .ornamental-line .line {
+            width: 50px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #b8942e, transparent);
+        }
+        .ornamental-line .dot {
+            width: 6px;
+            height: 6px;
+            background: #b8942e;
+            border-radius: 50%;
+        }
+
+        .card-text {
+            font-size: 15px;
+            line-height: 2.5;
+            color: #3d2b1f;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .card-text .highlight {
+            color: #8b6914;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .card-text .gold {
+            color: #b8860b;
+            font-weight: bold;
+        }
+
+        .signature-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: #5a3e1a;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: #8b6914;
+            margin-top: 5px;
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
+            animation: sparkleAnim 1.5s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        /* Instruction */
+        .instruction-text {
+            color: rgba(200, 210, 230, 0.8);
+            font-size: 14px;
+            text-align: center;
+            animation: pulse 2.5s infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.9; }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .wedding-card {
+                width: 340px;
+                height: 440px;
+            }
+            .cover-title {
+                font-size: 24px;
+            }
+            .cover-icon {
+                font-size: 45px;
+            }
+            .invitation-title {
+                font-size: 20px;
+            }
+            .card-text {
+                font-size: 13px;
+                line-height: 2.2;
+            }
+            .card-inside {
+                padding: 20px 18px;
+            }
+            .ornate-tl, .ornate-tr, .ornate-bl, .ornate-br {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- پەپولە پاشبنەماییەکان (ستاتیک) -->
-  <div id="bubble-container" style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index:1;"></div>
 
-  <!-- پەپولەی سەرەکی جوان بۆ نامەکە -->
-  <div class="envelope-container">
-    <div class="main-card" id="mainCard">
-      <!-- ناوەڕۆکی نامە - سەرەتا دەبینرێت (کراوەیە) -->
-      <div id="letterBody" class="letter-content visible-content">
-        <div class="invite-header">✨ بانگێشت نامە ✨</div>
-        <div class="handwritten">
-          بۆ هەردوو هاوڕێی بەڕێزی ڕەیان<br>
-          بە ناوی خۆم و تاجی سەرم مامۆستا ڕەیان<br>
-          بانگێشتان دەکەم بۆ ئاهەنگەکەمان<br>
-          لە دوای نزاو پارانەوە و زۆر و لە دوای<br>
-          زەحمەت کێشان چاوەڕوانی خودای میهرەبان<br>
-          ئاوڕی لێداینەوە و ئێمەی بە یەکتر گەیاند<br>
-          ئینجا هیوادارم جەنابتان لەوێ ئامادەبن 🌿
+    <!-- Particles container -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <!-- Main scene -->
+    <div class="scene">
+        <!-- Wedding card -->
+        <div class="wedding-card-container" id="cardContainer">
+            <div class="wedding-card" id="weddingCard" onclick="openCard()">
+
+                <!-- Front cover -->
+                <div class="card-cover" id="cardCover">
+                    <div class="cover-border"></div>
+                    <div class="cover-border-inner"></div>
+                    <div class="cover-pattern"></div>
+                    <div class="cover-content">
+                        <div class="cover-icon">💒</div>
+                        <div class="cover-title">بِسْمِ اللَّهِ</div>
+                        <div class="cover-line"></div>
+                        <div class="cover-subtitle">✦ بانگێشت نامە ✦</div>
+                        <div class="cover-line"></div>
+                        <div class="cover-names">💕 ڕەیان 💕</div>
+                    </div>
+                </div>
+
+                <!-- Inside card -->
+                <div class="card-inside" id="cardInside">
+                    <span class="ornate-corner ornate-tl">❦</span>
+                    <span class="ornate-corner ornate-tr">❦</span>
+                    <span class="ornate-corner ornate-bl">❦</span>
+                    <span class="ornate-corner ornate-br">❦</span>
+
+                    <div class="card-inside-content">
+                        <div class="bismillah">﷽</div>
+                        <div class="wedding-rings">💍 💒 💍</div>
+                        <div class="invitation-title">بانگێشت نامەی پیرۆز</div>
+
+                        <div class="ornamental-line">
+                            <span class="line"></span>
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+
+                        <div class="card-text">
+                            بۆ هەردوو هاوڕێی بەڕێز و خۆشەویست<br>
+                            <span class="highlight">ڕەیانی ئازیز</span>
+                            <br><br>
+                            بە ناوی خۆم و
+                            <span class="gold">تاجی سەرم</span>
+                            <br>
+                            بانگێشتان دەکەین بۆ ئاهەنگی هاوسەرگیریمان
+                            <br><br>
+                            دوای نزا و پاڕانەوەی زۆر<br>
+                            و دوای زەحمەت و چاوەڕوانییەکی درێژ
+                            <br>
+                            <span class="gold">خودای میهرەبان</span>
+                            ئاوڕی لێداینەوە<br>
+                            و ئێمەی بە یەکتر گەیاند
+                            <br><br>
+                            هیوادارین بە ئامادەبوونتان<br>
+                            شادیمان تەواو بکەن
+                        </div>
+
+                        <div class="ornamental-line">
+                            <span class="line"></span>
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+
+                        <div class="signature-text">🌸 بە هیوای دیدارتان 🌸</div>
+                        <div class="footer-text">کۆمەڵگای ڕووپەسەند | کاتژمێر ٢:٠٠ ی نیوەڕۆ</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="signature">
-          بە خۆشەویستییەوە<br>
-          ✍️ میوانداری ئێوە
+
+        <!-- Instruction -->
+        <div class="instruction-text" id="instruction">
+            💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی
         </div>
-        <div style="text-align: left; font-size: 1.2rem; margin-top: 10px; opacity:0.8;">💙 شینی کاڵ</div>
-      </div>
     </div>
 
-    <!-- دوگمەی کردنەوە/داخستنی نامەکە -->
-    <button class="toggle-btn" id="toggleButton">
-      <span>📩</span> داخستنی نامە <span>🔒</span>
-    </button>
-  </div>
+    <!-- YouTube player -->
+    <div id="youtubePlayer" style="position: fixed; bottom: -100px; left: -100px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
 
-  <!-- زیادکردنی پەپولەی داینامیک و گۆرانی -->
-  <script>
-    (function() {
-      // ----- پەپولەی سەرەتایی پاشبنەما (زۆر) -----
-      function createBackgroundBubbles(count = 35) {
-        const container = document.getElementById('bubble-container');
-        container.innerHTML = ''; 
-        for (let i = 0; i < count; i++) {
-          const bubble = document.createElement('div');
-          bubble.className = 'bubble';
-          const size = Math.floor(Math.random() * 70 + 30); // 30px تا 100px
-          bubble.style.width = size + 'px';
-          bubble.style.height = size + 'px';
-          bubble.style.left = Math.random() * 100 + '%';
-          bubble.style.animationDelay = Math.random() * 8 + 's';
-          bubble.style.animationDuration = (Math.random() * 7 + 5) + 's';
-          // هەندێکیان رەنگی جیاوازتر
-          if (Math.random() > 0.6) {
-            bubble.style.background = 'radial-gradient(circle at 30% 30%, #c3e8ff, #1e90ff)';
-          }
-          container.appendChild(bubble);
+    <script>
+        // ===== YOUTUBE AUDIO =====
+        let player;
+        let isPlayerReady = false;
+        let playerPlayAttempted = false;
+
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtubePlayer', {
+                height: '1',
+                width: '1',
+                videoId: 'gsxJsmbA4BY',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'iv_load_policy': 3,
+                    'loop': 1,
+                    'modestbranding': 1,
+                    'playsinline': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'mute': 0,
+                    'playlist': 'gsxJsmbA4BY'
+                },
+                events: {
+                    'onReady': function(event) {
+                        isPlayerReady = true;
+                        if (!playerPlayAttempted) attemptPlay();
+                    }
+                }
+            });
         }
-      }
-      createBackgroundBubbles(40);
 
-      // ----- پەپولەی زیادە کاتێک نامە دەکرێتەوە (ئەنمەیشنی داینامیک) -----
-      function spawnExtraBubbles(amount = 25) {
-        const body = document.body;
-        for (let i = 0; i < amount; i++) {
-          const bubble = document.createElement('div');
-          bubble.className = 'floating-bubble';
-          const size = Math.floor(Math.random() * 50 + 20);
-          bubble.style.width = size + 'px';
-          bubble.style.height = size + 'px';
-          bubble.style.left = Math.random() * 90 + '%';
-          bubble.style.bottom = Math.random() * 30 + 10 + '%';
-          bubble.style.animationDelay = Math.random() * 2 + 's';
-          bubble.style.animationDuration = (Math.random() * 4 + 4) + 's';
-          bubble.style.position = 'fixed';
-          bubble.style.zIndex = '10';
-          body.appendChild(bubble);
-          
-          // دوای ماوەیەک پەپولە لادەبەین
-          setTimeout(() => {
-            if (bubble && bubble.parentNode) {
-              bubble.remove();
+        function attemptPlay() {
+            playerPlayAttempted = true;
+            if (isPlayerReady && player && player.playVideo) {
+                player.unMute();
+                player.setVolume(50);
+                player.playVideo();
+            } else {
+                setTimeout(function() {
+                    if (isPlayerReady && player && player.playVideo) {
+                        player.unMute();
+                        player.setVolume(50);
+                        player.playVideo();
+                    }
+                }, 1500);
             }
-          }, 5000);
         }
-      }
 
-      // ----- سێت ئەپ بۆ کردنەوە/داخستنی نامە -----
-      const letterBody = document.getElementById('letterBody');
-      const toggleBtn = document.getElementById('toggleButton');
-      const mainCard = document.getElementById('mainCard');
+        document.addEventListener('click', function() {
+            attemptPlay();
+        }, { once: false });
 
-      // دۆخی سەرەتا: نامە کراوەیە (دیارە)
-      let isOpen = true;
+        // ===== PARTICLES (Blue Bubbles) =====
+        function createParticle() {
+            const container = document.getElementById('particlesContainer');
+            if (!container) return;
 
-      // فەنکشنی نوێکردنەوەی ڕوخسار
-      function updateEnvelopeState() {
-        if (isOpen) {
-          // نامە کراوە
-          letterBody.classList.remove('hidden-content');
-          letterBody.classList.add('visible-content');
-          toggleBtn.innerHTML = '<span>📩</span> داخستنی نامە <span>🔒</span>';
-          // پەپولەی زیادە دروست دەکەین (تەنیا کە دەکرێتەوە)
-          spawnExtraBubbles(18);
-          // هەندێک پەپولەی پاشبنەما زیاد دەکەین
-          createBackgroundBubbles(45);
-        } else {
-          // نامە قەپات کراوە (شاراوە)
-          letterBody.classList.add('hidden-content');
-          letterBody.classList.remove('visible-content');
-          toggleBtn.innerHTML = '<span>💌</span> کردنەوەی نامە <span>✨</span>';
-          // پەپولەکان کەمتر دەکەینەوە (ژمارەی ئاسایی)
-          createBackgroundBubbles(25);
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const size = Math.random() * 20 + 8;
+            const startX = Math.random() * 96;
+            const duration = Math.random() * 7 + 5;
+            const drift = (Math.random() - 0.5) * 80;
+            const delay = Math.random() * 1.5;
+
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = startX + '%';
+            particle.style.bottom = '-40px';
+            particle.style.setProperty('--drift', drift + 'px');
+            particle.style.animationDuration = duration + 's';
+            particle.style.animationDelay = delay + 's';
+
+            const hue = 195 + Math.random() * 30;
+            particle.style.background = 'radial-gradient(circle at 30% 30%, hsla(' + hue + ', 85%, 75%, 0.9), hsla(' + hue + ', 70%, 55%, 0.6))';
+            particle.style.boxShadow = '0 0 ' + (10 + Math.random() * 20) + 'px hsla(' + hue + ', 90%, 70%, 0.6), 0 0 ' + (25 + Math.random() * 35) + 'px hsla(' + hue + ', 80%, 60%, 0.3)';
+
+            container.appendChild(particle);
+
+            setTimeout(function() {
+                if (particle && particle.parentNode) {
+                    particle.remove();
+                }
+            }, (duration + delay) * 1000 + 500);
         }
-      }
 
-      // کلیک لەسەر دوگمە
-      toggleBtn.addEventListener('click', function(e) {
-        isOpen = !isOpen;
-        updateEnvelopeState();
-        
-        // ئەگەر نامە بکرێتەوە، زیادە پەپولە دروست دەکات
-        if (isOpen) {
-          // پەپولەی زیادەی خێرا
-          for(let i=0; i<12; i++) {
-            setTimeout(() => spawnExtraBubbles(5), i*80);
-          }
+        function startParticles() {
+            for (let i = 0; i < 35; i++) {
+                setTimeout(function() { createParticle(); }, i * 50);
+            }
+            setInterval(function() {
+                const count = Math.floor(Math.random() * 3) + 1;
+                for (let i = 0; i < count; i++) {
+                    setTimeout(function() { createParticle(); }, i * 100);
+                }
+            }, 250);
         }
-      });
 
-      // سەرەتا هەر کراوەیە، پەپولە زیادە پیشان بدە
-      window.addEventListener('load', function() {
-        // دڵنیابین لە کراوەیی
-        if (isOpen) {
-          spawnExtraBubbles(20);
+        function burstParticles(count) {
+            count = count || 100;
+            for (let i = 0; i < count; i++) {
+                setTimeout(function() { createParticle(); }, i * 18);
+            }
         }
-        // گۆرانییەکە بە شێوەیەکی نەرم دەست پێدەکات (YouTube embed)
-        createYouTubeAudio();
-      });
 
-      // ----- دروستکردنی گۆرانی یوتیوب (پارچەکە) بە شێوەی شاراوە -----
-      function createYouTubeAudio() {
-        // لینکی یوتیوب short ـەکە: https://youtube.com/shorts/gsxJsmbA4BY
-        // ئایدی ڤیدیۆ: gsxJsmbA4BY
-        const videoId = "gsxJsmbA4BY";
-        
-        // دروستکردنی ئایفرەیمی شاراوە بۆ پلەی بەکگراوند
-        const iframe = document.createElement('iframe');
-        iframe.width = "0";
-        iframe.height = "0";
-        iframe.style.display = "none";
-        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&modestbranding=1&rel=0&mute=0&start=0`;
-        iframe.allow = "autoplay; encrypted-media";
-        iframe.allowFullscreen = false;
-        iframe.title = "گۆرانی بانگێشت";
-        
-        // زیادکردنی بۆ بەدی
-        document.body.appendChild(iframe);
-        
-        // هەندێک براوزەر پێویستی بە کارلەبەرە بۆ ئۆتۆپلەی
-        setTimeout(() => {
-          iframe.src = iframe.src; // ڕیفرێش
-        }, 300);
-      }
+        // ===== SPARKLES =====
+        function createSparkle(x, y) {
+            const card = document.getElementById('cardInside');
+            if (!card) return;
 
-      // زیادکردنی پەپولەی بەردەوام هەر چەند ساتێک (بۆ جوانی)
-      setInterval(() => {
-        if (isOpen) {
-          spawnExtraBubbles(4);
-        } else {
-          // کەمتر پەپولە دروست بکە
-          if (Math.random() > 0.7) spawnExtraBubbles(2);
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            sparkle.textContent = '✨';
+
+            card.appendChild(sparkle);
+
+            setTimeout(function() {
+                if (sparkle && sparkle.parentNode) {
+                    sparkle.remove();
+                }
+            }, 1500);
         }
-      }, 2800);
 
-      // پەپولە پاشبنەماییەکان بەردەوام نوێ دەکەینەوە
-      setInterval(() => {
-        if (isOpen) {
-          createBackgroundBubbles(38);
-        } else {
-          createBackgroundBubbles(20);
+        function burstSparkles() {
+            const card = document.getElementById('cardInside');
+            if (!card) return;
+            const rect = card.getBoundingClientRect();
+            for (let i = 0; i < 25; i++) {
+                setTimeout(function() {
+                    const x = Math.random() * rect.width;
+                    const y = Math.random() * rect.height;
+                    createSparkle(x, y);
+                }, i * 40);
+            }
         }
-      }, 10000);
 
-      console.log('💙 بانگێشت نامەکەت ئامادەیە! گۆرانییەکە دەست پێدەکات.');
-    })();
-  </script>
+        // ===== CARD OPENING =====
+        let isOpen = false;
+
+        function openCard() {
+            if (isOpen) return;
+            isOpen = true;
+
+            const cover = document.getElementById('cardCover');
+            const card = document.getElementById('weddingCard');
+            const instruction = document.getElementById('instruction');
+
+            if (instruction) {
+                instruction.style.opacity = '0';
+                instruction.style.transition = 'opacity 0.6s ease';
+            }
+
+            if (cover) {
+                cover.classList.add('opened');
+            }
+
+            if (card) {
+                card.classList.add('opened');
+            }
+
+            // Burst particles
+            setTimeout(function() { burstParticles(120); }, 200);
+            setTimeout(function() { burstParticles(70); }, 1200);
+            setTimeout(function() { burstParticles(50); }, 2200);
+            setTimeout(function() { burstParticles(35); }, 3500);
+
+            // Sparkles on card
+            setTimeout(function() { burstSparkles(); }, 600);
+            setTimeout(function() { burstSparkles(); }, 1800);
+
+            attemptPlay();
+        }
+
+        window.openCard = openCard;
+
+        // ===== INIT =====
+        function init() {
+            startParticles();
+            setTimeout(function() { burstParticles(50); }, 600);
+            setTimeout(function() { attemptPlay(); }, 1000);
+        }
+
+        window.addEventListener('load', init);
+
+        console.log('💒 بانگێشت نامەی هاوسەرگیری 💒');
+        console.log('💙 پەپولە شینەکان لە دەوری کارتەکە دەردەکەون');
+        console.log('💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی');
+    </script>
 </body>
 </html>
