@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشت نامە</title>
-    <!-- بارکردنی فۆنت بۆ نووسینی دەستی -->
+    <title>بانگێشت نامە - شین و پەپولە</title>
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <style>
         * {
@@ -24,8 +23,8 @@
             position: relative;
         }
 
-        /* پەپولە شینەکان (دروستکردنیان بە CSS) */
-        .butterfly-container {
+        /* کورتەپەپولەکان (پاشبنەما) */
+        .butterfly-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -36,100 +35,199 @@
             overflow: hidden;
         }
 
-        .butterfly {
+        .bfly {
             position: absolute;
-            font-size: 2.2rem;
-            opacity: 0.7;
-            animation: floatButterfly 12s infinite ease-in-out;
-            filter: drop-shadow(0 0 6px rgba(100, 200, 255, 0.5));
-            color: #7fc9ff;
-            text-shadow: 0 0 10px #3f9eff;
+            font-size: 2.4rem;
+            opacity: 0.6;
+            animation: flyAround 16s infinite ease-in-out;
+            filter: drop-shadow(0 0 8px #7fc9ff);
+            color: #8fd6ff;
+            text-shadow: 0 0 15px #3f9eff;
             will-change: transform;
         }
 
-        /* شێوازی جیاواز بۆ پەپولەکان */
-        .butterfly:nth-child(1) { left: 5%; animation-duration: 14s; font-size: 3rem; }
-        .butterfly:nth-child(2) { left: 20%; animation-duration: 11s; font-size: 2rem; animation-delay: 0.5s; }
-        .butterfly:nth-child(3) { left: 35%; animation-duration: 16s; font-size: 2.8rem; animation-delay: 1s; }
-        .butterfly:nth-child(4) { left: 50%; animation-duration: 13s; font-size: 2.2rem; animation-delay: 0.2s; }
-        .butterfly:nth-child(5) { left: 65%; animation-duration: 15s; font-size: 3.2rem; animation-delay: 0.8s; }
-        .butterfly:nth-child(6) { left: 80%; animation-duration: 12s; font-size: 2.5rem; animation-delay: 1.5s; }
-        .butterfly:nth-child(7) { left: 90%; animation-duration: 17s; font-size: 2rem; animation-delay: 0.3s; }
-        .butterfly:nth-child(8) { left: 45%; animation-duration: 14s; font-size: 3.5rem; animation-delay: 0.9s; top: 70%; }
-        .butterfly:nth-child(9) { left: 10%; animation-duration: 18s; font-size: 2.7rem; animation-delay: 1.2s; top: 80%; }
-        .butterfly:nth-child(10) { left: 75%; animation-duration: 11s; font-size: 2.9rem; animation-delay: 0.1s; top: 85%; }
+        .bfly:nth-child(1) { left: 2%; animation-duration: 18s; font-size: 3.2rem; }
+        .bfly:nth-child(2) { left: 15%; animation-duration: 13s; font-size: 2rem; animation-delay: 0.8s; }
+        .bfly:nth-child(3) { left: 28%; animation-duration: 20s; font-size: 3.8rem; animation-delay: 0.3s; }
+        .bfly:nth-child(4) { left: 42%; animation-duration: 15s; font-size: 2.6rem; animation-delay: 1.2s; }
+        .bfly:nth-child(5) { left: 55%; animation-duration: 22s; font-size: 3rem; animation-delay: 0.1s; }
+        .bfly:nth-child(6) { left: 68%; animation-duration: 14s; font-size: 2.2rem; animation-delay: 0.9s; }
+        .bfly:nth-child(7) { left: 80%; animation-duration: 19s; font-size: 3.5rem; animation-delay: 0.5s; }
+        .bfly:nth-child(8) { left: 92%; animation-duration: 16s; font-size: 2.8rem; animation-delay: 1.5s; }
+        .bfly:nth-child(9) { left: 8%; animation-duration: 21s; font-size: 2rem; animation-delay: 0.2s; top: 75%; }
+        .bfly:nth-child(10) { left: 48%; animation-duration: 17s; font-size: 3.6rem; animation-delay: 0.7s; top: 80%; }
+        .bfly:nth-child(11) { left: 78%; animation-duration: 14s; font-size: 2.9rem; animation-delay: 1.1s; top: 70%; }
 
-        @keyframes floatButterfly {
+        @keyframes flyAround {
             0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            25% { transform: translate(30px, -40px) scale(1.1) rotate(8deg); }
-            50% { transform: translate(-20px, 30px) scale(0.9) rotate(-5deg); }
-            75% { transform: translate(40px, 20px) scale(1.05) rotate(6deg); }
-            100% { transform: translate(-10px, -30px) scale(1) rotate(-3deg); }
+            25% { transform: translate(40px, -50px) scale(1.15) rotate(10deg); }
+            50% { transform: translate(-30px, 30px) scale(0.85) rotate(-8deg); }
+            75% { transform: translate(50px, 20px) scale(1.1) rotate(7deg); }
+            100% { transform: translate(-15px, -35px) scale(1) rotate(-4deg); }
         }
 
-        /* کارتە سەرەکی (نامە) */
-        .invitation-card {
+        /* چوارچێوەی سەرەکی */
+        .wrapper {
             position: relative;
             z-index: 10;
             width: 90%;
-            max-width: 720px;
-            background: #d4eefe; /* شینی کاڵ */
-            background-image: linear-gradient(145deg, #c6e7ff, #e0f2ff);
-            border-radius: 28px 28px 28px 28px;
-            padding: 2.8rem 2.5rem;
-            box-shadow: 0 30px 50px rgba(0, 20, 40, 0.6), 0 0 0 2px #9acdff inset, 0 0 0 5px #b8dcff inset;
-            transform: rotate(-0.5deg);
-            transition: all 0.2s;
-            font-family: 'Patrick Hand', cursive;
-            color: #0b2a44;
-            border: 1px solid #b3d9ff;
-            backdrop-filter: blur(2px);
-            text-align: center;
+            max-width: 750px;
             margin: 20px;
-            word-break: break-word;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* نووسینی دەستی (خەتایی) */
+        /* کارتەکە (نامە) - لەسەرەتادا داخراوە، پەپولە دەیکاتەوە */
+        .invitation-card {
+            width: 100%;
+            background: #d4eefe;
+            background-image: linear-gradient(145deg, #c0e4ff, #e3f2ff);
+            border-radius: 32px;
+            padding: 2.6rem 2.2rem;
+            box-shadow: 0 30px 50px rgba(0, 20, 40, 0.7), 0 0 0 3px #b0d4f5 inset, 0 0 0 6px #cce6ff inset;
+            transform: rotate(-0.3deg);
+            color: #082a47;
+            text-align: center;
+            border: 1px solid #b0d4f5;
+            font-family: 'Patrick Hand', cursive;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.7) rotate(-8deg);
+            animation: openCard 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.3s;
+            transition: all 0.3s;
+        }
+
+        @keyframes openCard {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-12deg);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.05) rotate(1deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(-0.3deg);
+            }
+        }
+
+        /* پەپولەی کردنەوەی نامە - لە سەرەتای runکردن */
+        .envelope-butterfly {
+            position: absolute;
+            top: -30px;
+            left: -20px;
+            font-size: 4.5rem;
+            animation: bringEnvelope 2.2s ease-out forwards;
+            z-index: 20;
+            filter: drop-shadow(0 8px 20px rgba(60, 160, 255, 0.6));
+            transform-origin: center;
+            pointer-events: none;
+        }
+
+        @keyframes bringEnvelope {
+            0% {
+                transform: translate(-80px, -80px) scale(0.2) rotate(-30deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(10px, -10px) scale(1.3) rotate(10deg);
+                opacity: 1;
+            }
+            70% {
+                transform: translate(-5px, 5px) scale(0.95) rotate(-3deg);
+            }
+            100% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* پەپولەی دووەم بۆ کردنەوە (لەگەڵ کارتدا) */
+        .second-butterfly {
+            position: absolute;
+            bottom: -20px;
+            right: -15px;
+            font-size: 3.8rem;
+            animation: secondOpen 2.6s ease-out forwards;
+            animation-delay: 0.8s;
+            opacity: 0;
+            filter: drop-shadow(0 0 18px #8fcbff);
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        @keyframes secondOpen {
+            0% { opacity: 0; transform: translate(60px, 60px) scale(0.1) rotate(40deg); }
+            60% { opacity: 1; transform: translate(-8px, -8px) scale(1.2) rotate(-10deg); }
+            100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(2deg); }
+        }
+
         .handwritten {
             font-family: 'Patrick Hand', cursive;
-            font-size: 1.1rem;
-            line-height: 1.9;
-            letter-spacing: 0.5px;
+            font-size: 1.15rem;
+            line-height: 2;
             text-align: justify;
-            color: #0b2a44;
-            transform: rotate(0.2deg);
-            margin: 0.5rem 0;
+            color: #05283f;
+            letter-spacing: 0.4px;
+            margin: 0.3rem 0;
         }
 
         .handwritten strong {
             font-weight: 700;
-            color: #00337a;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            color: #003675;
         }
 
         .title-name {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 700;
-            color: #002f6b;
-            text-shadow: 2px 2px 0 rgba(0, 80, 150, 0.15);
+            color: #002b60;
+            text-shadow: 2px 2px 0 rgba(0, 70, 150, 0.12);
             margin-bottom: 0.2rem;
-            transform: rotate(-0.8deg);
-            letter-spacing: 1px;
+            transform: rotate(-0.6deg);
         }
 
         .sub-title {
             font-size: 1.5rem;
             font-weight: 600;
             color: #003f7a;
-            margin: 0.4rem 0 0.8rem 0;
+            margin: 0.2rem 0 0.8rem 0;
             border-bottom: 2px dashed #7bb3d9;
             padding-bottom: 0.3rem;
             display: inline-block;
         }
 
+        .time-place {
+            background: #b7daf5;
+            padding: 0.6rem 1.6rem;
+            border-radius: 60px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #003b70;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+            display: inline-block;
+            margin: 0.3rem 0.2rem;
+        }
+
+        .seal {
+            display: inline-block;
+            background: #9fc9ed;
+            color: #002f5a;
+            padding: 0.3rem 1.4rem;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border: 2px solid #6a9fd1;
+            box-shadow: 0 3px 0 #3a74a0;
+            transform: rotate(1deg);
+            margin: 0.2rem 0;
+        }
+
         .card-footer {
-            margin-top: 2rem;
-            font-size: 1.2rem;
+            margin-top: 1.6rem;
+            font-size: 1.15rem;
             border-top: 2px dashed #7bb3d9;
             padding-top: 1.2rem;
             display: flex;
@@ -138,45 +236,17 @@
             gap: 10px;
         }
 
-        .time-place {
-            background: #b7daf5;
-            padding: 0.6rem 1.4rem;
-            border-radius: 60px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #003b70;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
-            display: inline-block;
-            margin: 0.3rem auto;
-        }
-
-        .seal {
-            display: inline-block;
-            background: #9fc9ed;
-            color: #002f5a;
-            padding: 0.3rem 1.2rem;
-            border-radius: 40px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            border: 2px solid #6a9fd1;
-            box-shadow: 0 3px 0 #3a74a0;
-            transform: rotate(1deg);
-        }
-
-        /* بۆ خۆکار دەستپێکردنی گۆرانی (instagram reels) */
+        /* بۆ گۆرانی (reel) - خۆکار دەستپێدەکات */
         .reel-container {
-            margin: 1.8rem 0 0.5rem 0;
-            position: relative;
-            border-radius: 18px;
+            margin: 1.6rem auto 0.5rem auto;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0, 30, 60, 0.3);
+            box-shadow: 0 8px 28px rgba(0, 30, 60, 0.35);
             background: #000;
             aspect-ratio: 16/9;
             width: 100%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            border: 3px solid #aacff0;
+            max-width: 480px;
+            border: 3px solid #9fc9ed;
         }
 
         .reel-container iframe {
@@ -186,138 +256,125 @@
             display: block;
         }
 
-        /* دەستکاری بچووک بۆ مۆبایل */
         @media (max-width: 600px) {
-            .invitation-card {
-                padding: 1.8rem 1.2rem;
-            }
-            .title-name {
-                font-size: 1.6rem;
-            }
-            .handwritten {
-                font-size: 1rem;
-            }
-            .time-place {
-                font-size: 1rem;
-                padding: 0.4rem 1rem;
-            }
+            .invitation-card { padding: 1.8rem 1.2rem; }
+            .title-name { font-size: 1.8rem; }
+            .handwritten { font-size: 1rem; }
+            .time-place { font-size: 1rem; padding: 0.4rem 1rem; }
+            .envelope-butterfly { font-size: 3.2rem; top: -15px; left: -10px; }
+            .second-butterfly { font-size: 2.8rem; bottom: -10px; right: -8px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- پەپولە شینەکان (بەسەر شاشەکەدا) -->
-    <div class="butterfly-container">
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
-        <div class="butterfly">🦋</div>
+    <!-- پەپولەکانی پاشبنەما (شین) -->
+    <div class="butterfly-bg">
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
+        <div class="bfly">🦋</div>
     </div>
 
-    <!-- کارتی بانگێشت نامە -->
-    <div class="invitation-card">
-        <!-- ناوی خۆم و تاج -->
-        <div class="title-name">👑 ئەمیر تاجدار 👑</div>
-        <div class="sub-title">~ بانگێشتێکی تایبەت ~</div>
+    <div class="wrapper">
+        <!-- کارتی نامە -->
+        <div class="invitation-card" id="card">
+            <!-- پەپولەی هێنانی نامە (کردنەوە) -->
+            <div class="envelope-butterfly">🦋✨</div>
+            <div class="second-butterfly">🦋💌</div>
 
-        <!-- نووسینی دەستی و خەتایی -->
-        <div class="handwritten">
-            <p>
-            <strong>بە ناوی خۆم و تاجی سەرم،</strong> ئێمە بە خۆشحاڵییەوە بانگێشتی 
-            <strong>هەردوو هاوڕێکانی رەیان</strong> دەکەین بۆ ئاهەنگێکی بچووک لە دوای 
-            رەنج و ماندووبنێکی زۆر و چاوڕوانی تاڵ. لە کۆتایدا خودا بەو رۆژەی شاد کردین 
-            و بە یەکتری گەیاندن و جوابی نزاو پاڕانەوەکانی داوە.
-            </p>
-            <p style="margin-top: 0.6rem;">
-            دەمانەوێت <strong>هەردووکتان بەشدار بن و ئامادەبن</strong> لە:
-            </p>
-        </div>
+            <div class="title-name">👑 ئەمیر تاجدار 👑</div>
+            <div class="sub-title">~ بانگێشتێکی تایبەت ~</div>
 
-        <!-- کات و شوێن (بە شێوەی کارت) -->
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0;">
-            <span class="time-place">⏰ کاتژمێر 2:30 نیوەڕۆ</span>
-            <span class="time-place">📍 کۆمەڵگای رووپەسەند</span>
-        </div>
+            <div class="handwritten">
+                <p>
+                <strong>بە ناوی خۆم و تاجی سەرم،</strong> ئێمە بە خۆشحاڵییەوە بانگێشتی 
+                <strong>هەردوو هاوڕێکانی رەیان</strong> دەکەین بۆ ئاهەنگێکی بچووک لە دوای 
+                رەنج و ماندووبنێکی زۆر و چاوڕوانی تاڵ. لە کۆتایدا خودا بەو رۆژەی شاد کردین 
+                و بە یەکتری گەیاندن و جوابی نزاو پاڕانەوەکانی داوە.
+                </p>
+                <p style="margin-top: 0.4rem;">
+                دەمانەوێت <strong>هەردووکتان بەشدار بن و ئامادەبن</strong> لە:
+                </p>
+            </div>
 
-        <!-- تێبینی نووسینی دەستی و خەتایی -->
-        <div class="handwritten" style="font-size: 0.95rem; margin-top: 0.5rem; background: rgba(255,255,240,0.2); padding: 0.8rem; border-radius: 20px;">
-            <em>✍️ ئەم نامەیە لەسەر کارتەکە نوسراوە نەک نوسینی کۆمپیوتەری، وە بە خەتاتی نوسراوە. </em>
-            <span style="display: inline-block; margin-left: 6px;">📜</span>
-        </div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0;">
+                <span class="time-place">⏰ کاتژمێر 2:30 نیوەڕۆ</span>
+                <span class="time-place">📍 کۆمەڵگای رووپەسەند</span>
+            </div>
 
-        <!-- قەپاتکردنەوەی نامە (بە شێوەیەکی هێمایی) -->
-        <div style="margin: 0.8rem 0 0.3rem 0;">
-            <span class="seal">📨 قەپات کرایەوە 💌</span>
-        </div>
+            <!-- قەپاتکردنەوەی نامە (هێمایی) -->
+            <div style="margin: 0.5rem 0 0.2rem 0;">
+                <span class="seal">📨 قەپات کرایەوە 💌</span>
+            </div>
 
-        <!-- لینکی گۆرانی (خۆکار دەستپێدەکات) -->
-        <div class="reel-container">
-            <iframe 
-                src="https://www.instagram.com/reel/DZxQw8ZtBWv/?igsh=MWk3YjIxYzA0azllbg==&autoplay=1&mute=0"
-                allow="autoplay; encrypted-media; fullscreen"
-                allowfullscreen
-                loading="lazy">
-            </iframe>
-        </div>
+            <!-- گۆرانی (خۆکار) -->
+            <div class="reel-container">
+                <iframe 
+                    src="https://www.instagram.com/reel/DZxQw8ZtBWv/?igsh=MWk3YjIxYzA0azllbg==&autoplay=1&mute=0"
+                    allow="autoplay; encrypted-media; fullscreen"
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
+            </div>
 
-        <!-- پەپولەکان و تەواوکاری (بە پەپولە زیندوو) -->
-        <div style="margin-top: 0.8rem; font-size: 1.6rem; letter-spacing: 10px; opacity: 0.8;">
-            🦋 ✦ 🦋 ✦ 🦋 ✦ 🦋
-        </div>
+            <div style="margin-top: 0.6rem; font-size: 1.8rem; letter-spacing: 12px; opacity: 0.8;">
+                🦋 ✦ 🦋 ✦ 🦋
+            </div>
 
-        <div class="card-footer">
-            <span>💙 بە خۆشحاڵییەوە چاوەڕوانین</span>
-            <span>🌸 ھەرگیز بیری ناکەین</span>
+            <div class="card-footer">
+                <span>💙 بە خۆشحاڵییەوە چاوەڕوانین</span>
+                <span>🌸 ھەرگیز بیری ناکەین</span>
+            </div>
         </div>
     </div>
 
-    <!-- پەپولەی زیاتر لە JS زیاد دەکەین (بۆ ئەنیمەیشنی زیاتر) -->
     <script>
         (function() {
-            // زیادکردنی پەپولەی زیاتر بە JS لەکاتی runکردن
-            const container = document.querySelector('.butterfly-container');
-            const emojis = ['🦋', '🦋', '🦋', '🦋', '🦋', '🦋', '🦋'];
-            for (let i = 0; i < 14; i++) {
-                const span = document.createElement('span');
-                span.className = 'butterfly';
-                span.textContent = emojis[i % emojis.length];
-                span.style.left = (Math.random() * 95) + '%';
-                span.style.top = (Math.random() * 90) + '%';
-                span.style.fontSize = (1.5 + Math.random() * 2.5) + 'rem';
-                span.style.animationDuration = (10 + Math.random() * 18) + 's';
-                span.style.animationDelay = (Math.random() * 3) + 's';
-                span.style.opacity = 0.5 + Math.random() * 0.4;
-                container.appendChild(span);
+            // زیادکردنی پەپولەی زیاتر بۆ پاشبنەما
+            const bg = document.querySelector('.butterfly-bg');
+            for (let i = 0; i < 20; i++) {
+                const b = document.createElement('div');
+                b.className = 'bfly';
+                b.textContent = '🦋';
+                b.style.left = Math.random() * 98 + '%';
+                b.style.top = Math.random() * 95 + '%';
+                b.style.fontSize = (1.8 + Math.random() * 2.8) + 'rem';
+                b.style.animationDuration = (12 + Math.random() * 22) + 's';
+                b.style.animationDelay = (Math.random() * 4) + 's';
+                b.style.opacity = 0.4 + Math.random() * 0.5;
+                bg.appendChild(b);
             }
 
-            // هەوڵی خۆکار دەستپێکردنی گۆرانی (reel)  لەسەر بارکردن
-            // بەشێکی تری JS بۆ ئەوەی هەر ئەگەر iframe خۆکار نەدەستپێکرد، 
-            // دووبارە باربکرێتەوە بۆ دەستپێکردن
+            // دڵنیایی لە دەستپێکردنی گۆرانی (خۆکار)
             const iframe = document.querySelector('.reel-container iframe');
             if (iframe) {
-                // دوای بارکردنی لاپەڕە، بە زۆر src دەستپێدەکاتەوە بۆ ئەوەی خۆکار بێت
                 setTimeout(() => {
-                    const src = iframe.src;
-                    // ئەگەر autoplay نەبوو، زیاد بکە
-                    if (src && !src.includes('autoplay=1')) {
-                        iframe.src = src + '&autoplay=1&mute=0';
-                    } else if (src) {
-                        // دووبارە بارکردنەوە بۆ دڵنیایی
-                        iframe.src = src.replace(/&autoplay=1/g, '').replace(/autoplay=1/g, '') + '&autoplay=1&mute=0';
+                    let src = iframe.src;
+                    // گەر autoplay نەبێت زیاد دەکەین
+                    if (!src.includes('autoplay=1')) {
+                        if (src.includes('?')) {
+                            iframe.src = src + '&autoplay=1&mute=0';
+                        } else {
+                            iframe.src = src + '?autoplay=1&mute=0';
+                        }
+                    } else {
+                        // بۆ دڵنیایی دووبارە بارکە
+                        iframe.src = iframe.src.replace(/&autoplay=1/g, '').replace(/autoplay=1/g, '') + '&autoplay=1&mute=0';
                     }
-                }, 800);
+                }, 500);
             }
+
+            // زیادکردنی پەپولەی زیاتر بۆ کرداری کردنەوە (لەکاتی run)
+            // هەروەها دەتوانین کارتی نامە دیار بێت (ئەنیمەیشن لە CSS-دا)
+            console.log('بانگێشت نامە بە شین و پەپولە کرایەوە!');
         })();
     </script>
 
