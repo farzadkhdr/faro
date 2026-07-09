@@ -185,47 +185,45 @@
             gap: 10px;
         }
 
-        /* دەنگی یوتیوب بە شێوەی نادیار - بۆ خۆکار */
-        .audio-overlay {
+        /* ڤیدیۆی نادیار (لە پشتەوە) */
+        .hidden-video {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9999;
+            z-index: -1;
             opacity: 0;
             pointer-events: none;
         }
-        .audio-overlay iframe {
-            width: 1px;
-            height: 1px;
+        .hidden-video iframe {
+            width: 100%;
+            height: 100%;
             border: 0;
-            opacity: 0;
         }
+
+        /* دوگمەی دەستپێکردن (بۆ ئەگەری پێویست) */
         .audio-trigger {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(30, 100, 180, 0.8);
+            bottom: 30px;
+            right: 30px;
+            background: rgba(30, 100, 180, 0.7);
             color: white;
-            padding: 10px 18px;
-            border-radius: 40px;
+            padding: 12px 24px;
+            border-radius: 50px;
             font-family: 'Patrick Hand', cursive;
-            font-size: 1rem;
+            font-size: 1.1rem;
             z-index: 9998;
             border: 2px solid #8fc9ff;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
             transition: 0.3s;
+            display: none; /* بە شێوەی بنەڕەتی شاراوەیە */
         }
         .audio-trigger:hover {
             background: rgba(30, 100, 180, 1);
             transform: scale(1.05);
-        }
-        .audio-trigger.playing {
-            background: rgba(30, 160, 80, 0.9);
-            border-color: #7ddfa0;
         }
 
         @media (max-width: 600px) {
@@ -240,13 +238,14 @@
 </head>
 <body>
 
+    <!-- پەپولەکانی پاشبنەما -->
     <div class="butterfly-bg" id="butterflyBg"></div>
 
-    <!-- ئۆڤەرلەی دەنگ (نادیار) -->
-    <div class="audio-overlay" id="audioOverlay">
+    <!-- ڤیدیۆی نادیار (یوتیوب) -->
+    <div class="hidden-video" id="hiddenVideo">
         <iframe id="youtubePlayer" 
-            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=0&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0"
-            allow="autoplay; encrypted-media">
+            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3"
+            allow="autoplay; encrypted-media; fullscreen">
         </iframe>
     </div>
 
@@ -283,71 +282,97 @@
         </div>
     </div>
 
-    <!-- دوگمەی دەستپێکردنی دەنگ (لە خوارەوەی لاپەڕە) -->
+    <!-- دوگمەی یەدەگ (شاراوە، بەڵام بۆ ئەگەری پێویست) -->
     <button class="audio-trigger" id="audioTrigger">🎵 کلیک بکە بۆ گۆرانی</button>
 
     <script>
         (function() {
-            // پەپولەکانی پاشبنەما
+            // زیادکردنی پەپولە
             const bg = document.getElementById('butterflyBg');
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < 30; i++) {
                 const b = document.createElement('div');
                 b.className = 'bfly';
                 b.textContent = '🦋';
                 b.style.left = Math.random() * 98 + '%';
                 b.style.top = Math.random() * 95 + '%';
-                b.style.fontSize = (1.8 + Math.random() * 2.8) + 'rem';
-                b.style.animationDuration = (12 + Math.random() * 22) + 's';
-                b.style.animationDelay = (Math.random() * 4) + 's';
-                b.style.opacity = 0.4 + Math.random() * 0.5;
+                b.style.fontSize = (1.5 + Math.random() * 3) + 'rem';
+                b.style.animationDuration = (12 + Math.random() * 25) + 's';
+                b.style.animationDelay = (Math.random() * 5) + 's';
+                b.style.opacity = 0.3 + Math.random() * 0.6;
                 bg.appendChild(b);
             }
 
-            // کۆنترۆڵکردنی دەنگ
+            // کۆنترۆڵکردنی ڤیدیۆی نادیار
             const iframe = document.getElementById('youtubePlayer');
             const triggerBtn = document.getElementById('audioTrigger');
-            let isPlaying = false;
+            let attempts = 0;
+            const maxAttempts = 5;
 
-            function startAudio() {
-                if (isPlaying) return;
+            function forcePlay() {
+                // هەوڵی گۆڕینی src بۆ autoplay
+                const src = iframe.src;
+                if (!src.includes('autoplay=1')) {
+                    iframe.src = src.replace('autoplay=0', 'autoplay=1');
+                }
                 
-                // ڕێگای 1: گۆڕینی src بۆ autoplay
-                iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0';
-                
-                // ڕێگای 2: هەوڵدان بە audio element
-                try {
-                    const audio = new Audio('https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1');
-                    audio.play().catch(() => {});
-                } catch(e) {}
-
-                isPlaying = true;
-                triggerBtn.textContent = '🎵 گۆرانی دەنگی هەیە...';
-                triggerBtn.classList.add('playing');
-                
-                // دوای 5 چرکە دوگمە بگۆڕە
-                setTimeout(() => {
-                    triggerBtn.textContent = '🔊 گۆرانی کاردەکات (کلیک بکە دووبارە)';
-                }, 5000);
+                // هەوڵی دووبارە بارکردنەوە
+                if (attempts < maxAttempts) {
+                    attempts++;
+                    setTimeout(() => {
+                        iframe.src = iframe.src;
+                    }, 500);
+                }
             }
 
-            // کلیک کردن بۆ دەستپێکردن
-            triggerBtn.addEventListener('click', startAudio);
+            // یەکەم هەوڵ: دوای 1 چرکە
+            setTimeout(forcePlay, 1000);
 
-            // هەوڵی دەستپێکردنی خۆکار دوای کلیکی یەکەم لە لاپەڕە
-            // زۆربەی وێبگەڕەکان پێویستیان بە کلیکی بەکارهێنەر هەیە
-            document.addEventListener('click', function firstClick() {
-                startAudio();
-                document.removeEventListener('click', firstClick);
+            // دووەم هەوڵ: دوای 3 چرکە
+            setTimeout(forcePlay, 3000);
+
+            // سێیەم هەوڵ: دوای 6 چرکە
+            setTimeout(forcePlay, 6000);
+
+            // ئەگەر کار نەکرد، دوگمەکە پیشان بدە
+            setTimeout(() => {
+                // پشکنینی ئەگەر دەنگ کاردەکات
+                // (ناتوانین ڕاستەوخۆ پشکنین بکەین، بەڵام دوگمە پیشان دەدەین)
+                triggerBtn.style.display = 'block';
+            }, 8000);
+
+            // کلیک کردن لە دوگمە بۆ دەستپێکردن
+            triggerBtn.addEventListener('click', function() {
+                iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3';
+                this.textContent = '✅ گۆرانی دەستی پێکرد';
+                this.style.background = 'rgba(30, 180, 80, 0.8)';
+                this.style.borderColor = '#7ddfa0';
+                setTimeout(() => {
+                    this.textContent = '🎵 کلیک بکە دووبارە ئەگەر دەنگ نەهات';
+                }, 3000);
+            });
+
+            // هەوڵی زیاتر: بۆ ئەوەی لە هەموو وێبگەڕێکدا کاربکات
+            // هەندێک وێبگەڕ ڕێگە بە autoplay نادەن مەگەر بەکارهێنەر کارلێکی پێوە بکات
+            // بۆیە هەر کلیکێک لە لاپەڕە (بەدەست) دەنگ دەستپێدەکات
+            document.addEventListener('click', function firstUserClick() {
+                if (iframe.src && !iframe.src.includes('autoplay=1')) {
+                    iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
+                }
+                // دوگمە شاراوە بکەرەوە دوای کلیکی یەکەم
+                triggerBtn.style.display = 'none';
+                document.removeEventListener('click', firstUserClick);
             }, { once: true });
 
-            // هەروەها هەوڵی دەستپێکردن دوای 2 چرکە (بۆ ئەگەری وێبگەڕە ڕێگەپێدراوەکان)
-            setTimeout(() => {
-                // ئەگەر بەکارهێنەر تا ئێستا کلیکی نەکردبێت، هەوڵبدە
-                if (!isPlaying) {
-                    // بۆ وێبگەڕەکانی مۆبایل کە ڕێگە دەدەن
-                    iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0';
+            // بۆ مۆبایل: کلیکی تاچ
+            document.addEventListener('touchstart', function firstTouch() {
+                if (iframe.src && !iframe.src.includes('autoplay=1')) {
+                    iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
                 }
-            }, 1500);
+                triggerBtn.style.display = 'none';
+                document.removeEventListener('touchstart', firstTouch);
+            }, { once: true });
+
+            console.log('🎵 ڤیدیۆی نادیار دەستپێدەکات...');
         })();
     </script>
 
