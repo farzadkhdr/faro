@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="ku">
+<html lang="ckb" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشت‌نامە - ڕەیان و تاجی سەرم</title>
-    <!-- Google Font for a beautiful, handwritten style -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <title>بانگێشت نامە - ڕەیان</title>
     <style>
         * {
             margin: 0;
@@ -14,401 +12,582 @@
         }
 
         body {
-            min-height: 100vh;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #0a0a1a;
+            font-family: 'Tahoma', 'Segoe UI', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(145deg, #0b2b3f, #1a4a5f);
-            font-family: 'Noto Naskh Arabic', 'Segoe UI', Tahoma, sans-serif;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-
-        /* envelope / card container */
-        .invitation-wrapper {
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
             position: relative;
-            width: 100%;
-            max-width: 700px;
-            perspective: 1200px;
-            z-index: 10;
         }
 
-        /* the card itself – elegant, soft blue, handwritten style */
-        .card {
-            background: #d9eaf7;  /* soft pale blue */
-            background-image: radial-gradient(circle at 10% 30%, rgba(255,255,255,0.3) 0%, transparent 30%);
-            padding: 2.2rem 2rem 2.5rem;
-            border-radius: 36px 12px 36px 12px;
-            box-shadow: 0 30px 45px -15px rgba(0,0,0,0.6), 
-                        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
-                        0 0 0 3px #b7d7e8 inset;
-            position: relative;
-            transition: transform 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(1px);
-            font-family: 'Great Vibes', 'Noto Naskh Arabic', cursive;
-            transform: rotate(0.5deg);
-            /* make it look like a slightly imperfect paper card */
-        }
-
-        /* subtle paper texture overlay */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.05"/></svg>');
-            opacity: 0.15;
-            pointer-events: none;
-            border-radius: inherit;
-        }
-
-        /* handwritten style text */
-        .handwritten {
-            font-family: 'Great Vibes', 'Noto Naskh Arabic', cursive;
-            font-weight: 400;
-            color: #1f3d4d;
-            line-height: 1.7;
-            text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
-            letter-spacing: 0.3px;
-        }
-
-        .title {
-            font-size: 2.4rem;
-            text-align: center;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-            color: #12303e;
-            border-bottom: 2px dashed #6f9bb0;
-            padding-bottom: 0.4rem;
-            font-family: 'Great Vibes', cursive;
-        }
-
-        .greeting {
-            font-size: 1.7rem;
-            text-align: center;
-            margin: 0.8rem 0 0.2rem;
-        }
-
-        .message {
-            font-size: 1.35rem;
-            text-align: justify;
-            padding: 0.4rem 0.2rem;
-            margin: 0.5rem 0;
-            word-spacing: 2px;
-            font-family: 'Noto Naskh Arabic', 'Great Vibes', cursive;
-        }
-
-        .message i {
-            font-style: italic;
-            color: #1f4b5e;
-        }
-
-        .highlight {
-            background: rgba(255, 255, 200, 0.2);
-            padding: 0 6px;
-            border-radius: 20px;
-        }
-
-        .invitee {
-            font-size: 1.7rem;
-            text-align: center;
-            background: rgba(255,255,240,0.2);
-            padding: 0.2rem 1rem;
-            border-radius: 60px;
-            display: inline-block;
-            margin: 0.2rem auto;
-            font-weight: 700;
-            color: #0a2f40;
-        }
-
-        .details {
-            font-size: 1.25rem;
-            text-align: center;
-            background: #b7d7e8;
-            padding: 0.6rem 0.8rem;
-            border-radius: 60px;
-            margin: 1.2rem 0 0.8rem;
-            color: #05212b;
-            border: 1px solid #97bdcf;
-            display: inline-block;
-            width: auto;
-            backdrop-filter: blur(2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
-
-        .signature {
-            font-size: 1.8rem;
-            text-align: right;
-            margin-top: 0.5rem;
-            padding-right: 0.5rem;
-            border-top: 1px solid #8fb6c9;
-            padding-top: 0.8rem;
-            font-family: 'Great Vibes', cursive;
-        }
-
-        .closing {
-            font-size: 1.2rem;
-            text-align: center;
-            margin-top: 0.8rem;
-            font-style: italic;
-            color: #184756;
-        }
-
-        /* decorative elements to mimic "کەپات" (fold / tape) */
-        .tape {
-            position: absolute;
-            width: 70px;
-            height: 20px;
-            background: rgba(210, 230, 245, 0.6);
-            border: 1px solid #b7d7e8;
-            border-radius: 40px;
-            transform: rotate(-4deg);
-            backdrop-filter: blur(3px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
-            pointer-events: none;
-        }
-
-        .tape1 { top: -6px; left: 20%; }
-        .tape2 { bottom: -6px; right: 20%; }
-
-        /* floating butterflies / petals (پەپولە) */
-        .petals-container {
+        /* Bubble container */
+        .bubbles-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 9999;
-            overflow: hidden;
+            z-index: 1;
         }
 
-        .petal {
+        .bubble {
             position: absolute;
-            width: 28px;
-            height: 28px;
-            background: radial-gradient(circle at 30% 30%, #b3ddf2, #7bb4d1);
-            border-radius: 70% 0 60% 30%;
-            opacity: 0.65;
-            filter: drop-shadow(0 6px 8px rgba(0, 40, 60, 0.15));
-            transform-origin: center;
-            animation: floatPetal linear infinite;
-            transition: transform 0.1s;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 15px rgba(150, 210, 240, 0.2);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(100, 180, 255, 0.7), rgba(30, 80, 180, 0.5));
+            box-shadow: 0 0 20px rgba(80, 160, 255, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.3);
+            animation: floatUp linear forwards;
+            pointer-events: none;
         }
 
-        .petal::after {
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.9;
+            }
+            25% {
+                transform: translateY(-25vh) translateX(30px) scale(1.1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-50vh) translateX(-20px) scale(0.9);
+                opacity: 0.6;
+            }
+            75% {
+                transform: translateY(-75vh) translateX(15px) scale(0.7);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-105vh) translateX(-10px) scale(0.4);
+                opacity: 0;
+            }
+        }
+
+        /* Envelope container */
+        .envelope-wrapper {
+            position: relative;
+            z-index: 10;
+            perspective: 1200px;
+            animation: envelopeEntrance 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+        }
+
+        @keyframes envelopeEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(100px) rotate(-10deg);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-10px) rotate(2deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0) rotate(0deg);
+            }
+        }
+
+        .envelope {
+            width: 500px;
+            height: 340px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.03);
+        }
+
+        .envelope-body {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(180deg, #d4e6f9 0%, #b8d4f0 30%, #a3c6e8 60%, #8ab4de 100%);
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.4);
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        /* Decorative lines on envelope */
+        .envelope-body::before {
             content: '';
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.5), transparent 60%);
-            border-radius: inherit;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            pointer-events: none;
+            z-index: 5;
         }
 
-        /* different petal shapes */
-        .petal:nth-child(odd) {
-            border-radius: 30% 70% 30% 60%;
-            background: radial-gradient(circle at 60% 30%, #bfe2f5, #6fa5c2);
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(180deg, #c5ddf5 0%, #aecce8 40%, #9fc2e2 100%);
+            clip-path: polygon(0 0, 50% 65%, 100% 0);
+            border-radius: 8px 8px 0 0;
+            z-index: 4;
+            transform-origin: top center;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .petal:nth-child(3n) {
-            width: 22px;
-            height: 30px;
-            background: radial-gradient(circle at 40% 30%, #cce9ff, #5f97b7);
+        .envelope-flap.open {
+            transform: rotateX(180deg);
+            z-index: 0;
         }
 
-        .petal:nth-child(5n+2) {
-            width: 35px;
-            height: 25px;
-            background: radial-gradient(circle at 20% 50%, #d4eef9, #89b9d4);
+        /* Seal/Wax stamp */
+        .seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #ff6b6b 0%, #c0392b 100%);
+            border-radius: 50%;
+            z-index: 6;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
         }
 
-        /* animation */
-        @keyframes floatPetal {
-            0% {
-                transform: translateY(110vh) rotate(0deg) scale(0.6);
-                opacity: 0.2;
-            }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% {
-                transform: translateY(-10vh) rotate(720deg) scale(1.2);
-                opacity: 0.1;
-            }
+        .seal::after {
+            content: '💮';
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
 
-        /* YouTube embed - subtle, autoplay */
-        .youtube-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 200px;
-            height: 120px;
-            border-radius: 20px;
+        .seal.removed {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+            transition: all 0.4s ease;
+        }
+
+        /* Card inside */
+        .card {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            width: 440px;
+            height: 260px;
+            background: linear-gradient(135deg, #e8f4fd 0%, #d6ecfb 30%, #c8e4f9 60%, #d0e8fa 100%);
+            border-radius: 6px;
+            z-index: 1;
+            padding: 25px 30px;
+            transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: inset 0 0 30px rgba(100, 150, 200, 0.3);
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-            border: 2px solid #c5ddee;
-            z-index: 100;
-            opacity: 0.85;
-            transition: 0.3s;
-        }
-        .youtube-container:hover {
-            opacity: 1;
-            width: 240px;
-            height: 140px;
-        }
-        .youtube-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
         }
 
-        /* responsive */
+        .card.slide-out {
+            transform: translateX(-50%) translateY(-220px);
+        }
+
+        /* Paper texture overlay */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(180, 200, 220, 0.1) 2px, rgba(180, 200, 220, 0.1) 4px);
+            pointer-events: none;
+            z-index: 2;
+            border-radius: 6px;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            color: #1a3a5c;
+            font-size: 15px;
+            line-height: 2.2;
+            font-family: 'Tahoma', 'Scheherazade New', 'Amiri', serif;
+        }
+
+        .card-content .greeting {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0d2b45;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .card-content .body-text {
+            font-size: 14px;
+            line-height: 2.4;
+            color: #1e3a5f;
+            margin: 10px 0;
+        }
+
+        .card-content .highlight {
+            color: #b8860b;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .card-content .signature {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #0d2b45;
+            font-family: 'Tahoma', 'Scheherazade New', 'Amiri', serif;
+            letter-spacing: 2px;
+        }
+
+        .card-content .decoration {
+            font-size: 22px;
+            color: #b8860b;
+            margin: 5px 0;
+        }
+
+        /* Floral decorations */
+        .floral-corner {
+            position: absolute;
+            font-size: 35px;
+            opacity: 0.4;
+            color: #2c5f8a;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .floral-tl { top: 5px; left: 10px; }
+        .floral-tr { top: 5px; right: 10px; }
+        .floral-bl { bottom: 5px; left: 10px; }
+        .floral-br { bottom: 5px; right: 10px; }
+
+        /* Instruction text */
+        .instruction {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(200, 220, 255, 0.8);
+            font-size: 14px;
+            z-index: 100;
+            text-align: center;
+            animation: pulse 2s infinite;
+            letter-spacing: 1px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Responsive */
         @media (max-width: 600px) {
-            .card { padding: 1.8rem 1.2rem; }
-            .title { font-size: 1.8rem; }
-            .message { font-size: 1.0rem; }
-            .greeting { font-size: 1.4rem; }
-            .signature { font-size: 1.5rem; }
-            .details { font-size: 1rem; }
-            .youtube-container { width: 140px; height: 90px; bottom: 10px; right: 10px; }
+            .envelope {
+                width: 340px;
+                height: 240px;
+            }
+            .envelope-body {
+                height: 210px;
+            }
+            .envelope-flap {
+                height: 130px;
+            }
+            .card {
+                width: 300px;
+                height: 200px;
+                padding: 15px 20px;
+            }
+            .card.slide-out {
+                transform: translateX(-50%) translateY(-170px);
+            }
+            .card-content {
+                font-size: 12px;
+                line-height: 1.9;
+            }
+            .card-content .greeting {
+                font-size: 16px;
+            }
+            .card-content .body-text {
+                font-size: 11px;
+                line-height: 2;
+            }
+            .seal {
+                width: 45px;
+                height: 45px;
+            }
+            .seal::after {
+                font-size: 22px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Floating petals (پەپولە) container -->
-    <div class="petals-container" id="petalsContainer"></div>
+    <!-- Bubbles container -->
+    <div class="bubbles-container" id="bubblesContainer"></div>
 
-    <!-- Invitation card -->
-    <div class="invitation-wrapper">
-        <div class="card">
-            <!-- decorative tape (قەپات) -->
-            <div class="tape tape1"></div>
-            <div class="tape tape2"></div>
+    <!-- Envelope -->
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        <div class="envelope" id="envelope" onclick="openEnvelope()">
+            <div class="envelope-body">
+                <!-- Floral decorations on envelope -->
+                <span class="floral-corner floral-tl">🌸</span>
+                <span class="floral-corner floral-tr">🌿</span>
+                <span class="floral-corner floral-bl">🌿</span>
+                <span class="floral-corner floral-br">🌸</span>
 
-            <div class="handwritten">
-                <div class="title">💠 بانگێشت‌نامە 💠</div>
-                <div class="greeting">🏵️ بە ناوی خۆم و تاجی سەرم 🏵️</div>
-                
-                <div style="text-align: center; margin: 0.2rem 0;">
-                    <span class="invitee">✨ ڕەیان ✨</span>
-                    <span style="margin:0 6px;">&</span>
-                    <span class="invitee">✨ هاوڕێیەکان ✨</span>
-                </div>
-
-                <div class="message">
-                    <p>🕊️ دوای <span class="highlight">رەنج و ماندووبنێکی زۆر</span> و 
-                    <span class="highlight">چاوڕوانی تاڵ</span>، لە کۆتایدا خودا بەو رۆژەی شاد کردین و بە یەکتری گەیاندن، 
-                    و جوابی نزاو پاڕانەوەکانی داوە.</p>
-                    <p style="margin-top: 0.5rem;">💙 دەمانەوێت هەردووکتان بەشدار بن و ئامادەبن لە 
-                    <strong>کاتژمێر ٢ی نیورۆ</strong> لە <strong>کۆمەڵگای رووپەسەند</strong>.</p>
-                </div>
-
-                <div style="text-align: center;">
-                    <span class="details">⏳ ٢ی نیورۆ • کۆمەڵگای رووپەسەند ⌛</span>
-                </div>
-
-                <div class="signature">
-                    ~ بە خەتاتی نوسراوە ~ <br>
-                    <span style="font-size: 1.2rem;">(ئەم نامەیە لەسەر کارتەکە نوسراوە، نەک نوسینی کۆمپیوتەری)</span>
-                </div>
-                <div class="closing">
-                    ❀ چاوەڕوانی تەواوتان دەکەین ❀
+                <!-- Card inside -->
+                <div class="card" id="card">
+                    <div class="card-content">
+                        <div class="decoration">✨ 🌸 ✨</div>
+                        <div class="greeting">بە ناوی خودای گەورە و میهرەبان</div>
+                        <div class="decoration">— • —</div>
+                        <div class="body-text">
+                            بە ناوی خۆم و <span class="highlight">تاجی سەرم</span>، بانگێشتی هەردوو هاوڕێکانی خۆشەویستم <span class="highlight">ڕەیان</span> دەکەین.
+                            <br><br>
+                            دوای ڕەنج و ماندووبوونێکی زۆر و چاوەڕوانییەکی تاڵ، لە کۆتاییدا خودا بەو ڕۆژە شاد کردین و بە یەکتری گەیاندین، و وەڵامی نزاو پاڕانەوەکانیمانی دایەوە.
+                            <br><br>
+                            دەمانەوێت هەردووکتان بەشدار بن و ئامادەبن، <span class="highlight">کاتژمێر ٢:٠٠ ی نیوەڕۆ</span>، لە <span class="highlight">کۆمەڵگای ڕووپەسەند</span>.
+                        </div>
+                        <div class="decoration">— • —</div>
+                        <div class="signature">بە هیوای دیدار ✨</div>
+                        <div class="decoration">🌷 🌿 🌷</div>
+                    </div>
                 </div>
             </div>
+            <div class="envelope-flap" id="envelopeFlap"></div>
+            <div class="seal" id="seal"></div>
         </div>
     </div>
 
-    <!-- YouTube Shorts autoplay (embedded with autoplay) -->
-    <div class="youtube-container">
-        <iframe 
-            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=1&loop=1&playlist=gsxJsmbA4BY&controls=0&modestbranding=1&rel=0"
-            title="YouTube Shorts"
-            allow="autoplay; encrypted-media"
-            allowfullscreen>
-        </iframe>
+    <!-- Instruction -->
+    <div class="instruction" id="instruction">
+        ✦ کرتە لەسەر نامەکە بکە بۆ کردنەوەی ✦
     </div>
 
+    <!-- YouTube iframe (hidden, for audio) -->
+    <div id="youtubePlayer" style="position: fixed; bottom: -100px; left: -100px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
+
     <script>
-        (function() {
-            // Generate floating petals (پەپولە) 
-            const container = document.getElementById('petalsContainer');
-            const petalCount = 60; // many petals for a beautiful effect
+        // ===== YOUTUBE AUDIO PLAYER =====
+        // Load YouTube IFrame API
+        let player;
+        let isPlayerReady = false;
+        let playerPlayAttempted = false;
 
-            for (let i = 0; i < petalCount; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                
-                // random position, size, animation duration, delay
-                const size = 16 + Math.random() * 28;
-                const posX = Math.random() * 100;
-                const duration = 12 + Math.random() * 20;
-                const delay = Math.random() * 25;
-                const rotationStart = Math.random() * 360;
-                
-                petal.style.width = size + 'px';
-                petal.style.height = size * (0.8 + Math.random() * 0.5) + 'px';
-                petal.style.left = posX + '%';
-                petal.style.top = '-10%';
-                petal.style.animationDuration = duration + 's';
-                petal.style.animationDelay = delay + 's';
-                petal.style.transform = `rotate(${rotationStart}deg)`;
-                
-                // random hues of soft blue
-                const hue = 195 + Math.random() * 30;
-                const sat = 40 + Math.random() * 40;
-                const lig = 60 + Math.random() * 30;
-                petal.style.background = `radial-gradient(circle at 30% 30%, hsl(${hue}, ${sat}%, ${lig+10}%), hsl(${hue-10}, ${sat-10}%, ${lig-15}%))`;
-                
-                container.appendChild(petal);
-            }
+        // Load the IFrame API asynchronously
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-            // add a few more special petals (larger, with more glow)
-            for (let i = 0; i < 15; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                const size = 30 + Math.random() * 35;
-                petal.style.width = size + 'px';
-                petal.style.height = size * (0.7 + Math.random() * 0.6) + 'px';
-                petal.style.left = Math.random() * 100 + '%';
-                petal.style.top = '-5%';
-                petal.style.animationDuration = 18 + Math.random() * 25 + 's';
-                petal.style.animationDelay = Math.random() * 30 + 's';
-                petal.style.opacity = '0.5';
-                petal.style.filter = 'drop-shadow(0 0 20px rgba(120, 200, 240, 0.3))';
-                const hue = 200 + Math.random() * 25;
-                petal.style.background = `radial-gradient(circle at 60% 20%, hsl(${hue}, 70%, 80%), hsl(${hue-15}, 60%, 60%))`;
-                container.appendChild(petal);
-            }
-
-            // ensure the YouTube iframe autoplays even if not, we force reload after 1 sec
-            // but the src has autoplay=1, mute=1, loop=1 
-            // Some browsers may block autoplay, but we try.
-            const iframe = document.querySelector('.youtube-container iframe');
-            if (iframe) {
-                // reload after a tiny delay to ensure autoplay in most browsers
-                setTimeout(() => {
-                    const src = iframe.src;
-                    if (src.includes('autoplay=1')) {
-                        // already good
-                    } else {
-                        iframe.src = src + '&autoplay=1&mute=1';
-                    }
-                }, 800);
-            }
-
-            // extra: make the card feel more "handwritten" with subtle mouse tilt
-            const card = document.querySelector('.card');
-            document.addEventListener('mousemove', (e) => {
-                const x = (e.clientX / window.innerWidth - 0.5) * 3;
-                const y = (e.clientY / window.innerHeight - 0.5) * -3;
-                card.style.transform = `rotate(${x*0.3}deg) skewX(${y*0.05}deg)`;
+        // Create YouTube player when API is ready
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtubePlayer', {
+                height: '1',
+                width: '1',
+                videoId: 'gsxJsmbA4BY',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'iv_load_policy': 3,
+                    'loop': 1,
+                    'modestbranding': 1,
+                    'playsinline': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'mute': 0,
+                    'playlist': 'gsxJsmbA4BY' // Required for looping
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
             });
-        })();
-    </script>
+        }
 
+        function onPlayerReady(event) {
+            isPlayerReady = true;
+            console.log('YouTube player ready');
+            // Try to play
+            if (!playerPlayAttempted) {
+                attemptPlay();
+            }
+        }
+
+        function onPlayerStateChange(event) {
+            // If video ended, it will loop automatically due to playlist parameter
+            if (event.data === YT.PlayerState.ENDED) {
+                console.log('Video ended, looping...');
+            }
+        }
+
+        function attemptPlay() {
+            playerPlayAttempted = true;
+            if (isPlayerReady && player && player.playVideo) {
+                player.unMute();
+                player.setVolume(50);
+                player.playVideo();
+                console.log('Attempting to play audio...');
+            } else {
+                // Retry after a short delay
+                setTimeout(() => {
+                    if (isPlayerReady && player && player.playVideo) {
+                        player.unMute();
+                        player.setVolume(50);
+                        player.playVideo();
+                    }
+                }, 1000);
+            }
+        }
+
+        // Also try to play on first user interaction (browsers often require this)
+        document.addEventListener('click', function firstInteraction() {
+            attemptPlay();
+        }, { once: false });
+
+        // ===== BUBBLE CREATION =====
+        function createBubble() {
+            const container = document.getElementById('bubblesContainer');
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+
+            const size = Math.random() * 25 + 10; // 10-35px
+            const startX = Math.random() * 100; // vw percentage
+            const duration = Math.random() * 4 + 4; // 4-8 seconds
+            const delay = Math.random() * 1;
+
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = startX + '%';
+            bubble.style.bottom = '-50px';
+            bubble.style.animationDuration = duration + 's';
+            bubble.style.animationDelay = delay + 's';
+
+            // Vary bubble colors slightly
+            const hue = 200 + Math.random() * 40; // 200-240 (blue range)
+            const lightness = 55 + Math.random() * 25;
+            bubble.style.background = `radial-gradient(circle at 30% 30%, hsla(${hue}, 70%, ${lightness + 15}%, 0.8), hsla(${hue}, 60%, ${lightness}%, 0.5))`;
+            bubble.style.boxShadow = `0 0 ${10 + Math.random() * 20}px hsla(${hue}, 80%, 60%, 0.5), inset 0 0 10px rgba(255,255,255,0.3)`;
+
+            container.appendChild(bubble);
+
+            // Remove bubble after animation ends
+            setTimeout(() => {
+                if (bubble.parentNode) {
+                    bubble.remove();
+                }
+            }, (duration + delay) * 1000 + 200);
+        }
+
+        // Create bubbles continuously
+        function startBubbles() {
+            // Initial burst of bubbles
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => createBubble(), i * 80);
+            }
+            // Continuous creation
+            setInterval(() => {
+                const count = Math.floor(Math.random() * 3) + 1;
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => createBubble(), i * 150);
+                }
+            }, 400);
+        }
+
+        // Create massive burst of bubbles
+        function burstBubbles(count = 60) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => createBubble(), i * 30);
+            }
+        }
+
+        // ===== ENVELOPE OPENING =====
+        let isOpen = false;
+
+        function openEnvelope() {
+            if (isOpen) return;
+            isOpen = true;
+
+            const flap = document.getElementById('envelopeFlap');
+            const seal = document.getElementById('seal');
+            const card = document.getElementById('card');
+            const instruction = document.getElementById('instruction');
+
+            // Hide instruction
+            instruction.style.opacity = '0';
+            instruction.style.transition = 'opacity 0.5s ease';
+
+            // Remove seal
+            seal.classList.add('removed');
+
+            // Open flap after seal removal
+            setTimeout(() => {
+                flap.classList.add('open');
+            }, 300);
+
+            // Slide out card
+            setTimeout(() => {
+                card.classList.add('slide-out');
+            }, 700);
+
+            // Burst bubbles on open
+            setTimeout(() => {
+                burstBubbles(80);
+            }, 500);
+
+            // Continuous extra bubbles for a while
+            setTimeout(() => {
+                burstBubbles(40);
+            }, 1500);
+            setTimeout(() => {
+                burstBubbles(30);
+            }, 2500);
+
+            // Ensure audio plays
+            attemptPlay();
+        }
+
+        // ===== INITIALIZATION =====
+        function init() {
+            startBubbles();
+
+            // Initial bubble burst on page load
+            setTimeout(() => burstBubbles(50), 300);
+
+            // Attempt audio play
+            setTimeout(() => attemptPlay(), 500);
+        }
+
+        // Run on load
+        window.addEventListener('load', init);
+
+        // Handle window resize for bubble positioning
+        window.addEventListener('resize', () => {
+            // Bubbles will naturally adjust as they use vw units
+        });
+
+        console.log('✨ بانگێشت نامە - بۆ ڕەیان ✨');
+        console.log('🎵 گۆرانیەکە بە شێوەی خۆکار دەست پێدەکات...');
+        console.log('📩 کرتە لەسەر نامەکە بکە بۆ کردنەوەی');
+    </script>
 </body>
 </html>
