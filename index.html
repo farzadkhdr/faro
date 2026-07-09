@@ -30,12 +30,12 @@
             touch-action: manipulation;
         }
 
-        /* ===== Background gradient overlay ===== */
+        /* ===== Background gradient ===== */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 30%, #16203a 0%, #0a0a18 70%);
+            background: radial-gradient(ellipse at 50% 30%, #1a0e2e 0%, #0a0a18 60%, #0d0a1a 100%);
             z-index: 0;
         }
 
@@ -140,14 +140,14 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(150deg, #1f1f4a 0%, #0d0d2b 35%, #1a1a40 65%, #0b0b20 100%);
+            background: linear-gradient(145deg, #2a1a3e 0%, #1a0e2e 30%, #2d1a45 60%, #150a25 100%);
             border-radius: 24px;
             box-shadow:
                 0 25px 70px rgba(0, 0, 0, 0.8),
                 0 0 0 2px rgba(200, 175, 80, 0.5),
                 0 0 0 6px rgba(200, 175, 80, 0.2),
                 0 0 0 12px rgba(200, 175, 80, 0.08),
-                0 0 80px rgba(80, 130, 220, 0.25);
+                0 0 80px rgba(180, 100, 220, 0.2);
             overflow: hidden;
             z-index: 3;
             transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
@@ -172,7 +172,7 @@
             left: 14px;
             right: 14px;
             bottom: 14px;
-            border: 2px solid rgba(210, 185, 90, 0.5);
+            border: 2px solid rgba(220, 190, 100, 0.5);
             border-radius: 16px;
             pointer-events: none;
         }
@@ -182,7 +182,7 @@
             left: 22px;
             right: 22px;
             bottom: 22px;
-            border: 1px solid rgba(210, 185, 90, 0.2);
+            border: 1px solid rgba(220, 190, 100, 0.2);
             border-radius: 10px;
             pointer-events: none;
         }
@@ -190,12 +190,12 @@
         .cover-pattern {
             position: absolute;
             inset: 0;
-            opacity: 0.06;
+            opacity: 0.05;
             background:
-                radial-gradient(circle at 25% 30%, #d4b85a 1.5px, transparent 1.5px),
-                radial-gradient(circle at 75% 70%, #d4b85a 1.5px, transparent 1.5px),
-                radial-gradient(circle at 50% 50%, #d4b85a 2.5px, transparent 2.5px);
-            background-size: 40px 40px, 40px 40px, 70px 70px;
+                radial-gradient(circle at 20% 30%, #e8d080 2px, transparent 2px),
+                radial-gradient(circle at 80% 70%, #e8d080 2px, transparent 2px),
+                radial-gradient(circle at 50% 50%, #e8d080 3px, transparent 3px);
+            background-size: 45px 45px, 45px 45px, 75px 75px;
             pointer-events: none;
         }
 
@@ -211,9 +211,9 @@
 
         .cover-icon {
             font-size: clamp(48px, 12vw, 70px);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             animation: gentleFloat 3.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 25px rgba(200, 175, 80, 0.5));
+            filter: drop-shadow(0 0 25px rgba(220, 190, 100, 0.4));
         }
 
         @keyframes gentleFloat {
@@ -226,15 +226,41 @@
             }
         }
 
-        /* ===== فۆنتە جوانەکەی ناوی سەرەوە ===== */
+        /* ===== Couple on cover ===== */
+        .cover-couple {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(8px, 2vw, 18px);
+            margin: 6px 0 10px 0;
+        }
+
+        .cover-couple .person {
+            font-size: clamp(32px, 8vw, 50px);
+            animation: gentleFloat 3.8s ease-in-out infinite;
+        }
+        .cover-couple .person:first-child {
+            animation-delay: 0.2s;
+        }
+        .cover-couple .person:last-child {
+            animation-delay: 0.6s;
+        }
+        .cover-couple .heart-icon {
+            font-size: clamp(20px, 4vw, 32px);
+            color: #ff6b8a;
+            animation: gentleFloat 3s ease-in-out infinite;
+            animation-delay: 0.4s;
+            filter: drop-shadow(0 0 15px rgba(255, 80, 120, 0.5));
+        }
+
         .cover-title {
             font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
-            font-size: clamp(30px, 8vw, 46px);
+            font-size: clamp(28px, 7vw, 42px);
             font-weight: 700;
             font-style: italic;
             color: #f0e088;
             letter-spacing: 5px;
-            text-shadow: 0 0 40px rgba(210, 185, 90, 0.4), 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 0 40px rgba(220, 190, 100, 0.4), 0 4px 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 4px;
             line-height: 1.3;
         }
@@ -252,7 +278,7 @@
             width: min(100px, 25vw);
             height: 1.5px;
             background: linear-gradient(90deg, transparent, #d4b85a, transparent);
-            margin: 14px auto;
+            margin: 12px auto;
             border-radius: 2px;
         }
 
@@ -262,16 +288,10 @@
             color: #f0e088;
             letter-spacing: 4px;
             font-weight: 700;
-            text-shadow: 0 0 30px rgba(210, 185, 90, 0.3);
+            text-shadow: 0 0 30px rgba(220, 190, 100, 0.3);
         }
 
-        .cover-names span {
-            display: inline-block;
-            animation: gentleFloat 3s ease-in-out infinite;
-            animation-delay: 0.5s;
-        }
-
-        /* ===== تێکستی "کرتە لەسەر نامەکە بکە" ===== */
+        /* ===== Click hint on cover ===== */
         .cover-click-hint {
             position: absolute;
             bottom: 28px;
@@ -306,18 +326,19 @@
             margin-bottom: 4px;
         }
 
-        /* ===== Card Inside ===== */
+        /* ===== Card Inside - New Design ===== */
         .card-inside {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(155deg, #fdf8ee 0%, #fcf3e2 30%, #fdf7ec 60%, #fcf2e0 100%);
+            background: linear-gradient(155deg, #fdf6ee 0%, #fce8d9 20%, #fdf3e8 50%, #fce6d4 80%, #fdf6ee 100%);
             border-radius: 24px;
             box-shadow:
                 0 25px 70px rgba(0, 0, 0, 0.8),
                 0 0 0 2px rgba(200, 175, 80, 0.5),
                 0 0 0 6px rgba(200, 175, 80, 0.2),
-                0 0 0 12px rgba(200, 175, 80, 0.08);
+                0 0 0 12px rgba(200, 175, 80, 0.08),
+                inset 0 0 60px rgba(255, 180, 100, 0.05);
             z-index: 2;
             padding: 6% 5%;
             display: flex;
@@ -335,8 +356,9 @@
             inset: 0;
             background:
                 repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200, 180, 100, 0.04) 3px, rgba(200, 180, 100, 0.04) 6px),
-                radial-gradient(ellipse at 30% 20%, rgba(220, 195, 120, 0.12) 0%, transparent 55%),
-                radial-gradient(ellipse at 70% 80%, rgba(220, 195, 120, 0.08) 0%, transparent 50%);
+                radial-gradient(ellipse at 30% 20%, rgba(230, 200, 130, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(230, 200, 130, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 200, 150, 0.05) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
             border-radius: 24px;
@@ -347,9 +369,9 @@
             position: absolute;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.35;
             font-size: clamp(30px, 7vw, 48px);
-            color: #b8942e;
+            color: #b8860b;
         }
         .ornate-tl {
             top: 12px;
@@ -394,8 +416,34 @@
             letter-spacing: 2px;
         }
 
+        /* ===== Couple inside ===== */
+        .inside-couple {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(10px, 2.5vw, 22px);
+            margin: 4px 0 6px 0;
+        }
+        .inside-couple .person {
+            font-size: clamp(36px, 8vw, 56px);
+            animation: gentleFloat 4s ease-in-out infinite;
+        }
+        .inside-couple .person:first-child {
+            animation-delay: 0.1s;
+        }
+        .inside-couple .person:last-child {
+            animation-delay: 0.5s;
+        }
+        .inside-couple .heart-icon {
+            font-size: clamp(22px, 4.5vw, 36px);
+            color: #e74c6f;
+            animation: gentleFloat 3.2s ease-in-out infinite;
+            animation-delay: 0.3s;
+            filter: drop-shadow(0 0 20px rgba(231, 76, 111, 0.4));
+        }
+
         .wedding-rings {
-            font-size: clamp(30px, 7vw, 48px);
+            font-size: clamp(28px, 6vw, 44px);
             margin: 2px 0;
             animation: gentleFloat 3.5s ease-in-out infinite;
         }
@@ -404,9 +452,10 @@
             font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
             font-size: clamp(20px, 5vw, 32px);
             font-weight: 700;
-            color: #4d3516;
+            color: #4d2e1a;
             letter-spacing: 3px;
             margin: 2px 0;
+            text-shadow: 0 1px 10px rgba(180, 120, 60, 0.15);
         }
 
         .ornamental-line {
@@ -419,12 +468,12 @@
         .ornamental-line .line {
             width: clamp(40px, 12vw, 70px);
             height: 1px;
-            background: linear-gradient(90deg, transparent, #b8942e, transparent);
+            background: linear-gradient(90deg, transparent, #b8860b, transparent);
         }
         .ornamental-line .dot {
             width: 6px;
             height: 6px;
-            background: #b8942e;
+            background: #b8860b;
             border-radius: 50%;
             flex-shrink: 0;
         }
@@ -453,7 +502,7 @@
         .signature-text {
             font-family: 'Playfair Display', serif;
             font-size: clamp(16px, 4vw, 24px);
-            color: #4d3516;
+            color: #4d2e1a;
             margin-top: 4px;
             letter-spacing: 2px;
             font-weight: 700;
@@ -508,7 +557,7 @@
             }
         }
 
-        /* ===== Responsive: Mobile优化 ===== */
+        /* ===== Responsive ===== */
         @media (max-width: 480px) {
             .wedding-card-container {
                 max-width: 92%;
@@ -608,7 +657,6 @@
             }
         }
 
-        /* ===== Landscape orientation ===== */
         @media (max-height: 500px) and (orientation: landscape) {
             .wedding-card-container {
                 max-width: 70vh;
@@ -653,7 +701,16 @@
                     <div class="cover-pattern"></div>
 
                     <div class="cover-content">
+
                         <div class="cover-icon">💒</div>
+
+                        <!-- ===== دوو هاوسەر لەسەر بەرگەکە ===== -->
+                        <div class="cover-couple">
+                            <span class="person">👰‍♀️</span>
+                            <span class="heart-icon">❤️</span>
+                            <span class="person">🤵‍♂️</span>
+                        </div>
+
                         <div class="cover-title">بِسْمِ اللَّهِ</div>
                         <div class="cover-line"></div>
                         <div class="cover-subtitle">✦ بانگێشت نامە ✦</div>
@@ -661,7 +718,7 @@
                         <div class="cover-names">💕 ڕەیان 💕</div>
                     </div>
 
-                    <!-- ===== تێکستی "کرتە لەسەر نامەکە بکە" ===== -->
+                    <!-- ===== Click hint ===== -->
                     <div class="cover-click-hint">
                         <span class="icon">👆</span>
                         کرتە لەسەر نامەکە بکە بۆ بینین
@@ -677,6 +734,14 @@
 
                     <div class="card-inside-content">
                         <div class="bismillah">﷽</div>
+
+                        <!-- ===== دوو هاوسەر لەناو کارتەکە ===== -->
+                        <div class="inside-couple">
+                            <span class="person">👰‍♀️</span>
+                            <span class="heart-icon">💕</span>
+                            <span class="person">🤵‍♂️</span>
+                        </div>
+
                         <div class="wedding-rings">💍 💒 💍</div>
                         <div class="invitation-title">بانگێشت نامەی پیرۆز</div>
 
@@ -687,8 +752,7 @@
                         </div>
 
                         <div class="card-text">
-                            بۆ هەردوو هاوڕێی بەڕێز و خۆشەویست<br>
-                            <span class="highlight">ڕەیانی ئازیز</span>
+                            بۆ هەردوو خوشک و هاورێی مامۆستا رەیان
                             <br><br>
                             بە ناوی خۆم و
                             <span class="gold">تاجی سەرم</span>
@@ -787,7 +851,7 @@
             attemptPlay();
         }, { once: false });
 
-        // ===== PARTICLES (Blue Bubbles) =====
+        // ===== PARTICLES =====
         function createParticle() {
             const container = document.getElementById('particlesContainer');
             if (!container) return;
@@ -866,7 +930,6 @@
             const card = document.getElementById('cardInside');
             if (!card) return;
             const rect = card.getBoundingClientRect();
-            const cardRect = card.getBoundingClientRect();
             for (let i = 0; i < 30; i++) {
                 setTimeout(function() {
                     const x = Math.random() * rect.width;
@@ -903,13 +966,11 @@
                 card.classList.add('opened');
             }
 
-            // Burst particles
             setTimeout(function() { burstParticles(130); }, 200);
             setTimeout(function() { burstParticles(80); }, 1100);
             setTimeout(function() { burstParticles(60); }, 2100);
             setTimeout(function() { burstParticles(40); }, 3300);
 
-            // Sparkles
             setTimeout(function() { burstSparkles(); }, 500);
             setTimeout(function() { burstSparkles(); }, 1600);
             setTimeout(function() { burstSparkles(); }, 2800);
