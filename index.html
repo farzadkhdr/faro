@@ -186,43 +186,50 @@
         }
 
         /* ڤیدیۆی بچوک لە خوارەوە */
-        .video-container {
+        .video-wrapper {
             position: fixed;
-            bottom: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
+            bottom: 15px;
+            right: 15px;
             z-index: 9999;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,255,255,0.15);
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.4s ease;
+            width: 40px;
+            height: 40px;
+            background: #0a1a2e;
         }
-        .video-container:hover {
-            width: 200px;
-            height: 120px;
+        .video-wrapper:hover {
+            width: 250px;
+            height: 150px;
             border-color: #8fc9ff;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
-        .video-container iframe {
+        .video-wrapper iframe {
             width: 100%;
             height: 100%;
             border: 0;
+            pointer-events: auto;
+        }
+        .video-wrapper.active {
+            width: 250px;
+            height: 150px;
+            border-color: #5fb0ff;
         }
 
         /* پەیام */
         .hint {
             position: fixed;
-            bottom: 50px;
-            right: 10px;
+            bottom: 65px;
+            right: 15px;
             color: rgba(255,255,255,0.2);
             font-size: 0.6rem;
             z-index: 9998;
             font-family: 'Patrick Hand', cursive;
             pointer-events: none;
             text-align: right;
+            transition: 1s;
         }
 
         @media (max-width: 600px) {
@@ -232,6 +239,8 @@
             .time-place { font-size: 1rem; padding: 0.4rem 1rem; }
             .envelope-butterfly { font-size: 3.2rem; top: -15px; left: -10px; }
             .second-butterfly { font-size: 2.8rem; bottom: -10px; right: -8px; }
+            .video-wrapper:hover { width: 40px; height: 40px; }
+            .video-wrapper.active { width: 150px; height: 100px; }
         }
     </style>
 </head>
@@ -240,13 +249,13 @@
     <div class="butterfly-bg" id="butterflyBg"></div>
 
     <!-- ڤیدیۆی بچوک لە خوارەوە -->
-    <div class="video-container" id="videoContainer">
+    <div class="video-wrapper" id="videoWrapper">
         <iframe id="youtubePlayer" 
-            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=0&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0"
-            allow="autoplay; encrypted-media">
+            src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0&modestbranding=1"
+            allow="autoplay; encrypted-media; fullscreen">
         </iframe>
     </div>
-    <div class="hint" id="hint">🎵 کلیک بکە</div>
+    <div class="hint" id="hint">🎵 گۆرانی پشتزەمینە</div>
 
     <div class="wrapper">
         <div class="invitation-card">
@@ -298,65 +307,86 @@
                 bg.appendChild(b);
             }
 
-            const container = document.getElementById('videoContainer');
+            const wrapper = document.getElementById('videoWrapper');
             const iframe = document.getElementById('youtubePlayer');
             const hint = document.getElementById('hint');
             let isPlaying = false;
+            let attempts = 0;
 
-            function startVideo() {
+            function forcePlay() {
                 if (isPlaying) return;
+                attempts++;
                 
-                // گۆڕینی src بۆ autoplay
-                iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0';
+                // ڕێگای یەکەم: گۆڕینی src بۆ autoplay
+                iframe.src = 'https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0&modestbranding=1';
+                
+                // ڕێگای دووەم: کلیکی خۆکار لەسەر ڤیدیۆ
+                try {
+                    wrapper.click();
+                    // هەوڵی کلیک لەسەر iframe
+                    const clickEvent = new MouseEvent('click', {
+                        view: window,
+                        bubbles: true,
+                        cancelable: true
+                    });
+                    iframe.dispatchEvent(clickEvent);
+                } catch(e) {}
+
+                // ڕێگای سێیەم: هەوڵی پخشکردن بە audio element (یەدەگ)
+                try {
+                    const audio = new Audio('https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1');
+                    audio.play().catch(() => {});
+                } catch(e) {}
+
                 isPlaying = true;
                 hint.textContent = '🔊 گۆرانی دەنگی هەیە';
-                hint.style.color = 'rgba(100, 200, 255, 0.5)';
+                hint.style.color = 'rgba(100, 200, 255, 0.6)';
+                wrapper.classList.add('active');
+                
                 setTimeout(() => {
                     hint.style.opacity = '0';
                 }, 3000);
             }
 
-            // کلیکی خۆکار لەسەر ڤیدیۆکە دوای 0.5 چرکە
-            setTimeout(() => {
-                container.click();
-                // هەروەها ڕاستەوخۆ دەستپێکردن
-                startVideo();
-            }, 500);
+            // هەوڵی یەکەم: دوای 0.3 چرکە
+            setTimeout(forcePlay, 300);
+            
+            // هەوڵی دووەم: دوای 1 چرکە
+            setTimeout(forcePlay, 1000);
+            
+            // هەوڵی سێیەم: دوای 2.5 چرکە
+            setTimeout(forcePlay, 2500);
 
-            // کلیکی بینەر لەسەر ڤیدیۆکە
-            container.addEventListener('click', function(e) {
+            // کلیکی بینەر لەسەر ڤیدیۆ
+            wrapper.addEventListener('click', function(e) {
                 e.stopPropagation();
-                startVideo();
-                // گەورەکردنی ڤیدیۆ بۆ ماوەیەک
-                container.style.width = '200px';
-                container.style.height = '120px';
-                container.style.borderColor = '#8fc9ff';
+                forcePlay();
+                this.classList.add('active');
                 setTimeout(() => {
-                    container.style.width = '30px';
-                    container.style.height = '30px';
-                }, 3000);
+                    this.classList.remove('active');
+                }, 4000);
             });
 
-            // گوێگرتن لە کلیکی هەر شوێنێکی لاپەڕە (بۆ ئەگەری پێویست)
-            document.addEventListener('click', function userClick() {
+            // گوێگرتن لە کلیکی لاپەڕە (هەر شوێنێک)
+            document.addEventListener('click', function pageClick() {
                 if (!isPlaying) {
-                    startVideo();
+                    forcePlay();
                 }
             }, { once: true });
 
             // بۆ مۆبایل
-            document.addEventListener('touchstart', function userTouch() {
+            document.addEventListener('touchstart', function pageTouch() {
                 if (!isPlaying) {
-                    startVideo();
+                    forcePlay();
                 }
             }, { once: true });
 
-            // دوایین هەوڵ: دوای 2 چرکە
+            // دوایین هەوڵ: دوای 5 چرکە
             setTimeout(() => {
                 if (!isPlaying) {
-                    startVideo();
+                    forcePlay();
                 }
-            }, 2000);
+            }, 5000);
 
         })();
     </script>
