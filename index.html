@@ -6,7 +6,7 @@
     <title>بانگێشت نامە - شین و پەپولە</title>
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <style>
-        /* هەموو ستایلەکان (وەک خۆی) */
+        /* هەموو ستایلەکان وەک خۆی */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             min-height: 100vh;
@@ -36,7 +36,6 @@
             text-shadow: 0 0 15px #3f9eff;
             will-change: transform;
         }
-        /* زیادکردنی 15 پەپولە بە ناوی جیاواز */
         .bfly:nth-child(1) { left: 2%; animation-duration: 18s; font-size: 3.2rem; }
         .bfly:nth-child(2) { left: 15%; animation-duration: 13s; font-size: 2rem; animation-delay: 0.8s; }
         .bfly:nth-child(3) { left: 28%; animation-duration: 20s; font-size: 3.8rem; animation-delay: 0.3s; }
@@ -187,23 +186,41 @@
             gap: 10px;
         }
 
-        /* بەشی ڤیدیۆی یوتیوب (خۆکار) */
-        .youtube-container {
-            margin: 1.6rem auto 0.5rem auto;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 28px rgba(0, 30, 60, 0.35);
-            background: #000;
-            aspect-ratio: 16/9;
-            width: 100%;
-            max-width: 480px;
-            border: 3px solid #9fc9ed;
+        /* بۆ دەنگی یوتیوب (بەبێ ڤیدیۆ) */
+        .audio-wrapper {
+            margin: 1.2rem auto 0.2rem auto;
+            border-radius: 60px;
+            background: rgba(155, 200, 240, 0.3);
+            padding: 8px 12px;
+            max-width: 400px;
+            border: 2px dashed #7bb3d9;
+            backdrop-filter: blur(3px);
         }
-        .youtube-container iframe {
-            width: 100%;
-            height: 100%;
+        .audio-wrapper iframe {
+            width: 0;
+            height: 0;
             border: 0;
-            display: block;
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        .audio-label {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.1rem;
+            color: #003f7a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .audio-label span {
+            background: #8fc9ff;
+            padding: 6px 18px;
+            border-radius: 40px;
+            color: #002a55;
+            font-weight: bold;
+            box-shadow: inset 0 -3px 0 #4a7fa0;
         }
 
         @media (max-width: 600px) {
@@ -218,7 +235,7 @@
 </head>
 <body>
 
-    <!-- پەپولەکانی پاشبنەما (شین) -->
+    <!-- پەپولەکانی پاشبنەما -->
     <div class="butterfly-bg" id="butterflyBg">
         <!-- 11 پەپولە لە CSS دانراوە، JS زیاتر زیاد دەکات -->
     </div>
@@ -242,18 +259,20 @@
                 <span class="time-place">📍 کۆمەڵگای رووپەسەند</span>
             </div>
 
-            <!-- قەپاتکردنەوەی نامە -->
             <div style="margin: 0.5rem 0 0.2rem 0;">
                 <span class="seal">📨 قەپات کرایەوە 💌</span>
             </div>
 
-            <!-- ڤیدیۆی یوتیوب (خۆکار دەستپێدەکات) -->
-            <div class="youtube-container">
+            <!-- دەنگی یوتیوب (بەبێ ڤیدیۆ) -->
+            <div class="audio-wrapper">
+                <div class="audio-label">
+                    <span>🎵 گۆرانی پشت‌زەمینە</span>
+                    <span style="background: transparent; box-shadow: none; font-size: 0.9rem;">🔊 بە دەنگی خۆکار</span>
+                </div>
                 <iframe 
-                    src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY"
-                    allow="autoplay; encrypted-media; fullscreen"
-                    allowfullscreen
-                    loading="lazy">
+                    src="https://www.youtube.com/embed/gsxJsmbA4BY?autoplay=1&mute=0&loop=1&playlist=gsxJsmbA4BY&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3"
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen>
                 </iframe>
             </div>
 
@@ -270,7 +289,7 @@
 
     <script>
         (function() {
-            // زیادکردنی پەپولەی زیاتر بۆ پاشبنەما
+            // زیادکردنی پەپولەی زیاتر
             const bg = document.getElementById('butterflyBg');
             for (let i = 0; i < 20; i++) {
                 const b = document.createElement('div');
@@ -285,17 +304,15 @@
                 bg.appendChild(b);
             }
 
-            // دڵنیایی لە دەستپێکردنی ڤیدیۆی یوتیوب
-            const iframe = document.querySelector('.youtube-container iframe');
+            // دڵنیایی لە دەستپێکردنی دەنگ
+            const iframe = document.querySelector('.audio-wrapper iframe');
             if (iframe) {
-                // یوتیوب بە شێوەی خۆکار دەستپێدەکات بەهۆی autoplay=1
-                // بەڵام ئەگەر کار نەکرد، دووبارە بنێرە
                 setTimeout(() => {
                     const src = iframe.src;
-                    if (src && !src.includes('autoplay=1')) {
+                    if (!src.includes('autoplay=1')) {
                         iframe.src = src + '&autoplay=1&mute=0';
                     }
-                }, 600);
+                }, 500);
             }
         })();
     </script>
