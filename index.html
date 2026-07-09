@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>بانگێشت نامەی هاوسەرگیری - ڕەیان</title>
     <style>
-        /* ===== Google Font ===== */
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap');
+        /* ===== Google Fonts ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Scheherazade+New:wght@400;600;700&display=swap');
+
+        /* ===== Quran Font for Bismillah ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap');
 
         /* ===== Reset ===== */
         * {
@@ -20,7 +23,7 @@
             height: 100vh;
             overflow: hidden;
             background: #0a0a1a;
-            font-family: 'Noto Naskh Arabic', 'Tahoma', 'Segoe UI', serif;
+            font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Tahoma', 'Segoe UI', serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -35,7 +38,7 @@
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 30%, #1a0e2e 0%, #0a0a18 60%, #0d0a1a 100%);
+            background: radial-gradient(ellipse at 50% 30%, #0d1a2e 0%, #050a12 60%, #080d1a 100%);
             z-index: 0;
         }
 
@@ -140,14 +143,14 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(145deg, #2a1a3e 0%, #1a0e2e 30%, #2d1a45 60%, #150a25 100%);
+            background: linear-gradient(145deg, #1a2a4a 0%, #0d1a30 30%, #1a2a4a 60%, #0a1525 100%);
             border-radius: 24px;
             box-shadow:
                 0 25px 70px rgba(0, 0, 0, 0.8),
-                0 0 0 2px rgba(200, 175, 80, 0.5),
-                0 0 0 6px rgba(200, 175, 80, 0.2),
-                0 0 0 12px rgba(200, 175, 80, 0.08),
-                0 0 80px rgba(180, 100, 220, 0.2);
+                0 0 0 2px rgba(100, 180, 255, 0.4),
+                0 0 0 6px rgba(100, 180, 255, 0.15),
+                0 0 0 12px rgba(100, 180, 255, 0.06),
+                0 0 80px rgba(80, 150, 255, 0.15);
             overflow: hidden;
             z-index: 3;
             transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
@@ -172,7 +175,7 @@
             left: 14px;
             right: 14px;
             bottom: 14px;
-            border: 2px solid rgba(220, 190, 100, 0.5);
+            border: 2px solid rgba(100, 180, 255, 0.4);
             border-radius: 16px;
             pointer-events: none;
         }
@@ -182,7 +185,7 @@
             left: 22px;
             right: 22px;
             bottom: 22px;
-            border: 1px solid rgba(220, 190, 100, 0.2);
+            border: 1px solid rgba(100, 180, 255, 0.15);
             border-radius: 10px;
             pointer-events: none;
         }
@@ -190,11 +193,11 @@
         .cover-pattern {
             position: absolute;
             inset: 0;
-            opacity: 0.05;
+            opacity: 0.04;
             background:
-                radial-gradient(circle at 20% 30%, #e8d080 2px, transparent 2px),
-                radial-gradient(circle at 80% 70%, #e8d080 2px, transparent 2px),
-                radial-gradient(circle at 50% 50%, #e8d080 3px, transparent 3px);
+                radial-gradient(circle at 20% 30%, #80c8ff 2px, transparent 2px),
+                radial-gradient(circle at 80% 70%, #80c8ff 2px, transparent 2px),
+                radial-gradient(circle at 50% 50%, #80c8ff 3px, transparent 3px);
             background-size: 45px 45px, 45px 45px, 75px 75px;
             pointer-events: none;
         }
@@ -204,16 +207,16 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            color: #e8ddb8;
+            color: #e8f0ff;
             padding: 10px;
             width: 100%;
         }
 
         .cover-icon {
-            font-size: clamp(48px, 12vw, 70px);
-            margin-bottom: 8px;
+            font-size: clamp(40px, 10vw, 60px);
+            margin-bottom: 6px;
             animation: gentleFloat 3.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 25px rgba(220, 190, 100, 0.4));
+            filter: drop-shadow(0 0 25px rgba(100, 180, 255, 0.4));
         }
 
         @keyframes gentleFloat {
@@ -232,11 +235,11 @@
             justify-content: center;
             align-items: center;
             gap: clamp(8px, 2vw, 18px);
-            margin: 6px 0 10px 0;
+            margin: 4px 0 8px 0;
         }
 
         .cover-couple .person {
-            font-size: clamp(32px, 8vw, 50px);
+            font-size: clamp(30px, 7vw, 46px);
             animation: gentleFloat 3.8s ease-in-out infinite;
         }
         .cover-couple .person:first-child {
@@ -246,49 +249,50 @@
             animation-delay: 0.6s;
         }
         .cover-couple .heart-icon {
-            font-size: clamp(20px, 4vw, 32px);
+            font-size: clamp(18px, 3.5vw, 28px);
             color: #ff6b8a;
             animation: gentleFloat 3s ease-in-out infinite;
             animation-delay: 0.4s;
             filter: drop-shadow(0 0 15px rgba(255, 80, 120, 0.5));
         }
 
-        .cover-title {
-            font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
-            font-size: clamp(28px, 7vw, 42px);
+        /* ===== بسم اللە بە فۆنتی قورئان ===== */
+        .cover-bismillah {
+            font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
+            font-size: clamp(30px, 8vw, 50px);
             font-weight: 700;
-            font-style: italic;
-            color: #f0e088;
-            letter-spacing: 5px;
-            text-shadow: 0 0 40px rgba(220, 190, 100, 0.4), 0 4px 20px rgba(0, 0, 0, 0.5);
+            color: #b8d8ff;
+            text-shadow: 0 0 40px rgba(100, 180, 255, 0.3), 0 4px 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 4px;
-            line-height: 1.3;
+            line-height: 1.4;
+            letter-spacing: 3px;
         }
 
+        /* ===== فۆنتی کوردی جوان بۆ نوسراوەکانی تر ===== */
         .cover-subtitle {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(14px, 3.5vw, 20px);
-            color: #c9b06a;
-            letter-spacing: 8px;
-            font-weight: 400;
+            color: #80bfff;
+            letter-spacing: 6px;
+            font-weight: 600;
             text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
         }
 
         .cover-line {
             width: min(100px, 25vw);
             height: 1.5px;
-            background: linear-gradient(90deg, transparent, #d4b85a, transparent);
-            margin: 12px auto;
+            background: linear-gradient(90deg, transparent, #80bfff, transparent);
+            margin: 10px auto;
             border-radius: 2px;
         }
 
         .cover-names {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(18px, 5vw, 30px);
-            color: #f0e088;
+            color: #b8d8ff;
             letter-spacing: 4px;
             font-weight: 700;
-            text-shadow: 0 0 30px rgba(220, 190, 100, 0.3);
+            text-shadow: 0 0 30px rgba(100, 180, 255, 0.3);
         }
 
         /* ===== Click hint on cover ===== */
@@ -299,23 +303,23 @@
             right: 0;
             text-align: center;
             z-index: 5;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(14px, 3vw, 18px);
-            color: rgba(220, 200, 150, 0.7);
+            color: rgba(160, 200, 255, 0.6);
             letter-spacing: 3px;
             animation: pulseHint 2.8s ease-in-out infinite;
-            text-shadow: 0 0 20px rgba(200, 175, 80, 0.2);
+            text-shadow: 0 0 20px rgba(100, 180, 255, 0.15);
             pointer-events: none;
         }
 
         @keyframes pulseHint {
             0%,
             100% {
-                opacity: 0.5;
+                opacity: 0.4;
                 transform: translateY(0);
             }
             50% {
-                opacity: 1;
+                opacity: 0.9;
                 transform: translateY(-4px);
             }
         }
@@ -331,14 +335,14 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(155deg, #fdf6ee 0%, #fce8d9 20%, #fdf3e8 50%, #fce6d4 80%, #fdf6ee 100%);
+            background: linear-gradient(155deg, #f0f8ff 0%, #e6f0fa 25%, #f0f8ff 50%, #e0edf8 75%, #f0f8ff 100%);
             border-radius: 24px;
             box-shadow:
                 0 25px 70px rgba(0, 0, 0, 0.8),
-                0 0 0 2px rgba(200, 175, 80, 0.5),
-                0 0 0 6px rgba(200, 175, 80, 0.2),
-                0 0 0 12px rgba(200, 175, 80, 0.08),
-                inset 0 0 60px rgba(255, 180, 100, 0.05);
+                0 0 0 2px rgba(100, 180, 255, 0.4),
+                0 0 0 6px rgba(100, 180, 255, 0.15),
+                0 0 0 12px rgba(100, 180, 255, 0.06),
+                inset 0 0 60px rgba(100, 180, 255, 0.05);
             z-index: 2;
             padding: 6% 5%;
             display: flex;
@@ -349,16 +353,14 @@
             backface-visibility: hidden;
         }
 
-        /* Gold foil texture */
         .card-inside::before {
             content: '';
             position: absolute;
             inset: 0;
             background:
-                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200, 180, 100, 0.04) 3px, rgba(200, 180, 100, 0.04) 6px),
-                radial-gradient(ellipse at 30% 20%, rgba(230, 200, 130, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(230, 200, 130, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(255, 200, 150, 0.05) 0%, transparent 70%);
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(100, 180, 255, 0.03) 3px, rgba(100, 180, 255, 0.03) 6px),
+                radial-gradient(ellipse at 30% 20%, rgba(100, 180, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(100, 180, 255, 0.06) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
             border-radius: 24px;
@@ -369,9 +371,9 @@
             position: absolute;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.35;
+            opacity: 0.3;
             font-size: clamp(30px, 7vw, 48px);
-            color: #b8860b;
+            color: #4a8fc9;
         }
         .ornate-tl {
             top: 12px;
@@ -405,15 +407,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 3px;
         }
 
-        .bismillah {
-            font-family: 'Noto Naskh Arabic', serif;
-            font-size: clamp(22px, 5.5vw, 34px);
-            color: #7a6518;
+        /* ===== بسم اللە لەناوەوە ===== */
+        .inside-bismillah {
+            font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
+            font-size: clamp(24px, 6vw, 38px);
+            font-weight: 700;
+            color: #1a5a8a;
             margin-bottom: 2px;
             letter-spacing: 2px;
+            text-shadow: 0 1px 10px rgba(26, 90, 138, 0.15);
         }
 
         /* ===== Couple inside ===== */
@@ -422,10 +427,10 @@
             justify-content: center;
             align-items: center;
             gap: clamp(10px, 2.5vw, 22px);
-            margin: 4px 0 6px 0;
+            margin: 2px 0 4px 0;
         }
         .inside-couple .person {
-            font-size: clamp(36px, 8vw, 56px);
+            font-size: clamp(34px, 8vw, 52px);
             animation: gentleFloat 4s ease-in-out infinite;
         }
         .inside-couple .person:first-child {
@@ -435,27 +440,28 @@
             animation-delay: 0.5s;
         }
         .inside-couple .heart-icon {
-            font-size: clamp(22px, 4.5vw, 36px);
+            font-size: clamp(20px, 4vw, 32px);
             color: #e74c6f;
             animation: gentleFloat 3.2s ease-in-out infinite;
             animation-delay: 0.3s;
-            filter: drop-shadow(0 0 20px rgba(231, 76, 111, 0.4));
+            filter: drop-shadow(0 0 20px rgba(231, 76, 111, 0.3));
         }
 
         .wedding-rings {
-            font-size: clamp(28px, 6vw, 44px);
+            font-size: clamp(26px, 5.5vw, 40px);
             margin: 2px 0;
             animation: gentleFloat 3.5s ease-in-out infinite;
         }
 
+        /* ===== سەردێڕی نوێ: بانگێشت نامەی هاوسەرگیری ===== */
         .invitation-title {
-            font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(20px, 5vw, 32px);
             font-weight: 700;
-            color: #4d2e1a;
+            color: #0d3d66;
             letter-spacing: 3px;
             margin: 2px 0;
-            text-shadow: 0 1px 10px rgba(180, 120, 60, 0.15);
+            text-shadow: 0 1px 10px rgba(13, 61, 102, 0.1);
         }
 
         .ornamental-line {
@@ -463,32 +469,35 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin: 6px 0;
+            margin: 5px 0;
         }
         .ornamental-line .line {
             width: clamp(40px, 12vw, 70px);
             height: 1px;
-            background: linear-gradient(90deg, transparent, #b8860b, transparent);
+            background: linear-gradient(90deg, transparent, #4a8fc9, transparent);
         }
         .ornamental-line .dot {
             width: 6px;
             height: 6px;
-            background: #b8860b;
+            background: #4a8fc9;
             border-radius: 50%;
             flex-shrink: 0;
         }
 
+        /* ===== فۆنتی کوردی بۆ تێکستی کارتەکە ===== */
         .card-text {
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(13px, 3.2vw, 18px);
             line-height: 2.6;
-            color: #3d2b1f;
+            color: #1a3a55;
             text-align: center;
             margin: 4px 0;
             padding: 0 2px;
+            font-weight: 500;
         }
 
         .card-text .highlight {
-            color: #7a6518;
+            color: #0d5a8a;
             font-weight: 700;
             font-size: clamp(14px, 3.5vw, 20px);
         }
@@ -500,19 +509,21 @@
         }
 
         .signature-text {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(16px, 4vw, 24px);
-            color: #4d2e1a;
+            color: #0d3d66;
             margin-top: 4px;
             letter-spacing: 2px;
             font-weight: 700;
         }
 
         .footer-text {
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(11px, 2.5vw, 15px);
-            color: #7a6518;
+            color: #2a6a8a;
             margin-top: 2px;
             letter-spacing: 1px;
+            font-weight: 500;
         }
 
         /* ===== Sparkle ===== */
@@ -537,12 +548,12 @@
 
         /* ===== Instruction below card ===== */
         .instruction-text {
-            color: rgba(200, 210, 240, 0.6);
+            color: rgba(160, 200, 255, 0.5);
             font-size: clamp(13px, 3vw, 17px);
             text-align: center;
             animation: pulse 2.6s ease-in-out infinite;
             letter-spacing: 2px;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             padding: 0 20px;
             transition: opacity 0.8s ease;
         }
@@ -550,10 +561,10 @@
         @keyframes pulse {
             0%,
             100% {
-                opacity: 0.4;
+                opacity: 0.3;
             }
             50% {
-                opacity: 0.85;
+                opacity: 0.8;
             }
         }
 
@@ -563,7 +574,6 @@
                 max-width: 92%;
                 aspect-ratio: 4 / 5.4;
             }
-
             .card-cover {
                 border-radius: 18px;
             }
@@ -571,7 +581,6 @@
                 border-radius: 18px;
                 padding: 5% 4%;
             }
-
             .cover-border {
                 top: 10px;
                 left: 10px;
@@ -586,7 +595,6 @@
                 bottom: 17px;
                 border-radius: 8px;
             }
-
             .cover-click-hint {
                 bottom: 18px;
                 font-size: 12px;
@@ -594,7 +602,6 @@
             .cover-click-hint .icon {
                 font-size: 20px;
             }
-
             .ornate-corner {
                 font-size: 24px;
             }
@@ -614,7 +621,6 @@
             .ornate-br {
                 right: 10px;
             }
-
             .card-text {
                 line-height: 2.4;
                 font-size: 12.5px;
@@ -623,7 +629,6 @@
             .card-text .gold {
                 font-size: 13.5px;
             }
-
             .scene {
                 gap: 12px;
                 padding: 6px;
@@ -646,14 +651,14 @@
             .invitation-title {
                 font-size: 17px;
             }
-            .bismillah {
+            .cover-bismillah {
+                font-size: 24px;
+            }
+            .inside-bismillah {
                 font-size: 20px;
             }
             .signature-text {
                 font-size: 14px;
-            }
-            .cover-title {
-                font-size: 24px;
             }
         }
 
@@ -684,7 +689,7 @@
 </head>
 <body>
 
-    <!-- ===== Particles ===== -->
+    <!-- ===== Particles (پەپوولە شینەکان) ===== -->
     <div class="particles-container" id="particlesContainer"></div>
 
     <!-- ===== Scene ===== -->
@@ -711,8 +716,12 @@
                             <span class="person">🤵‍♂️</span>
                         </div>
 
-                        <div class="cover-title">بِسْمِ اللَّهِ</div>
+                        <!-- ===== بسم اللە بە فۆنتی قورئان ===== -->
+                        <div class="cover-bismillah">﷽</div>
+
                         <div class="cover-line"></div>
+
+                        <!-- ===== بانگێشت نامە بە فۆنتی کوردی ===== -->
                         <div class="cover-subtitle">✦ بانگێشت نامە ✦</div>
                         <div class="cover-line"></div>
                         <div class="cover-names">💕 ڕەیان 💕</div>
@@ -733,7 +742,9 @@
                     <span class="ornate-corner ornate-br">❦</span>
 
                     <div class="card-inside-content">
-                        <div class="bismillah">﷽</div>
+
+                        <!-- ===== بسم اللە بە فۆنتی قورئان ===== -->
+                        <div class="inside-bismillah">﷽</div>
 
                         <!-- ===== دوو هاوسەر لەناو کارتەکە ===== -->
                         <div class="inside-couple">
@@ -743,7 +754,9 @@
                         </div>
 
                         <div class="wedding-rings">💍 💒 💍</div>
-                        <div class="invitation-title">بانگێشت نامەی پیرۆز</div>
+
+                        <!-- ===== سەردێڕی نوێ: بانگێشت نامەی هاوسەرگیری ===== -->
+                        <div class="invitation-title">بانگێشت نامەی هاوسەرگیری</div>
 
                         <div class="ornamental-line">
                             <span class="line"></span>
@@ -751,6 +764,7 @@
                             <span class="line"></span>
                         </div>
 
+                        <!-- ===== تێکست بە فۆنتی کوردی ===== -->
                         <div class="card-text">
                             بۆ هەردوو خوشک و هاورێی مامۆستا رەیان
                             <br><br>
@@ -851,7 +865,7 @@
             attemptPlay();
         }, { once: false });
 
-        // ===== PARTICLES =====
+        // ===== PARTICLES (پەپوولە شینەکان) =====
         function createParticle() {
             const container = document.getElementById('particlesContainer');
             if (!container) return;
@@ -873,10 +887,11 @@
             particle.style.animationDuration = duration + 's';
             particle.style.animationDelay = delay + 's';
 
-            const hue = 190 + Math.random() * 35;
-            particle.style.background = 'radial-gradient(circle at 30% 30%, hsla(' + hue + ', 85%, 80%, 0.9), hsla(' + hue + ', 70%, 55%, 0.6))';
+            // ڕەنگی شین بۆ پەپوولەکان
+            const hue = 195 + Math.random() * 35;
+            particle.style.background = 'radial-gradient(circle at 30% 30%, hsla(' + hue + ', 90%, 80%, 0.9), hsla(' + hue + ', 80%, 55%, 0.6))';
             particle.style.boxShadow = '0 0 ' + (10 + Math.random() * 25) + 'px hsla(' + hue + ', 90%, 70%, 0.5), 0 0 ' + (30 + Math.random() * 40) + 'px hsla(' + hue + ', 80%, 60%, 0.25)';
-            particle.style.border = '1px solid rgba(255,255,255,0.15)';
+            particle.style.border = '1px solid rgba(150, 200, 255, 0.15)';
 
             container.appendChild(particle);
 
