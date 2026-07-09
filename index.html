@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بانگێشت نامە - بۆ ڕەیان</title>
+    <title>بانگێشت نامەی هاوسەرگیری - ڕەیان</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -15,7 +17,7 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            background: radial-gradient(ellipse at center, #0a1628 0%, #040d1a 50%, #020810 100%);
+            background: #0a0a14;
             font-family: 'Tahoma', 'Segoe UI', 'Scheherazade New', 'Amiri', serif;
             display: flex;
             justify-content: center;
@@ -25,8 +27,8 @@
             -webkit-user-select: none;
         }
 
-        /* Bubble container */
-        .bubbles-container {
+        /* Ambient particles */
+        .particles-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -36,214 +38,219 @@
             z-index: 0;
         }
 
-        .bubble {
+        .particle {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle at 35% 30%, rgba(150, 215, 255, 0.8), rgba(50, 110, 210, 0.5));
-            box-shadow: 0 0 20px rgba(110, 180, 255, 0.6), 0 0 40px rgba(70, 150, 255, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.4);
-            animation: floatUp linear forwards;
             pointer-events: none;
+            animation: floatUpParticle linear forwards;
         }
 
-        @keyframes floatUp {
+        @keyframes floatUpParticle {
             0% {
-                transform: translateY(0) translateX(0) scale(0.5);
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            10% {
                 opacity: 0.9;
             }
-            15% {
-                transform: translateY(-15vh) translateX(20px) scale(1);
-                opacity: 0.85;
-            }
-            35% {
-                transform: translateY(-35vh) translateX(-12px) scale(1.15);
-                opacity: 0.7;
-            }
-            55% {
-                transform: translateY(-55vh) translateX(15px) scale(0.9);
-                opacity: 0.5;
-            }
-            75% {
-                transform: translateY(-75vh) translateX(-8px) scale(0.6);
-                opacity: 0.25;
+            90% {
+                opacity: 0.3;
             }
             100% {
-                transform: translateY(-110vh) translateX(5px) scale(0.3);
+                transform: translateY(-110vh) translateX(var(--drift)) scale(0.2);
                 opacity: 0;
             }
         }
 
-        /* Envelope wrapper */
-        .envelope-wrapper {
+        /* Main scene */
+        .scene {
             position: relative;
             z-index: 10;
-            perspective: 1300px;
-            animation: envelopeEntrance 2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Wedding card */
+        .wedding-card-container {
+            position: relative;
+            perspective: 1500px;
+            animation: cardAppear 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
             opacity: 0;
         }
 
-        @keyframes envelopeEntrance {
+        @keyframes cardAppear {
             0% {
                 opacity: 0;
-                transform: scale(0.15) translateY(150px) rotate(-20deg);
+                transform: translateY(80px) scale(0.5) rotateY(30deg);
             }
-            55% {
-                opacity: 0.95;
-                transform: scale(1.05) translateY(-20px) rotate(3deg);
-            }
-            75% {
+            60% {
                 opacity: 1;
-                transform: scale(0.96) translateY(5px) rotate(-1deg);
+                transform: translateY(-15px) scale(1.03) rotateY(-3deg);
             }
             100% {
                 opacity: 1;
-                transform: scale(1) translateY(0) rotate(0deg);
+                transform: translateY(0) scale(1) rotateY(0deg);
             }
         }
 
-        .envelope {
-            width: 530px;
-            height: 370px;
+        .wedding-card {
+            width: 480px;
+            height: 600px;
             position: relative;
             cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            filter: drop-shadow(0 20px 50px rgba(40, 100, 200, 0.5));
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .envelope:hover {
-            transform: scale(1.04);
-            filter: drop-shadow(0 25px 60px rgba(60, 130, 230, 0.7));
+        .wedding-card:hover {
+            transform: translateY(-8px);
         }
 
-        .envelope-body {
+        .wedding-card.opened {
+            transform: rotateY(-8deg) translateY(-5px);
+        }
+
+        /* Card front cover */
+        .card-cover {
             position: absolute;
-            bottom: 0;
             width: 100%;
-            height: 330px;
-            background: linear-gradient(175deg, #e8f3fc 0%, #d2e6f8 25%, #bcd5f0 50%, #a7c4e8 75%, #93b5de 100%);
-            border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), inset 0 4px 20px rgba(255, 255, 255, 0.5);
+            height: 100%;
+            background: linear-gradient(160deg, #1a1a3e 0%, #0d0d28 30%, #1a1a3e 60%, #0d0d28 100%);
+            border-radius: 20px;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.7),
+                0 0 0 3px rgba(180, 150, 70, 0.6),
+                0 0 0 8px rgba(180, 150, 70, 0.3),
+                0 0 0 14px rgba(180, 150, 70, 0.15),
+                0 0 60px rgba(100, 150, 220, 0.4);
             overflow: hidden;
-            z-index: 2;
-            border: 3px solid rgba(255, 255, 255, 0.4);
+            z-index: 3;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .envelope-body::after {
-            content: '';
+        .card-cover.opened {
+            transform: rotateY(-180deg);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Ornate border on cover */
+        .cover-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid rgba(200, 170, 80, 0.6);
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .cover-border-inner {
+            position: absolute;
+            top: 22px;
+            left: 22px;
+            right: 22px;
+            bottom: 22px;
+            border: 1px solid rgba(200, 170, 80, 0.3);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        /* Cover decorations */
+        .cover-pattern {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 9px;
-            box-shadow: inset 0 0 50px rgba(160, 210, 250, 0.4);
+            opacity: 0.08;
+            background:
+                radial-gradient(circle at 20% 30%, #c9a84c 1px, transparent 1px),
+                radial-gradient(circle at 80% 70%, #c9a84c 1px, transparent 1px),
+                radial-gradient(circle at 50% 50%, #c9a84c 2px, transparent 2px);
+            background-size: 30px 30px, 30px 30px, 60px 60px;
             pointer-events: none;
-            z-index: 4;
         }
 
-        .gold-border {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            right: 8px;
-            bottom: 8px;
-            border: 2px dashed rgba(190, 155, 70, 0.6);
-            border-radius: 7px;
-            pointer-events: none;
-            z-index: 3;
+        .cover-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: #e0d5b0;
         }
 
-        .envelope-flap {
+        .cover-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: gentleFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(200, 170, 80, 0.6));
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #d4b860;
+            letter-spacing: 4px;
+            text-shadow: 0 0 30px rgba(200, 170, 80, 0.5);
+            margin-bottom: 8px;
+        }
+
+        .cover-subtitle {
+            font-size: 16px;
+            color: #b8a060;
+            letter-spacing: 6px;
+        }
+
+        .cover-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+            margin: 15px auto;
+        }
+
+        .cover-names {
+            font-size: 20px;
+            color: #d4b860;
+            letter-spacing: 2px;
+        }
+
+        /* Card inside */
+        .card-inside {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 200px;
-            background: linear-gradient(180deg, #daeafc 0%, #c2d9f3 35%, #adc9e8 70%, #9ebde2 100%);
-            clip-path: polygon(0 0, 50% 60%, 100% 0);
-            border-radius: 12px 12px 0 0;
-            z-index: 5;
-            transform-origin: top center;
-            transition: transform 1s cubic-bezier(0.68, -0.5, 0.27, 1.5);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-        }
-
-        .envelope-flap.open {
-            transform: rotateX(190deg);
-            z-index: 0;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
-        }
-
-        /* Seal */
-        .seal-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 7;
-            pointer-events: none;
-        }
-
-        .seal {
-            width: 70px;
-            height: 70px;
-            background: radial-gradient(circle at 40% 35%, #e85d5d 0%, #c0392b 50%, #7a1515 100%);
-            border-radius: 50%;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7), 0 0 0 6px rgba(210, 170, 70, 0.5), 0 0 0 10px rgba(190, 150, 50, 0.3);
+            height: 100%;
+            background: linear-gradient(160deg, #fef9f0 0%, #fdf4e5 25%, #fef7ed 50%, #fdf3e3 75%, #fef8f0 100%);
+            border-radius: 20px;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.7),
+                0 0 0 3px rgba(180, 150, 70, 0.6),
+                0 0 0 8px rgba(180, 150, 70, 0.3),
+                0 0 0 14px rgba(180, 150, 70, 0.15);
+            z-index: 2;
+            padding: 35px 30px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            position: relative;
-        }
-
-        .seal::before {
-            content: '';
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2.5px solid rgba(255, 220, 150, 0.8);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .seal::after {
-            content: '💮';
-            font-size: 32px;
-            color: #fff;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
-            z-index: 1;
-        }
-
-        .seal.removed {
-            opacity: 0;
-            transform: scale(0) rotate(200deg);
-        }
-
-        /* Card */
-        .card {
-            position: absolute;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%) translateY(30px);
-            width: 460px;
-            height: 280px;
-            background: linear-gradient(145deg, #fef9f3 0%, #faf3e8 20%, #f6edde 40%, #fcf6ed 60%, #fef8f0 80%, #f9f1e2 100%);
-            border-radius: 8px;
-            z-index: 1;
-            padding: 20px 30px;
-            transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-            box-shadow: inset 0 0 40px rgba(190, 160, 110, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
             overflow: hidden;
-            border: 1.5px solid rgba(190, 160, 100, 0.5);
         }
 
-        .card.slide-out {
-            transform: translateX(-50%) translateY(-250px);
-        }
-
-        .card::before {
+        /* Gold foil texture */
+        .card-inside::before {
             content: '';
             position: absolute;
             top: 0;
@@ -251,238 +258,273 @@
             width: 100%;
             height: 100%;
             background:
-                repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(210, 180, 130, 0.07) 4px, rgba(210, 180, 130, 0.07) 8px),
-                repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(210, 180, 130, 0.05) 30px, rgba(210, 180, 130, 0.05) 31px);
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200, 170, 100, 0.04) 3px, rgba(200, 170, 100, 0.04) 6px),
+                radial-gradient(ellipse at 30% 20%, rgba(220, 190, 110, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(220, 190, 110, 0.08) 0%, transparent 50%);
             pointer-events: none;
-            z-index: 1;
-            border-radius: 8px;
+            z-index: 0;
+            border-radius: 20px;
         }
 
-        .card-corner {
+        /* Ornate corners */
+        .ornate-corner {
             position: absolute;
-            z-index: 2;
+            z-index: 1;
             pointer-events: none;
-            font-size: 18px;
-            color: rgba(180, 150, 80, 0.7);
+            opacity: 0.5;
         }
-        .corner-tl { top: 8px; left: 14px; }
-        .corner-tr { top: 8px; right: 14px; }
-        .corner-bl { bottom: 8px; left: 14px; }
-        .corner-br { bottom: 8px; right: 14px; }
+        .ornate-tl {
+            top: 12px;
+            left: 15px;
+            font-size: 40px;
+            color: #b8942e;
+            transform: rotate(0deg);
+        }
+        .ornate-tr {
+            top: 12px;
+            right: 15px;
+            font-size: 40px;
+            color: #b8942e;
+            transform: rotate(90deg);
+        }
+        .ornate-bl {
+            bottom: 12px;
+            left: 15px;
+            font-size: 40px;
+            color: #b8942e;
+            transform: rotate(-90deg);
+        }
+        .ornate-br {
+            bottom: 12px;
+            right: 15px;
+            font-size: 40px;
+            color: #b8942e;
+            transform: rotate(180deg);
+        }
 
-        .card-content {
+        .card-inside-content {
             position: relative;
-            z-index: 3;
+            z-index: 2;
             text-align: center;
-            color: #3d2b1f;
-            font-family: 'Tahoma', 'Scheherazade New', 'Amiri', serif;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            width: 100%;
         }
 
-        .card-title {
-            font-size: 22px;
-            font-weight: bold;
+        .bismillah {
+            font-size: 28px;
             color: #8b6914;
-            margin-bottom: 6px;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
         }
 
-        .card-body {
-            font-size: 14.5px;
-            line-height: 2.4;
+        .wedding-rings {
+            font-size: 40px;
+            margin: 8px 0;
+            animation: gentleFloat 3s ease-in-out infinite;
+        }
+
+        .invitation-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #5a3e1a;
+            letter-spacing: 2px;
+            margin: 8px 0;
+        }
+
+        .ornamental-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .ornamental-line .line {
+            width: 50px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #b8942e, transparent);
+        }
+        .ornamental-line .dot {
+            width: 6px;
+            height: 6px;
+            background: #b8942e;
+            border-radius: 50%;
+        }
+
+        .card-text {
+            font-size: 15px;
+            line-height: 2.5;
             color: #3d2b1f;
-            margin: 6px 0;
             text-align: center;
+            margin: 10px 0;
         }
 
-        .card-body .name-highlight {
+        .card-text .highlight {
+            color: #8b6914;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .card-text .gold {
             color: #b8860b;
             font-weight: bold;
-            font-size: 15.5px;
-            text-shadow: 0 0 10px rgba(184, 134, 11, 0.25);
         }
 
-        .card-body .gold-text {
-            color: #8b6914;
-            font-weight: bold;
-        }
-
-        .card-signature {
-            margin-top: 8px;
+        .signature-text {
+            font-family: 'Playfair Display', serif;
             font-size: 18px;
-            font-weight: bold;
             color: #5a3e1a;
+            margin-top: 10px;
             letter-spacing: 1px;
         }
 
-        .card-footer {
-            font-size: 16px;
+        .footer-text {
+            font-size: 13px;
             color: #8b6914;
-            margin-top: 4px;
+            margin-top: 5px;
         }
 
-        .divider {
-            color: #c9a84c;
-            font-size: 15px;
-            letter-spacing: 4px;
-            margin: 2px 0;
+        /* Sparkle effect */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
+            animation: sparkleAnim 1.5s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2) rotate(180deg);
+                opacity: 0;
+            }
         }
 
         /* Instruction */
-        .instruction {
-            position: fixed;
-            bottom: 35px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(200, 225, 250, 0.95);
-            font-size: 16px;
-            z-index: 100;
+        .instruction-text {
+            color: rgba(200, 210, 230, 0.8);
+            font-size: 14px;
             text-align: center;
-            animation: pulse 2s infinite;
-            letter-spacing: 1px;
-            background: rgba(8, 18, 35, 0.6);
-            padding: 10px 24px;
-            border-radius: 25px;
-            border: 1px solid rgba(140, 190, 230, 0.4);
-            pointer-events: none;
+            animation: pulse 2.5s infinite;
+            letter-spacing: 2px;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* Glow */
-        .envelope-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 420px;
-            background: radial-gradient(ellipse, rgba(90, 160, 230, 0.25) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: -1;
-            border-radius: 50%;
-            animation: glowPulse 3.5s infinite alternate;
-        }
-        @keyframes glowPulse {
-            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.9); }
-            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.08); }
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.9; }
         }
 
         /* Responsive */
         @media (max-width: 600px) {
-            .envelope {
+            .wedding-card {
                 width: 340px;
-                height: 255px;
+                height: 440px;
             }
-            .envelope-body {
-                height: 225px;
-            }
-            .envelope-flap {
-                height: 145px;
-            }
-            .card {
-                width: 295px;
-                height: 200px;
-                padding: 12px 18px;
-            }
-            .card.slide-out {
-                transform: translateX(-50%) translateY(-180px);
-            }
-            .card-title {
-                font-size: 17px;
-            }
-            .card-body {
-                font-size: 11.5px;
-                line-height: 2;
-            }
-            .card-body .name-highlight {
-                font-size: 12.5px;
-            }
-            .card-signature {
-                font-size: 15px;
-            }
-            .seal {
-                width: 50px;
-                height: 50px;
-            }
-            .seal::after {
+            .cover-title {
                 font-size: 24px;
             }
-            .seal::before {
-                width: 36px;
-                height: 36px;
+            .cover-icon {
+                font-size: 45px;
             }
-            .instruction {
+            .invitation-title {
+                font-size: 20px;
+            }
+            .card-text {
                 font-size: 13px;
-                bottom: 20px;
-                padding: 7px 16px;
+                line-height: 2.2;
+            }
+            .card-inside {
+                padding: 20px 18px;
+            }
+            .ornate-tl, .ornate-tr, .ornate-bl, .ornate-br {
+                font-size: 28px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Bubbles container -->
-    <div class="bubbles-container" id="bubblesContainer"></div>
+    <!-- Particles container -->
+    <div class="particles-container" id="particlesContainer"></div>
 
-    <!-- Glow effect -->
-    <div class="envelope-glow"></div>
+    <!-- Main scene -->
+    <div class="scene">
+        <!-- Wedding card -->
+        <div class="wedding-card-container" id="cardContainer">
+            <div class="wedding-card" id="weddingCard" onclick="openCard()">
 
-    <!-- Envelope -->
-    <div class="envelope-wrapper" id="envelopeWrapper">
-        <div class="envelope" id="envelope" onclick="openEnvelope()">
-            <div class="envelope-body">
-                <div class="gold-border"></div>
+                <!-- Front cover -->
+                <div class="card-cover" id="cardCover">
+                    <div class="cover-border"></div>
+                    <div class="cover-border-inner"></div>
+                    <div class="cover-pattern"></div>
+                    <div class="cover-content">
+                        <div class="cover-icon">💒</div>
+                        <div class="cover-title">بِسْمِ اللَّهِ</div>
+                        <div class="cover-line"></div>
+                        <div class="cover-subtitle">✦ بانگێشت نامە ✦</div>
+                        <div class="cover-line"></div>
+                        <div class="cover-names">💕 ڕەیان 💕</div>
+                    </div>
+                </div>
 
-                <!-- Card -->
-                <div class="card" id="card">
-                    <span class="card-corner corner-tl">✦</span>
-                    <span class="card-corner corner-tr">✦</span>
-                    <span class="card-corner corner-bl">✦</span>
-                    <span class="card-corner corner-br">✦</span>
+                <!-- Inside card -->
+                <div class="card-inside" id="cardInside">
+                    <span class="ornate-corner ornate-tl">❦</span>
+                    <span class="ornate-corner ornate-tr">❦</span>
+                    <span class="ornate-corner ornate-bl">❦</span>
+                    <span class="ornate-corner ornate-br">❦</span>
 
-                    <div class="card-content">
-                        <div class="card-title">✨ بانگێشت نامە ✨</div>
-                        <div class="divider">— • ✿ • —</div>
-                        <div class="card-body">
-                            بۆ هەردوو هاوڕێی بەڕێزی
-                            <span class="name-highlight">ڕەیان</span>
-                            <br>
-                            بە ناوی خۆم و
-                            <span class="name-highlight">تاجی سەرم</span>
-                            ، مامۆستا
-                            <span class="name-highlight">ڕەیان</span>
-                            بانگێشتان دەکەم بۆ ئاهەنگەکەمان.
-                            <br>
-                            لە دوای نزا و پاڕانەوەی زۆر و دوای زەحمەت کێشان و چاوەڕوانی،
-                            <span class="gold-text">خودای میهرەبان</span>
-                            ئاوڕی لێداینەوە و ئێمەی بە یەکتر گەیاند.
-                            <br>
-                            ئینجا هیوادارم جەنابتان ئامادەبن، لەوێ پێ خۆشحاڵ دەبین.
+                    <div class="card-inside-content">
+                        <div class="bismillah">﷽</div>
+                        <div class="wedding-rings">💍 💒 💍</div>
+                        <div class="invitation-title">بانگێشت نامەی پیرۆز</div>
+
+                        <div class="ornamental-line">
+                            <span class="line"></span>
+                            <span class="dot"></span>
+                            <span class="line"></span>
                         </div>
-                        <div class="divider">— • ✿ • —</div>
-                        <div class="card-signature">🌸 بە هیوای دیدار 🌸</div>
-                        <div class="card-footer">﷽</div>
+
+                        <div class="card-text">
+                            بۆ هەردوو هاوڕێی بەڕێز و خۆشەویست<br>
+                            <span class="highlight">ڕەیانی ئازیز</span>
+                            <br><br>
+                            بە ناوی خۆم و
+                            <span class="gold">تاجی سەرم</span>
+                            <br>
+                            بانگێشتان دەکەین بۆ ئاهەنگی هاوسەرگیریمان
+                            <br><br>
+                            دوای نزا و پاڕانەوەی زۆر<br>
+                            و دوای زەحمەت و چاوەڕوانییەکی درێژ
+                            <br>
+                            <span class="gold">خودای میهرەبان</span>
+                            ئاوڕی لێداینەوە<br>
+                            و ئێمەی بە یەکتر گەیاند
+                            <br><br>
+                            هیوادارین بە ئامادەبوونتان<br>
+                            شادیمان تەواو بکەن
+                        </div>
+
+                        <div class="ornamental-line">
+                            <span class="line"></span>
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+
+                        <div class="signature-text">🌸 بە هیوای دیدارتان 🌸</div>
+                        <div class="footer-text">کۆمەڵگای ڕووپەسەند | کاتژمێر ٢:٠٠ ی نیوەڕۆ</div>
                     </div>
                 </div>
             </div>
-            <div class="envelope-flap" id="envelopeFlap"></div>
-            <div class="seal-container">
-                <div class="seal" id="seal"></div>
-            </div>
         </div>
-    </div>
 
-    <!-- Instruction -->
-    <div class="instruction" id="instruction">
-        💌 کرتە لەسەر نامەکە بکە بۆ کردنەوەی
+        <!-- Instruction -->
+        <div class="instruction-text" id="instruction">
+            💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی
+        </div>
     </div>
 
     <!-- YouTube player -->
@@ -520,10 +562,7 @@
                 events: {
                     'onReady': function(event) {
                         isPlayerReady = true;
-                        console.log('✅ YouTube player ready');
-                        if (!playerPlayAttempted) {
-                            attemptPlay();
-                        }
+                        if (!playerPlayAttempted) attemptPlay();
                     }
                 }
             });
@@ -533,14 +572,13 @@
             playerPlayAttempted = true;
             if (isPlayerReady && player && player.playVideo) {
                 player.unMute();
-                player.setVolume(45);
+                player.setVolume(50);
                 player.playVideo();
-                console.log('🎵 Playing audio...');
             } else {
                 setTimeout(function() {
                     if (isPlayerReady && player && player.playVideo) {
                         player.unMute();
-                        player.setVolume(45);
+                        player.setVolume(50);
                         player.playVideo();
                     }
                 }, 1500);
@@ -551,124 +589,145 @@
             attemptPlay();
         }, { once: false });
 
-        // ===== BUBBLES =====
-        function createBubble() {
-            var container = document.getElementById('bubblesContainer');
+        // ===== PARTICLES (Blue Bubbles) =====
+        function createParticle() {
+            const container = document.getElementById('particlesContainer');
             if (!container) return;
 
-            var bubble = document.createElement('div');
-            bubble.classList.add('bubble');
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
 
-            var size = Math.random() * 25 + 12;
-            var startX = Math.random() * 95;
-            var duration = Math.random() * 6 + 5;
-            var delay = Math.random() * 0.6;
+            const size = Math.random() * 20 + 8;
+            const startX = Math.random() * 96;
+            const duration = Math.random() * 7 + 5;
+            const drift = (Math.random() - 0.5) * 80;
+            const delay = Math.random() * 1.5;
 
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
-            bubble.style.left = startX + '%';
-            bubble.style.bottom = '-70px';
-            bubble.style.animationDuration = duration + 's';
-            bubble.style.animationDelay = delay + 's';
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = startX + '%';
+            particle.style.bottom = '-40px';
+            particle.style.setProperty('--drift', drift + 'px');
+            particle.style.animationDuration = duration + 's';
+            particle.style.animationDelay = delay + 's';
 
-            var hue = 200 + Math.random() * 30;
-            bubble.style.background = 'radial-gradient(circle at 35% 30%, hsla(' + hue + ', 80%, 70%, 0.85), hsla(' + hue + ', 65%, 55%, 0.55))';
-            bubble.style.boxShadow = '0 0 ' + (15 + Math.random() * 25) + 'px hsla(' + hue + ', 85%, 65%, 0.55), 0 0 ' + (30 + Math.random() * 40) + 'px hsla(' + hue + ', 75%, 55%, 0.25), inset 0 0 12px rgba(255,255,255,0.35)';
+            const hue = 195 + Math.random() * 30;
+            particle.style.background = 'radial-gradient(circle at 30% 30%, hsla(' + hue + ', 85%, 75%, 0.9), hsla(' + hue + ', 70%, 55%, 0.6))';
+            particle.style.boxShadow = '0 0 ' + (10 + Math.random() * 20) + 'px hsla(' + hue + ', 90%, 70%, 0.6), 0 0 ' + (25 + Math.random() * 35) + 'px hsla(' + hue + ', 80%, 60%, 0.3)';
 
-            container.appendChild(bubble);
+            container.appendChild(particle);
 
             setTimeout(function() {
-                if (bubble && bubble.parentNode) {
-                    bubble.remove();
+                if (particle && particle.parentNode) {
+                    particle.remove();
                 }
             }, (duration + delay) * 1000 + 500);
         }
 
-        function startBubbles() {
-            // Initial burst
-            for (var i = 0; i < 30; i++) {
-                setTimeout(function() {
-                    createBubble();
-                }, i * 60);
+        function startParticles() {
+            for (let i = 0; i < 35; i++) {
+                setTimeout(function() { createParticle(); }, i * 50);
             }
-
-            // Continuous bubbles
             setInterval(function() {
-                var count = Math.floor(Math.random() * 4) + 1;
-                for (var i = 0; i < count; i++) {
-                    setTimeout(function() {
-                        createBubble();
-                    }, i * 120);
+                const count = Math.floor(Math.random() * 3) + 1;
+                for (let i = 0; i < count; i++) {
+                    setTimeout(function() { createParticle(); }, i * 100);
                 }
-            }, 300);
+            }, 250);
         }
 
-        function burstBubbles(count) {
-            count = count || 80;
-            for (var i = 0; i < count; i++) {
-                setTimeout(function() {
-                    createBubble();
-                }, i * 20);
+        function burstParticles(count) {
+            count = count || 100;
+            for (let i = 0; i < count; i++) {
+                setTimeout(function() { createParticle(); }, i * 18);
             }
         }
 
-        // ===== ENVELOPE OPENING =====
-        var isOpen = false;
+        // ===== SPARKLES =====
+        function createSparkle(x, y) {
+            const card = document.getElementById('cardInside');
+            if (!card) return;
 
-        function openEnvelope() {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            sparkle.textContent = '✨';
+
+            card.appendChild(sparkle);
+
+            setTimeout(function() {
+                if (sparkle && sparkle.parentNode) {
+                    sparkle.remove();
+                }
+            }, 1500);
+        }
+
+        function burstSparkles() {
+            const card = document.getElementById('cardInside');
+            if (!card) return;
+            const rect = card.getBoundingClientRect();
+            for (let i = 0; i < 25; i++) {
+                setTimeout(function() {
+                    const x = Math.random() * rect.width;
+                    const y = Math.random() * rect.height;
+                    createSparkle(x, y);
+                }, i * 40);
+            }
+        }
+
+        // ===== CARD OPENING =====
+        let isOpen = false;
+
+        function openCard() {
             if (isOpen) return;
             isOpen = true;
 
-            var flap = document.getElementById('envelopeFlap');
-            var seal = document.getElementById('seal');
-            var card = document.getElementById('card');
-            var instruction = document.getElementById('instruction');
+            const cover = document.getElementById('cardCover');
+            const card = document.getElementById('weddingCard');
+            const instruction = document.getElementById('instruction');
 
             if (instruction) {
                 instruction.style.opacity = '0';
-                instruction.style.transition = 'opacity 0.5s ease';
+                instruction.style.transition = 'opacity 0.6s ease';
             }
 
-            if (seal) {
-                seal.classList.add('removed');
+            if (cover) {
+                cover.classList.add('opened');
             }
 
-            setTimeout(function() {
-                if (flap) {
-                    flap.classList.add('open');
-                }
-            }, 350);
+            if (card) {
+                card.classList.add('opened');
+            }
 
-            setTimeout(function() {
-                if (card) {
-                    card.classList.add('slide-out');
-                }
-            }, 800);
+            // Burst particles
+            setTimeout(function() { burstParticles(120); }, 200);
+            setTimeout(function() { burstParticles(70); }, 1200);
+            setTimeout(function() { burstParticles(50); }, 2200);
+            setTimeout(function() { burstParticles(35); }, 3500);
 
-            // Multiple bubble bursts
-            setTimeout(function() { burstBubbles(100); }, 300);
-            setTimeout(function() { burstBubbles(60); }, 1500);
-            setTimeout(function() { burstBubbles(40); }, 2800);
-            setTimeout(function() { burstBubbles(30); }, 4200);
+            // Sparkles on card
+            setTimeout(function() { burstSparkles(); }, 600);
+            setTimeout(function() { burstSparkles(); }, 1800);
 
             attemptPlay();
         }
 
-        // Make openEnvelope globally accessible
-        window.openEnvelope = openEnvelope;
+        window.openCard = openCard;
 
         // ===== INIT =====
         function init() {
-            startBubbles();
-            setTimeout(function() { burstBubbles(60); }, 500);
-            setTimeout(function() { attemptPlay(); }, 800);
+            startParticles();
+            setTimeout(function() { burstParticles(50); }, 600);
+            setTimeout(function() { attemptPlay(); }, 1000);
         }
 
         window.addEventListener('load', init);
 
-        console.log('💌 بانگێشت نامە - بۆ ڕەیان 💌');
-        console.log('✨ پەپولە شینەکان بەردەوام دەردەکەون');
-        console.log('📩 کرتە لەسەر نامەکە بکە بۆ کردنەوەی');
+        console.log('💒 بانگێشت نامەی هاوسەرگیری 💒');
+        console.log('💙 پەپولە شینەکان لە دەوری کارتەکە دەردەکەون');
+        console.log('💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی');
     </script>
 </body>
 </html>
