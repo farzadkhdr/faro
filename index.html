@@ -96,7 +96,7 @@
         /* ===== Card Container ===== */
         .wedding-card-container {
             position: relative;
-            perspective: 1200px;
+            perspective: 1400px;
             animation: cardAppear 2.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
             opacity: 0;
             width: 90%;
@@ -134,11 +134,7 @@
             transform: scale(0.97);
         }
 
-        .wedding-card.opened {
-            transform: rotateY(-6deg) scale(1.02);
-        }
-
-        /* ===== Card Cover ===== */
+        /* ===== Card Cover - لە کاتی کردنەوە بەشێوەی لاپرە ===== */
         .card-cover {
             position: absolute;
             width: 100%;
@@ -153,19 +149,22 @@
                 0 0 80px rgba(80, 150, 255, 0.15);
             overflow: hidden;
             z-index: 3;
-            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             backface-visibility: hidden;
+            transform-origin: left center;
         }
 
+        /* ===== لاپرە کردنەوە: بەرگەکە بەلای چەپەوە دەبێتەوە ===== */
         .card-cover.opened {
-            transform: rotateY(-180deg);
-            opacity: 0;
+            transform: perspective(1400px) rotateY(-110deg) translateX(-20px);
+            opacity: 0.7;
             pointer-events: none;
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
         }
 
         /* ===== Cover Ornaments ===== */
@@ -256,7 +255,7 @@
             filter: drop-shadow(0 0 15px rgba(255, 80, 120, 0.5));
         }
 
-        /* ===== بسم اللە بە فۆنتی قورئان - بچووکتر ===== */
+        /* ===== بسم اللە بە فۆنتی قورئان ===== */
         .cover-bismillah {
             font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
             font-size: clamp(22px, 5.5vw, 34px);
@@ -268,7 +267,6 @@
             letter-spacing: 2px;
         }
 
-        /* ===== فۆنتی کوردی جوان بۆ نوسراوەکانی تر ===== */
         .cover-subtitle {
             font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(14px, 3.5vw, 20px);
@@ -330,7 +328,7 @@
             margin-bottom: 4px;
         }
 
-        /* ===== Card Inside - New Design ===== */
+        /* ===== Card Inside ===== */
         .card-inside {
             position: absolute;
             width: 100%;
@@ -410,7 +408,6 @@
             gap: 3px;
         }
 
-        /* ===== بسم اللە لەناوەوە - بچووکتر ===== */
         .inside-bismillah {
             font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
             font-size: clamp(18px, 4.5vw, 28px);
@@ -453,7 +450,6 @@
             animation: gentleFloat 3.5s ease-in-out infinite;
         }
 
-        /* ===== سەردێڕ: بانگێشت نامەی هاوسەرگیری ===== */
         .invitation-title {
             font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(20px, 5vw, 32px);
@@ -484,7 +480,6 @@
             flex-shrink: 0;
         }
 
-        /* ===== فۆنتی کوردی بۆ تێکستی کارتەکە ===== */
         .card-text {
             font-family: 'Scheherazade New', 'Noto Naskh Arabic', serif;
             font-size: clamp(13px, 3.2vw, 18px);
@@ -633,12 +628,15 @@
                 gap: 12px;
                 padding: 6px;
             }
-            /* بچووکترکردنی بسم اللە لە مۆبایلدا */
             .cover-bismillah {
                 font-size: 20px;
             }
             .inside-bismillah {
                 font-size: 16px;
+            }
+            /* لاپرە لە مۆبایلدا */
+            .card-cover.opened {
+                transform: perspective(1200px) rotateY(-100deg) translateX(-15px);
             }
         }
 
@@ -666,6 +664,9 @@
             }
             .signature-text {
                 font-size: 14px;
+            }
+            .card-cover.opened {
+                transform: perspective(1000px) rotateY(-90deg) translateX(-12px);
             }
         }
 
@@ -697,6 +698,9 @@
             .inside-bismillah {
                 font-size: 14px;
             }
+            .card-cover.opened {
+                transform: perspective(1200px) rotateY(-100deg) translateX(-15px);
+            }
         }
     </style>
 </head>
@@ -722,25 +726,21 @@
 
                         <div class="cover-icon">💒</div>
 
-                        <!-- ===== دوو هاوسەر لەسەر بەرگەکە ===== -->
                         <div class="cover-couple">
                             <span class="person">👰‍♀️</span>
                             <span class="heart-icon">❤️</span>
                             <span class="person">🤵‍♂️</span>
                         </div>
 
-                        <!-- ===== بسم اللە بە فۆنتی قورئان - بچووکتر ===== -->
                         <div class="cover-bismillah">﷽</div>
 
                         <div class="cover-line"></div>
 
-                        <!-- ===== بانگێشت نامە بە فۆنتی کوردی ===== -->
                         <div class="cover-subtitle">✦ بانگێشت نامە ✦</div>
                         <div class="cover-line"></div>
                         <div class="cover-names">💕 ڕەیان 💕</div>
                     </div>
 
-                    <!-- ===== Click hint ===== -->
                     <div class="cover-click-hint">
                         <span class="icon">👆</span>
                         کرتە لەسەر نامەکە بکە بۆ بینین
@@ -756,10 +756,8 @@
 
                     <div class="card-inside-content">
 
-                        <!-- ===== بسم اللە بە فۆنتی قورئان - بچووکتر ===== -->
                         <div class="inside-bismillah">﷽</div>
 
-                        <!-- ===== دوو هاوسەر لەناو کارتەکە ===== -->
                         <div class="inside-couple">
                             <span class="person">👰‍♀️</span>
                             <span class="heart-icon">💕</span>
@@ -768,7 +766,6 @@
 
                         <div class="wedding-rings">💍 💒 💍</div>
 
-                        <!-- ===== سەردێڕ: بانگێشت نامەی هاوسەرگیری ===== -->
                         <div class="invitation-title">بانگێشت نامەی هاوسەرگیری</div>
 
                         <div class="ornamental-line">
@@ -777,7 +774,6 @@
                             <span class="line"></span>
                         </div>
 
-                        <!-- ===== تێکست بە فۆنتی کوردی ===== -->
                         <div class="card-text">
                             بۆ هەردوو خوشک و هاورێی مامۆستا رەیان
                             <br><br>
@@ -878,7 +874,7 @@
             attemptPlay();
         }, { once: false });
 
-        // ===== PARTICLES (پەپوولە شینەکان) =====
+        // ===== PARTICLES =====
         function createParticle() {
             const container = document.getElementById('particlesContainer');
             if (!container) return;
@@ -989,8 +985,9 @@
                 cover.classList.add('opened');
             }
 
+            // کارتەکە بەشێوەی لاپرە هەڵدەگیرێت
             if (card) {
-                card.classList.add('opened');
+                card.style.transform = 'scale(1)';
             }
 
             setTimeout(function() { burstParticles(130); }, 200);
@@ -1018,6 +1015,7 @@
 
         console.log('💒 بانگێشت نامەی هاوسەرگیری 💒');
         console.log('💙 پەپولە شینەکان لە دەوری کارتەکە دەردەکەون');
+        console.log('📖 کارتەکە بەشێوەی لاپرە هەڵدەگیرێت');
         console.log('💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی');
     </script>
 
