@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بانگێشت نامەی هاوسەرگیری - ڕەیان</title>
+    <style>
+        /* ===== Google Fonts ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Scheherazade+New:wght@400;600;700&display=swap');
+
+        /* ===== Kurdish Font ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap');
+
+        /* ===== Quran Font for Bismillah ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap');
+
+        /* ===== Reset ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #0a0a1a;
+            font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Tahoma', 'Segoe UI', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        /* ===== Background gradient ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, #0d1a2e 0%, #050a12 60%, #080d1a 100%);
+            z-index: 0;
+        }
+
+        /* ===== Particles (Blue Bubbles) ===== */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatUpParticle linear forwards;
+            will-change: transform, opacity;
+        }
+
+        @keyframes floatUpParticle {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            8% {
+                opacity: 0.95;
+            }
+            92% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-120vh) translateX(var(--drift)) scale(0.1);
+                opacity: 0;
+            }
+        }
+
+        /* ===== Butterfly Container ===== */
+        .butterfly-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: clamp(24px, 5vw, 40px);
+            animation: flyButterfly linear forwards;
+            will-change: transform, opacity;
+            filter: drop-shadow(0 0 10px rgba(100, 200, 255, 0.3));
+        }
+
+        @keyframes flyButterfly {
+            0% {
+                transform: translate(0, 0) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--fly-x), var(--fly-y)) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== Scene ===== */
+        .scene {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+        }
+
+        /* ===== Card Container ===== */
+        .wedding-card-container {
+            position: relative;
+            perspective: 1400px;
+            animation: cardAppear 2.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            opacity: 0;
+            width: 90%;
+            max-width: 480px;
+            aspect-ratio: 4 / 5.2;
+        }
+
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(60px) scale(0.6) rotateY(25deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-10px) scale(1.02) rotateY(-2deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotateY(0deg);
+            }
+        }
+
+        /* ===== Wedding Card ===== */
+        .wedding-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            touch-action: manipulation;
+        }
+
+        .wedding-card:active {
+            transform: scale(0.97);
+        }
+
+        /* ===== Card Cover - لە کاتی کردنەوە بەشێوەی لاپرە ===== */
+        .card-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #1a2a4a 0%, #0d1a30 30%, #1a2a4a 60%, #0a1525 100%);
+            border-radius: 24px;
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.8),
+                0 0 0 2px rgba(100, 180, 255, 0.4),
+                0 0 0 6px rgba(100, 180, 255, 0.15),
+                0 0 0 12px rgba(100, 180, 255, 0.06),
+                0 0 80px rgba(80, 150, 255, 0.15);
+            overflow: hidden;
+            z-index: 3;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            transform-origin: left center;
+        }
+
+        /* ===== لاپرە کردنەوە: بەرگەکە بەلای چەپەوە دەبێتەوە ===== */
+        .card-cover.opened {
+            transform: perspective(1400px) rotateY(-110deg) translateX(-20px);
+            opacity: 0.7;
+            pointer-events: none;
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== Cover Ornaments ===== */
+        .cover-border {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            right: 14px;
+            bottom: 14px;
+            border: 2px solid rgba(100, 180, 255, 0.4);
+            border-radius: 16px;
+            pointer-events: none;
+        }
+        .cover-border-inner {
+            position: absolute;
+            top: 22px;
+            left: 22px;
+            right: 22px;
+            bottom: 22px;
+            border: 1px solid rgba(100, 180, 255, 0.15);
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        .cover-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            background:
+                radial-gradient(circle at 20% 30%, #80c8ff 2px, transparent 2px),
+                radial-gradient(circle at 80% 70%, #80c8ff 2px, transparent 2px),
+                radial-gradient(circle at 50% 50%, #80c8ff 3px, transparent 3px);
+            background-size: 45px 45px, 45px 45px, 75px 75px;
+            pointer-events: none;
+        }
+
+        /* ===== Cover Content ===== */
+        .cover-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #e8f0ff;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .cover-icon {
+            font-size: clamp(40px, 10vw, 60px);
+            margin-bottom: 6px;
+            animation: gentleFloat 3.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 25px rgba(100, 180, 255, 0.4));
+        }
+
+        @keyframes gentleFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-14px);
+            }
+        }
+
+        /* ===== Couple on cover ===== */
+        .cover-couple {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(8px, 2vw, 18px);
+            margin: 4px 0 6px 0;
+        }
+
+        .cover-couple .person {
+            font-size: clamp(30px, 7vw, 46px);
+            animation: gentleFloat 3.8s ease-in-out infinite;
+        }
+        .cover-couple .person:first-child {
+            animation-delay: 0.2s;
+        }
+        .cover-couple .person:last-child {
+            animation-delay: 0.6s;
+        }
+        .cover-couple .heart-icon {
+            font-size: clamp(18px, 3.5vw, 28px);
+            color: #ff6b8a;
+            animation: gentleFloat 3s ease-in-out infinite;
+            animation-delay: 0.4s;
+            filter: drop-shadow(0 0 15px rgba(255, 80, 120, 0.5));
+        }
+
+        /* ===== بسم اللە بە فۆنتی قورئان ===== */
+        .cover-bismillah {
+            font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
+            font-size: clamp(22px, 5.5vw, 34px);
+            font-weight: 700;
+            color: #b8d8ff;
+            text-shadow: 0 0 40px rgba(100, 180, 255, 0.3), 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 4px;
+            line-height: 1.4;
+            letter-spacing: 2px;
+        }
+
+        /* ===== Kurdish Text on Cover ===== */
+        .cover-kurdish-title {
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(20px, 5vw, 32px);
+            font-weight: 700;
+            color: #b8d8ff;
+            text-shadow: 0 0 30px rgba(100, 180, 255, 0.3);
+            letter-spacing: 3px;
+            line-height: 1.4;
+            margin: 4px 0;
+        }
+
+        .cover-subtitle {
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(14px, 3.5vw, 20px);
+            color: #80bfff;
+            letter-spacing: 6px;
+            font-weight: 600;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .cover-line {
+            width: min(100px, 25vw);
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, #80bfff, transparent);
+            margin: 8px auto;
+            border-radius: 2px;
+        }
+
+        .cover-names {
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(22px, 5.5vw, 34px);
+            color: #b8d8ff;
+            letter-spacing: 4px;
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(100, 180, 255, 0.3);
+        }
+
+        /* ===== Click hint on cover ===== */
+        .cover-click-hint {
+            position: absolute;
+            bottom: 28px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 5;
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(14px, 3vw, 18px);
+            color: #ffffff;
+            letter-spacing: 3px;
+            animation: pulseHint 2.8s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(100, 180, 255, 0.4), 0 0 60px rgba(100, 180, 255, 0.2);
+            pointer-events: none;
+            font-weight: 600;
+        }
+
+        @keyframes pulseHint {
+            0%,
+            100% {
+                opacity: 0.6;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-4px);
+            }
+        }
+
+        .cover-click-hint .icon {
+            display: block;
+            font-size: clamp(20px, 4vw, 30px);
+            margin-bottom: 4px;
+        }
+
+        /* ===== Card Inside ===== */
+        .card-inside {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(155deg, #f0f8ff 0%, #e6f0fa 25%, #f0f8ff 50%, #e0edf8 75%, #f0f8ff 100%);
+            border-radius: 24px;
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.8),
+                0 0 0 2px rgba(100, 180, 255, 0.4),
+                0 0 0 6px rgba(100, 180, 255, 0.15),
+                0 0 0 12px rgba(100, 180, 255, 0.06),
+                inset 0 0 60px rgba(100, 180, 255, 0.05);
+            z-index: 2;
+            padding: 6% 5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            backface-visibility: hidden;
+        }
+
+        .card-inside::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(100, 180, 255, 0.03) 3px, rgba(100, 180, 255, 0.03) 6px),
+                radial-gradient(ellipse at 30% 20%, rgba(100, 180, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(100, 180, 255, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 24px;
+        }
+
+        /* ===== Ornate Corners ===== */
+        .ornate-corner {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.3;
+            font-size: clamp(30px, 7vw, 48px);
+            color: #4a8fc9;
+        }
+        .ornate-tl {
+            top: 12px;
+            left: 16px;
+            transform: rotate(0deg);
+        }
+        .ornate-tr {
+            top: 12px;
+            right: 16px;
+            transform: rotate(90deg);
+        }
+        .ornate-bl {
+            bottom: 12px;
+            left: 16px;
+            transform: rotate(-90deg);
+        }
+        .ornate-br {
+            bottom: 12px;
+            right: 16px;
+            transform: rotate(180deg);
+        }
+
+        /* ===== Inside Content ===== */
+        .card-inside-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .inside-bismillah {
+            font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
+            font-size: clamp(18px, 4.5vw, 28px);
+            font-weight: 700;
+            color: #1a5a8a;
+            margin-bottom: 2px;
+            letter-spacing: 2px;
+            text-shadow: 0 1px 10px rgba(26, 90, 138, 0.15);
+        }
+
+        /* ===== Couple inside ===== */
+        .inside-couple {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(10px, 2.5vw, 22px);
+            margin: 2px 0 4px 0;
+        }
+        .inside-couple .person {
+            font-size: clamp(34px, 8vw, 52px);
+            animation: gentleFloat 4s ease-in-out infinite;
+        }
+        .inside-couple .person:first-child {
+            animation-delay: 0.1s;
+        }
+        .inside-couple .person:last-child {
+            animation-delay: 0.5s;
+        }
+        .inside-couple .heart-icon {
+            font-size: clamp(20px, 4vw, 32px);
+            color: #e74c6f;
+            animation: gentleFloat 3.2s ease-in-out infinite;
+            animation-delay: 0.3s;
+            filter: drop-shadow(0 0 20px rgba(231, 76, 111, 0.3));
+        }
+
+        .wedding-rings {
+            font-size: clamp(26px, 5.5vw, 40px);
+            margin: 2px 0;
+            animation: gentleFloat 3.5s ease-in-out infinite;
+        }
+
+        .invitation-title {
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(22px, 5.5vw, 34px);
+            font-weight: 700;
+            color: #0d3d66;
+            letter-spacing: 3px;
+            margin: 2px 0;
+            text-shadow: 0 1px 10px rgba(13, 61, 102, 0.1);
+        }
+
+        .ornamental-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 5px 0;
+        }
+        .ornamental-line .line {
+            width: clamp(40px, 12vw, 70px);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #4a8fc9, transparent);
+        }
+        .ornamental-line .dot {
+            width: 6px;
+            height: 6px;
+            background: #4a8fc9;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .card-text {
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(14px, 3.4vw, 19px);
+            line-height: 2.6;
+            color: #1a3a55;
+            text-align: center;
+            margin: 4px 0;
+            padding: 0 2px;
+            font-weight: 500;
+        }
+
+        .card-text .highlight {
+            color: #0d5a8a;
+            font-weight: 700;
+            font-size: clamp(15px, 3.7vw, 21px);
+        }
+
+        .card-text .gold {
+            color: #b8860b;
+            font-weight: 700;
+            font-size: clamp(15px, 3.7vw, 21px);
+        }
+
+        .signature-text {
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(18px, 4.5vw, 26px);
+            color: #0d3d66;
+            margin-top: 4px;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .footer-text {
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            font-size: clamp(12px, 2.7vw, 16px);
+            color: #2a6a8a;
+            margin-top: 2px;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* ===== Sparkle ===== */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 8;
+            animation: sparkleAnim 1.4s ease-out forwards;
+            font-size: clamp(14px, 3vw, 24px);
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2.5) rotate(200deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== Instruction below card ===== */
+        .instruction-text {
+            color: rgba(160, 200, 255, 0.5);
+            font-size: clamp(13px, 3vw, 17px);
+            text-align: center;
+            animation: pulse 2.6s ease-in-out infinite;
+            letter-spacing: 2px;
+            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
+            padding: 0 20px;
+            transition: opacity 0.8s ease;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 480px) {
+            .wedding-card-container {
+                max-width: 92%;
+                aspect-ratio: 4 / 5.4;
+            }
+            .card-cover {
+                border-radius: 18px;
+            }
+            .card-inside {
+                border-radius: 18px;
+                padding: 5% 4%;
+            }
+            .cover-border {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                border-radius: 12px;
+            }
+            .cover-border-inner {
+                top: 17px;
+                left: 17px;
+                right: 17px;
+                bottom: 17px;
+                border-radius: 8px;
+            }
+            .cover-click-hint {
+                bottom: 18px;
+                font-size: 13px;
+            }
+            .cover-click-hint .icon {
+                font-size: 20px;
+            }
+            .ornate-corner {
+                font-size: 24px;
+            }
+            .ornate-tl,
+            .ornate-tr {
+                top: 8px;
+            }
+            .ornate-bl,
+            .ornate-br {
+                bottom: 8px;
+            }
+            .ornate-tl,
+            .ornate-bl {
+                left: 10px;
+            }
+            .ornate-tr,
+            .ornate-br {
+                right: 10px;
+            }
+            .card-text {
+                line-height: 2.4;
+                font-size: 13px;
+            }
+            .card-text .highlight,
+            .card-text .gold {
+                font-size: 14px;
+            }
+            .scene {
+                gap: 12px;
+                padding: 6px;
+            }
+            .cover-bismillah {
+                font-size: 20px;
+            }
+            .inside-bismillah {
+                font-size: 16px;
+            }
+            .cover-kurdish-title {
+                font-size: 18px;
+            }
+            /* لاپرە لە مۆبایلدا */
+            .card-cover.opened {
+                transform: perspective(1200px) rotateY(-100deg) translateX(-15px);
+            }
+        }
+
+        @media (max-width: 380px) {
+            .wedding-card-container {
+                max-width: 96%;
+                aspect-ratio: 4 / 5.6;
+            }
+            .card-text {
+                font-size: 12px;
+                line-height: 2.2;
+            }
+            .card-text .highlight,
+            .card-text .gold {
+                font-size: 12.5px;
+            }
+            .invitation-title {
+                font-size: 18px;
+            }
+            .cover-bismillah {
+                font-size: 18px;
+            }
+            .inside-bismillah {
+                font-size: 14px;
+            }
+            .signature-text {
+                font-size: 15px;
+            }
+            .cover-kurdish-title {
+                font-size: 16px;
+            }
+            .card-cover.opened {
+                transform: perspective(1000px) rotateY(-90deg) translateX(-12px);
+            }
+        }
+
+        @media (max-height: 500px) and (orientation: landscape) {
+            .wedding-card-container {
+                max-width: 70vh;
+                aspect-ratio: 4 / 5.2;
+            }
+            .scene {
+                gap: 8px;
+            }
+            .instruction-text {
+                font-size: 12px;
+            }
+            .cover-click-hint {
+                bottom: 12px;
+                font-size: 11px;
+            }
+            .cover-click-hint .icon {
+                font-size: 16px;
+            }
+            .card-text {
+                font-size: 11px;
+                line-height: 2;
+            }
+            .cover-bismillah {
+                font-size: 18px;
+            }
+            .inside-bismillah {
+                font-size: 14px;
+            }
+            .cover-kurdish-title {
+                font-size: 16px;
+            }
+            .card-cover.opened {
+                transform: perspective(1200px) rotateY(-100deg) translateX(-15px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Particles (پەپوولە شینەکان) ===== -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <!-- ===== Butterflies ===== -->
+    <div class="butterfly-container" id="butterflyContainer"></div>
+
+    <!-- ===== Scene ===== -->
+    <div class="scene">
+
+        <!-- ===== Card ===== -->
+        <div class="wedding-card-container" id="cardContainer">
+            <div class="wedding-card" id="weddingCard" onclick="openCard()">
+
+                <!-- ===== Cover ===== -->
+                <div class="card-cover" id="cardCover">
+                    <div class="cover-border"></div>
+                    <div class="cover-border-inner"></div>
+                    <div class="cover-pattern"></div>
+
+                    <div class="cover-content">
+
+                        <div class="cover-icon">💒</div>
+
+                        <div class="cover-couple">
+                            <span class="person">👰‍♀️</span>
+                            <span class="heart-icon">❤️</span>
+                            <span class="person">🤵‍♂️</span>
+                        </div>
+
+                        <div class="cover-bismillah">﷽</div>
+
+                        <div class="cover-line"></div>
+
+                        <!-- Kurdish Title on Cover -->
+                        <div class="cover-kurdish-title">💕 بانگێشت نامەی هاوسەرگیری 💕</div>
+
+                        <div class="cover-line"></div>
+                        <div class="cover-names">✨ ڕەیان ✨</div>
+                    </div>
+
+                    <div class="cover-click-hint">
+                        <span class="icon">👆</span>
+                        کرتە لەسەر نامەکە بکە بۆ بینین
+                    </div>
+                </div>
+
+                <!-- ===== Inside ===== -->
+                <div class="card-inside" id="cardInside">
+                    <span class="ornate-corner ornate-tl">❦</span>
+                    <span class="ornate-corner ornate-tr">❦</span>
+                    <span class="ornate-corner ornate-bl">❦</span>
+                    <span class="ornate-corner ornate-br">❦</span>
+
+                    <div class="card-inside-content">
+
+                        <div class="inside-bismillah">﷽</div>
+
+                        <div class="inside-couple">
+                            <span class="person">👰‍♀️</span>
+                            <span class="heart-icon">💕</span>
+                            <span class="person">🤵‍♂️</span>
+                        </div>
+
+                        <div class="wedding-rings">💍 💒 💍</div>
+
+                        <div class="invitation-title">بانگێشت نامەی هاوسەرگیری</div>
+
+                        <div class="ornamental-line">
+                            <span class="line"></span>
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+
+                        <div class="card-text">
+                            بۆ هەردوو خوشک و هاورێی مامۆستا رەیان
+                            <br><br>
+                            بە ناوی خۆم و
+                            <span class="gold">تاجی سەرم</span>
+                            <br>
+                            بانگێشتان دەکەین بۆ ئاهەنگی هاوسەرگیریمان
+                            <br><br>
+                            دوای نزا و پاڕانەوەی زۆر<br>
+                            و دوای زەحمەت و چاوەڕوانییەکی درێژ
+                            <br>
+                            <span class="gold">خودای میهرەبان</span>
+                            ئاوڕی لێداینەوە<br>
+                            و ئێمەی بە یەکتر گەیاند
+                            <br><br>
+                            هیوادارین بە ئامادەبوونتان<br>
+                            شادیمان تەواو بکەن
+                        </div>
+
+                        <div class="ornamental-line">
+                            <span class="line"></span>
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+
+                        <div class="signature-text">🌸 بە هیوای دیدارتان 🌸</div>
+                        <div class="footer-text">کۆمەڵگای ڕووپەسەند | کاتژمێر ٢:٠٠ ی نیوەڕۆ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Instruction ===== -->
+        <div class="instruction-text" id="instruction">
+            💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی
+        </div>
+    </div>
+
+    <!-- ===== YouTube ===== -->
+    <div id="youtubePlayer" style="position: fixed; bottom: -100px; left: -100px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
+
+    <script>
+        // ===== YOUTUBE AUDIO =====
+        let player;
+        let isPlayerReady = false;
+        let playerPlayAttempted = false;
+
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtubePlayer', {
+                height: '1',
+                width: '1',
+                videoId: 'gsxJsmbA4BY',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'iv_load_policy': 3,
+                    'loop': 1,
+                    'modestbranding': 1,
+                    'playsinline': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'mute': 0,
+                    'playlist': 'gsxJsmbA4BY'
+                },
+                events: {
+                    'onReady': function(event) {
+                        isPlayerReady = true;
+                        if (!playerPlayAttempted) attemptPlay();
+                    }
+                }
+            });
+        }
+
+        function attemptPlay() {
+            playerPlayAttempted = true;
+            if (isPlayerReady && player && player.playVideo) {
+                player.unMute();
+                player.setVolume(45);
+                player.playVideo();
+            } else {
+                setTimeout(function() {
+                    if (isPlayerReady && player && player.playVideo) {
+                        player.unMute();
+                        player.setVolume(45);
+                        player.playVideo();
+                    }
+                }, 1500);
+            }
+        }
+
+        document.addEventListener('click', function() {
+            attemptPlay();
+        }, { once: false });
+
+        // ===== PARTICLES =====
+        function createParticle() {
+            const container = document.getElementById('particlesContainer');
+            if (!container) return;
+
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const size = Math.random() * 22 + 8;
+            const startX = Math.random() * 96;
+            const duration = Math.random() * 7 + 5;
+            const drift = (Math.random() - 0.5) * 90;
+            const delay = Math.random() * 1.8;
+
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = startX + '%';
+            particle.style.bottom = '-50px';
+            particle.style.setProperty('--drift', drift + 'px');
+            particle.style.animationDuration = duration + 's';
+            particle.style.animationDelay = delay + 's';
+
+            const hue = 195 + Math.random() * 35;
+            particle.style.background = 'radial-gradient(circle at 30% 30%, hsla(' + hue + ', 90%, 80%, 0.9), hsla(' + hue + ', 80%, 55%, 0.6))';
+            particle.style.boxShadow = '0 0 ' + (10 + Math.random() * 25) + 'px hsla(' + hue + ', 90%, 70%, 0.5), 0 0 ' + (30 + Math.random() * 40) + 'px hsla(' + hue + ', 80%, 60%, 0.25)';
+            particle.style.border = '1px solid rgba(150, 200, 255, 0.15)';
+
+            container.appendChild(particle);
+
+            setTimeout(function() {
+                if (particle && particle.parentNode) {
+                    particle.remove();
+                }
+            }, (duration + delay) * 1000 + 500);
+        }
+
+        function startParticles() {
+            for (let i = 0; i < 40; i++) {
+                setTimeout(function() { createParticle(); }, i * 45);
+            }
+            setInterval(function() {
+                const count = Math.floor(Math.random() * 3) + 1;
+                for (let i = 0; i < count; i++) {
+                    setTimeout(function() { createParticle(); }, i * 120);
+                }
+            }, 280);
+        }
+
+        function burstParticles(count) {
+            count = count || 100;
+            for (let i = 0; i < count; i++) {
+                setTimeout(function() { createParticle(); }, i * 15);
+            }
+        }
+
+        // ===== BUTTERFLIES =====
+        function createButterfly() {
+            const container = document.getElementById('butterflyContainer');
+            if (!container) return;
+
+            const butterfly = document.createElement('div');
+            butterfly.classList.add('butterfly');
+            butterfly.textContent = '🦋';
+
+            const startX = Math.random() * 80 + 10;
+            const startY = Math.random() * 80 + 10;
+            const flyX = (Math.random() - 0.5) * 400;
+            const flyY = (Math.random() - 0.5) * 400;
+            const duration = Math.random() * 8 + 6;
+            const delay = Math.random() * 2;
+
+            butterfly.style.left = startX + '%';
+            butterfly.style.top = startY + '%';
+            butterfly.style.setProperty('--fly-x', flyX + 'px');
+            butterfly.style.setProperty('--fly-y', flyY + 'px');
+            butterfly.style.animationDuration = duration + 's';
+            butterfly.style.animationDelay = delay + 's';
+            butterfly.style.fontSize = clamp(24 + Math.random() * 20, 3 + 'vw', 50 + 'px');
+
+            container.appendChild(butterfly);
+
+            setTimeout(function() {
+                if (butterfly && butterfly.parentNode) {
+                    butterfly.remove();
+                }
+            }, (duration + delay) * 1000 + 500);
+        }
+
+        function startButterflies() {
+            for (let i = 0; i < 12; i++) {
+                setTimeout(function() { createButterfly(); }, i * 600);
+            }
+            setInterval(function() {
+                createButterfly();
+            }, 3000);
+        }
+
+        function burstButterflies(count) {
+            count = count || 6;
+            for (let i = 0; i < count; i++) {
+                setTimeout(function() { createButterfly(); }, i * 150);
+            }
+        }
+
+        // ===== SPARKLES =====
+        function createSparkle(x, y) {
+            const card = document.getElementById('cardInside');
+            if (!card) return;
+
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.textContent = '✨';
+
+            card.appendChild(sparkle);
+
+            setTimeout(function() {
+                if (sparkle && sparkle.parentNode) {
+                    sparkle.remove();
+                }
+            }, 1500);
+        }
+
+        function burstSparkles() {
+            const card = document.getElementById('cardInside');
+            if (!card) return;
+            const rect = card.getBoundingClientRect();
+            for (let i = 0; i < 30; i++) {
+                setTimeout(function() {
+                    const x = Math.random() * rect.width;
+                    const y = Math.random() * rect.height;
+                    createSparkle(x, y);
+                }, i * 35);
+            }
+        }
+
+        // ===== CARD OPENING =====
+        let isOpen = false;
+
+        function openCard() {
+            if (isOpen) return;
+            isOpen = true;
+
+            const cover = document.getElementById('cardCover');
+            const card = document.getElementById('weddingCard');
+            const instruction = document.getElementById('instruction');
+
+            if (instruction) {
+                instruction.style.opacity = '0';
+                instruction.style.transition = 'opacity 0.6s ease';
+                setTimeout(function() {
+                    instruction.style.display = 'none';
+                }, 800);
+            }
+
+            if (cover) {
+                cover.classList.add('opened');
+            }
+
+            if (card) {
+                card.style.transform = 'scale(1)';
+            }
+
+            setTimeout(function() { burstParticles(130); }, 200);
+            setTimeout(function() { burstParticles(80); }, 1100);
+            setTimeout(function() { burstParticles(60); }, 2100);
+            setTimeout(function() { burstParticles(40); }, 3300);
+
+            setTimeout(function() { burstSparkles(); }, 500);
+            setTimeout(function() { burstSparkles(); }, 1600);
+            setTimeout(function() { burstSparkles(); }, 2800);
+
+            setTimeout(function() { burstButterflies(8); }, 700);
+            setTimeout(function() { burstButterflies(6); }, 1800);
+            setTimeout(function() { burstButterflies(5); }, 3000);
+
+            attemptPlay();
+        }
+
+        window.openCard = openCard;
+
+        // ===== Helper =====
+        function clamp(val, min, max) {
+            return Math.min(Math.max(val, min), max);
+        }
+
+        // ===== INIT =====
+        function init() {
+            startParticles();
+            startButterflies();
+            setTimeout(function() { burstParticles(60); }, 500);
+            setTimeout(function() { burstButterflies(4); }, 800);
+            setTimeout(function() { attemptPlay(); }, 1000);
+        }
+
+        window.addEventListener('load', init);
+
+        console.log('💒 بانگێشت نامەی هاوسەرگیری 💒');
+        console.log('💙 پەپولە شینەکان لە دەوری کارتەکە دەردەکەون');
+        console.log('🦋 پەپوولەکان بەسەر نامەکەدا دەفڕن');
+        console.log('📖 کارتەکە بەشێوەی لاپرە هەڵدەگیرێت');
+        console.log('💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی');
+    </script>
+
+</body>
+</html>
