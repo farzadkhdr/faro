@@ -142,6 +142,24 @@
             width: 90%;
             max-width: 480px;
             aspect-ratio: 4 / 5.2;
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ===== کاتێک کارتەکە لادەبرێت ===== */
+        .wedding-card-container.fade-out {
+            animation: cardFadeOut 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes cardFadeOut {
+            0% {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.7) rotateY(40deg);
+                pointer-events: none;
+            }
         }
 
         @keyframes cardAppear {
@@ -174,7 +192,7 @@
             transform: scale(0.97);
         }
 
-        /* ===== Card Cover - لە کاتی کردنەوە بەشێوەی لاپرە ===== */
+        /* ===== Card Cover ===== */
         .card-cover {
             position: absolute;
             width: 100%;
@@ -198,7 +216,6 @@
             transform-origin: left center;
         }
 
-        /* ===== لاپرە کردنەوە: بەرگەکە بەلای چەپەوە دەبێتەوە ===== */
         .card-cover.opened {
             transform: perspective(1400px) rotateY(-110deg) translateX(-20px);
             opacity: 0.7;
@@ -268,7 +285,6 @@
             }
         }
 
-        /* ===== Couple on cover ===== */
         .cover-couple {
             display: flex;
             justify-content: center;
@@ -295,7 +311,6 @@
             filter: drop-shadow(0 0 15px rgba(255, 80, 120, 0.5));
         }
 
-        /* ===== بسم اللە بە فۆنتی قورئان ===== */
         .cover-bismillah {
             font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
             font-size: clamp(22px, 5.5vw, 34px);
@@ -307,7 +322,6 @@
             letter-spacing: 2px;
         }
 
-        /* ===== Kurdish Text on Cover ===== */
         .cover-kurdish-title {
             font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
             font-size: clamp(20px, 5vw, 32px);
@@ -317,15 +331,6 @@
             letter-spacing: 3px;
             line-height: 1.4;
             margin: 4px 0;
-        }
-
-        .cover-subtitle {
-            font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
-            font-size: clamp(14px, 3.5vw, 20px);
-            color: #80bfff;
-            letter-spacing: 6px;
-            font-weight: 600;
-            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
         }
 
         .cover-line {
@@ -345,7 +350,6 @@
             text-shadow: 0 0 30px rgba(100, 180, 255, 0.3);
         }
 
-        /* ===== Click hint on cover ===== */
         .cover-click-hint {
             position: absolute;
             bottom: 28px;
@@ -472,7 +476,6 @@
             text-shadow: 0 1px 10px rgba(26, 90, 138, 0.15);
         }
 
-        /* ===== Couple inside ===== */
         .inside-couple {
             display: flex;
             justify-content: center;
@@ -573,6 +576,105 @@
             margin-top: 1px;
             letter-spacing: 1px;
             font-weight: 500;
+        }
+
+        /* ===== وێنەی تۆ و هاوسەرەکەت (دوای لابردنی کارت) ===== */
+        .couple-image-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+            background: radial-gradient(ellipse at 50% 30%, #0d1a2e 0%, #050a12 60%, #080d1a 100%);
+        }
+
+        .couple-image-container.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .couple-image-frame {
+            position: relative;
+            width: min(85%, 400px);
+            aspect-ratio: 1/1;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 0 3px rgba(100, 180, 255, 0.5), 0 0 0 8px rgba(100, 180, 255, 0.15);
+            overflow: hidden;
+            animation: imageAppear 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        .couple-image-frame.show-anim {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        @keyframes imageAppear {
+            0% {
+                transform: scale(0.7) rotate(-5deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .couple-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .couple-image-frame::after {
+            content: '💕';
+            position: absolute;
+            bottom: 12px;
+            right: 16px;
+            font-size: clamp(30px, 6vw, 50px);
+            filter: drop-shadow(0 0 30px rgba(255, 80, 120, 0.5));
+            animation: gentleFloat 3s ease-in-out infinite;
+        }
+
+        /* ===== قسەکانی ژێر وێنە ===== */
+        .couple-message {
+            font-family: 'Amiri Quran', 'Noto Naskh Arabic', 'Baloo 2', serif;
+            font-size: clamp(18px, 4.5vw, 32px);
+            color: #e8f0ff;
+            text-align: center;
+            margin-top: 24px;
+            line-height: 2.4;
+            text-shadow: 0 2px 30px rgba(100, 180, 255, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) 0.6s;
+            max-width: 500px;
+            padding: 0 16px;
+        }
+
+        .couple-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .couple-message .gold {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .couple-message .heart-red {
+            color: #ff6b8a;
         }
 
         /* ===== Sparkle ===== */
@@ -716,6 +818,14 @@
                 width: min(100%, 110px);
                 max-height: 100px;
             }
+            .couple-image-frame {
+                width: min(85%, 320px);
+            }
+            .couple-message {
+                font-size: 16px;
+                margin-top: 16px;
+                line-height: 2.2;
+            }
         }
 
         @media (max-width: 380px) {
@@ -752,6 +862,14 @@
             .wedding-image {
                 width: min(100%, 90px);
                 max-height: 85px;
+            }
+            .couple-image-frame {
+                width: min(85%, 270px);
+            }
+            .couple-message {
+                font-size: 14px;
+                margin-top: 14px;
+                line-height: 2;
             }
         }
 
@@ -803,6 +921,14 @@
                 width: min(100%, 100px);
                 max-height: 90px;
             }
+            .couple-image-frame {
+                width: min(70vh, 300px);
+            }
+            .couple-message {
+                font-size: 15px;
+                margin-top: 12px;
+                line-height: 2;
+            }
         }
     </style>
 </head>
@@ -814,8 +940,21 @@
     <!-- ===== Butterflies ===== -->
     <div class="butterfly-container" id="butterflyContainer"></div>
 
+    <!-- ===== وێنەی تۆ و هاوسەرەکەت (دوای ٢٠ چرکە دەردەکەوێت) ===== -->
+    <div class="couple-image-container" id="coupleContainer">
+        <div class="couple-image-frame" id="coupleFrame">
+            <img src="https://raw.githubusercontent.com/farzadkhdr/faro/main/project/71F3244A-0559-4C56-A4F6-E0D49A93BC84.JPEG" 
+                 alt="وێنەی هاوسەرگیری">
+        </div>
+        <div class="couple-message" id="coupleMessage">
+            💕 <span class="gold">خودای گەورە</span> هەر دڵێکی خۆشەویستی<br>
+            بە یەکتر شاد بکات و ژیانی پڕ لە <span class="heart-red">خۆشی</span> و <span class="gold">خۆشەویستی</span> پێ بەخشرێت<br>
+            <span style="font-size: clamp(24px, 5vw, 40px);">💑</span>
+        </div>
+    </div>
+
     <!-- ===== Scene ===== -->
-    <div class="scene">
+    <div class="scene" id="scene">
 
         <!-- ===== Card ===== -->
         <div class="wedding-card-container" id="cardContainer">
@@ -841,7 +980,6 @@
 
                         <div class="cover-line"></div>
 
-                        <!-- Kurdish Title on Cover -->
                         <div class="cover-kurdish-title">💕 بانگێشت نامەی هاوسەرگیری 💕</div>
 
                         <div class="cover-line"></div>
@@ -873,10 +1011,8 @@
 
                         <div class="wedding-rings">💍 💒 💍</div>
 
-                        <!-- ===== ناونیشان ===== -->
                         <div class="invitation-title">💕 بانگێشت نامەی هاوسەرگیری 💕</div>
 
-                        <!-- ===== وێنەی هاوسەرگیری (بچووکتر کراوە) ===== -->
                         <div style="display: flex; justify-content: center; align-items: center; margin: 2px 0 4px 0; width: 100%;">
                             <img src="https://raw.githubusercontent.com/farzadkhdr/faro/main/project/71F3244A-0559-4C56-A4F6-E0D49A93BC84.JPEG" 
                                  alt="وێنەی هاوسەرگیری" 
@@ -889,7 +1025,6 @@
                             <span class="line"></span>
                         </div>
 
-                        <!-- ===== دەقی نامە ===== -->
                         <div class="card-text">
                             بۆ هەردوو خوشک و هاورێی مامۆستا رەیان
                             <br><br>
@@ -915,7 +1050,6 @@
                             <span class="line"></span>
                         </div>
 
-                        <!-- ===== خەتاتی جوان ===== -->
                         <div style="font-family: 'Amiri Quran', 'Noto Naskh Arabic', serif; font-size: clamp(15px, 3.8vw, 22px); color: #0d3d66; text-align: center; margin: 2px 0; line-height: 2.2; font-weight: 700; text-shadow: 0 1px 10px rgba(13, 61, 102, 0.1);">
                             ❝ هیوادارم خودای گەورە <br>
                             هەموو ئاشقەکان بە یەکتر شاد بکات ❞
@@ -1174,6 +1308,62 @@
             setTimeout(function() { burstButterflies(5); }, 3000);
 
             attemptPlay();
+
+            // ===== دوای 20 چرکە کارتەکە لادەبرێت و وێنەکە دەردەکەوێت =====
+            setTimeout(function() {
+                fadeOutCardAndShowImage();
+            }, 20000);
+        }
+
+        // ===== کارتی لابردن و وێنەکە پیشاندان =====
+        function fadeOutCardAndShowImage() {
+            const cardContainer = document.getElementById('cardContainer');
+            const scene = document.getElementById('scene');
+            const coupleContainer = document.getElementById('coupleContainer');
+            const coupleFrame = document.getElementById('coupleFrame');
+            const coupleMessage = document.getElementById('coupleMessage');
+
+            // لابردنی کارت بە ئەنیمیشن
+            if (cardContainer) {
+                cardContainer.classList.add('fade-out');
+            }
+
+            // لابردنی scene
+            if (scene) {
+                scene.style.transition = 'opacity 1s ease';
+                scene.style.opacity = '0';
+                setTimeout(function() {
+                    scene.style.display = 'none';
+                }, 1200);
+            }
+
+            // دوای 1.2 چرکە وێنەکە پیشان بدە
+            setTimeout(function() {
+                if (coupleContainer) {
+                    coupleContainer.classList.add('show');
+                }
+
+                // ئەنیمیشنی وێنە
+                setTimeout(function() {
+                    if (coupleFrame) {
+                        coupleFrame.classList.add('show-anim');
+                    }
+                }, 300);
+
+                // ئەنیمیشنی قسەکان
+                setTimeout(function() {
+                    if (coupleMessage) {
+                        coupleMessage.classList.add('show');
+                    }
+                }, 900);
+
+                // تەقینەوەی پەپوولەکان
+                setTimeout(function() { burstParticles(200); }, 400);
+                setTimeout(function() { burstParticles(150); }, 1500);
+                setTimeout(function() { burstButterflies(12); }, 600);
+                setTimeout(function() { burstButterflies(8); }, 1800);
+
+            }, 1300);
         }
 
         window.openCard = openCard;
@@ -1199,6 +1389,7 @@
         console.log('🦋 پەپوولەکان بەسەر نامەکەدا دەفڕن');
         console.log('📖 کارتەکە بەشێوەی لاپرە هەڵدەگیرێت');
         console.log('💌 کرتە لەسەر کارتەکە بکە بۆ کردنەوەی');
+        console.log('⏳ دوای 20 چرکە وێنەی تۆ و هاوسەرەکەت دەردەکەوێت');
     </script>
 
 </body>
