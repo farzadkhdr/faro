@@ -395,12 +395,12 @@
                 0 0 0 12px rgba(100, 180, 255, 0.06),
                 inset 0 0 60px rgba(100, 180, 255, 0.05);
             z-index: 2;
-            padding: 6% 5%;
+            padding: 4% 5%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-y: auto;
             backface-visibility: hidden;
         }
 
@@ -422,28 +422,28 @@
             position: absolute;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.3;
-            font-size: clamp(30px, 7vw, 48px);
+            opacity: 0.25;
+            font-size: clamp(24px, 5vw, 36px);
             color: #4a8fc9;
         }
         .ornate-tl {
-            top: 12px;
-            left: 16px;
+            top: 10px;
+            left: 14px;
             transform: rotate(0deg);
         }
         .ornate-tr {
-            top: 12px;
-            right: 16px;
+            top: 10px;
+            right: 14px;
             transform: rotate(90deg);
         }
         .ornate-bl {
-            bottom: 12px;
-            left: 16px;
+            bottom: 10px;
+            left: 14px;
             transform: rotate(-90deg);
         }
         .ornate-br {
-            bottom: 12px;
-            right: 16px;
+            bottom: 10px;
+            right: 14px;
             transform: rotate(180deg);
         }
 
@@ -453,20 +453,21 @@
             z-index: 2;
             text-align: center;
             width: 100%;
-            height: 100%;
+            max-height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 3px;
+            gap: 2px;
+            padding: 2px 0;
         }
 
         .inside-bismillah {
             font-family: 'Amiri Quran', 'KFGQPC Uthmanic Script', 'Noto Naskh Arabic', serif;
-            font-size: clamp(18px, 4.5vw, 28px);
+            font-size: clamp(16px, 4vw, 24px);
             font-weight: 700;
             color: #1a5a8a;
-            margin-bottom: 2px;
+            margin-bottom: 0px;
             letter-spacing: 2px;
             text-shadow: 0 1px 10px rgba(26, 90, 138, 0.15);
         }
@@ -476,11 +477,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: clamp(10px, 2.5vw, 22px);
-            margin: 2px 0 4px 0;
+            gap: clamp(8px, 2vw, 16px);
+            margin: 0px 0 2px 0;
         }
         .inside-couple .person {
-            font-size: clamp(34px, 8vw, 52px);
+            font-size: clamp(28px, 6vw, 40px);
             animation: gentleFloat 4s ease-in-out infinite;
         }
         .inside-couple .person:first-child {
@@ -490,7 +491,7 @@
             animation-delay: 0.5s;
         }
         .inside-couple .heart-icon {
-            font-size: clamp(20px, 4vw, 32px);
+            font-size: clamp(16px, 3.5vw, 26px);
             color: #e74c6f;
             animation: gentleFloat 3.2s ease-in-out infinite;
             animation-delay: 0.3s;
@@ -498,14 +499,14 @@
         }
 
         .wedding-rings {
-            font-size: clamp(26px, 5.5vw, 40px);
-            margin: 2px 0;
+            font-size: clamp(20px, 4.5vw, 32px);
+            margin: 0px 0 2px 0;
             animation: gentleFloat 3.5s ease-in-out infinite;
         }
 
         .invitation-title {
             font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
-            font-size: clamp(28px, 6.5vw, 40px);
+            font-size: clamp(22px, 5.5vw, 34px);
             font-weight: 700;
             color: #0d3d66;
             letter-spacing: 3px;
@@ -517,17 +518,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin: 5px 0;
+            gap: 8px;
+            margin: 3px 0;
         }
         .ornamental-line .line {
-            width: clamp(40px, 12vw, 70px);
+            width: clamp(30px, 10vw, 55px);
             height: 1px;
             background: linear-gradient(90deg, transparent, #4a8fc9, transparent);
         }
         .ornamental-line .dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: #4a8fc9;
             border-radius: 50%;
             flex-shrink: 0;
@@ -535,11 +536,11 @@
 
         .card-text {
             font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
-            font-size: clamp(18px, 4.2vw, 26px);
-            line-height: 3.2;
+            font-size: clamp(15px, 3.6vw, 22px);
+            line-height: 2.6;
             color: #1a3a55;
             text-align: center;
-            margin: 4px 0;
+            margin: 2px 0;
             padding: 0 2px;
             font-weight: 500;
         }
@@ -547,29 +548,29 @@
         .card-text .highlight {
             color: #0d5a8a;
             font-weight: 700;
-            font-size: clamp(19px, 4.5vw, 28px);
+            font-size: clamp(16px, 3.9vw, 24px);
         }
 
         .card-text .gold {
             color: #b8860b;
             font-weight: 700;
-            font-size: clamp(19px, 4.5vw, 28px);
+            font-size: clamp(16px, 3.9vw, 24px);
         }
 
         .signature-text {
             font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
-            font-size: clamp(22px, 5vw, 32px);
+            font-size: clamp(18px, 4.5vw, 28px);
             color: #0d3d66;
-            margin-top: 4px;
+            margin-top: 2px;
             letter-spacing: 2px;
             font-weight: 700;
         }
 
         .footer-text {
             font-family: 'Baloo 2', 'Scheherazade New', 'Noto Naskh Arabic', cursive;
-            font-size: clamp(14px, 3vw, 20px);
+            font-size: clamp(12px, 2.5vw, 16px);
             color: #2a6a8a;
-            margin-top: 2px;
+            margin-top: 1px;
             letter-spacing: 1px;
             font-weight: 500;
         }
@@ -616,6 +617,18 @@
             }
         }
 
+        /* ===== Image style override ===== */
+        .wedding-image {
+            width: min(100%, 140px);
+            height: auto;
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            border: 2.5px solid rgba(100, 180, 255, 0.4);
+            object-fit: cover;
+            aspect-ratio: 1/1;
+            max-height: 130px;
+        }
+
         /* ===== Responsive ===== */
         @media (max-width: 480px) {
             .wedding-card-container {
@@ -627,7 +640,7 @@
             }
             .card-inside {
                 border-radius: 18px;
-                padding: 5% 4%;
+                padding: 3% 4%;
             }
             .cover-border {
                 top: 10px;
@@ -651,31 +664,31 @@
                 font-size: 20px;
             }
             .ornate-corner {
-                font-size: 24px;
+                font-size: 18px;
             }
             .ornate-tl,
             .ornate-tr {
-                top: 8px;
+                top: 6px;
             }
             .ornate-bl,
             .ornate-br {
-                bottom: 8px;
+                bottom: 6px;
             }
             .ornate-tl,
             .ornate-bl {
-                left: 10px;
+                left: 8px;
             }
             .ornate-tr,
             .ornate-br {
-                right: 10px;
+                right: 8px;
             }
             .card-text {
-                line-height: 2.8;
-                font-size: 16px;
+                line-height: 2.4;
+                font-size: 14px;
             }
             .card-text .highlight,
             .card-text .gold {
-                font-size: 17px;
+                font-size: 15px;
             }
             .scene {
                 gap: 12px;
@@ -685,20 +698,23 @@
                 font-size: 20px;
             }
             .inside-bismillah {
-                font-size: 16px;
+                font-size: 15px;
             }
             .cover-kurdish-title {
                 font-size: 18px;
             }
             .invitation-title {
-                font-size: 24px;
+                font-size: 20px;
             }
             .signature-text {
-                font-size: 18px;
+                font-size: 16px;
             }
-            /* لاپرە لە مۆبایلدا */
             .card-cover.opened {
                 transform: perspective(1200px) rotateY(-100deg) translateX(-15px);
+            }
+            .wedding-image {
+                width: min(100%, 110px);
+                max-height: 100px;
             }
         }
 
@@ -708,30 +724,34 @@
                 aspect-ratio: 4 / 5.6;
             }
             .card-text {
-                font-size: 14px;
-                line-height: 2.6;
+                font-size: 12px;
+                line-height: 2.2;
             }
             .card-text .highlight,
             .card-text .gold {
-                font-size: 15px;
+                font-size: 13px;
             }
             .invitation-title {
-                font-size: 20px;
+                font-size: 18px;
             }
             .cover-bismillah {
                 font-size: 18px;
             }
             .inside-bismillah {
-                font-size: 14px;
+                font-size: 13px;
             }
             .signature-text {
-                font-size: 16px;
+                font-size: 14px;
             }
             .cover-kurdish-title {
                 font-size: 16px;
             }
             .card-cover.opened {
                 transform: perspective(1000px) rotateY(-90deg) translateX(-12px);
+            }
+            .wedding-image {
+                width: min(100%, 90px);
+                max-height: 85px;
             }
         }
 
@@ -754,8 +774,12 @@
                 font-size: 16px;
             }
             .card-text {
+                font-size: 13px;
+                line-height: 2.2;
+            }
+            .card-text .highlight,
+            .card-text .gold {
                 font-size: 14px;
-                line-height: 2.4;
             }
             .cover-bismillah {
                 font-size: 18px;
@@ -767,13 +791,17 @@
                 font-size: 16px;
             }
             .invitation-title {
-                font-size: 22px;
+                font-size: 20px;
             }
             .signature-text {
-                font-size: 18px;
+                font-size: 16px;
             }
             .card-cover.opened {
                 transform: perspective(1200px) rotateY(-100deg) translateX(-15px);
+            }
+            .wedding-image {
+                width: min(100%, 100px);
+                max-height: 90px;
             }
         }
     </style>
@@ -845,14 +873,15 @@
 
                         <div class="wedding-rings">💍 💒 💍</div>
 
-                        <!-- ===== وێنەی هاوسەرگیری ===== -->
-                        <div style="display: flex; justify-content: center; align-items: center; margin: 4px 0 6px 0; width: 100%;">
+                        <!-- ===== ناونیشان ===== -->
+                        <div class="invitation-title">💕 بانگێشت نامەی هاوسەرگیری 💕</div>
+
+                        <!-- ===== وێنەی هاوسەرگیری (بچووکتر کراوە) ===== -->
+                        <div style="display: flex; justify-content: center; align-items: center; margin: 2px 0 4px 0; width: 100%;">
                             <img src="https://raw.githubusercontent.com/farzadkhdr/faro/main/project/71F3244A-0559-4C56-A4F6-E0D49A93BC84.JPEG" 
                                  alt="وێنەی هاوسەرگیری" 
-                                 style="width: min(100%, 220px); height: auto; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.25); border: 3px solid rgba(100, 180, 255, 0.4); object-fit: cover; aspect-ratio: 1/1; max-height: 200px;">
+                                 class="wedding-image">
                         </div>
-
-                        <div class="invitation-title">💕 بانگێشت نامەی هاوسەرگیری 💕</div>
 
                         <div class="ornamental-line">
                             <span class="line"></span>
@@ -860,6 +889,7 @@
                             <span class="line"></span>
                         </div>
 
+                        <!-- ===== دەقی نامە ===== -->
                         <div class="card-text">
                             بۆ هەردوو خوشک و هاورێی مامۆستا رەیان
                             <br><br>
@@ -886,7 +916,7 @@
                         </div>
 
                         <!-- ===== خەتاتی جوان ===== -->
-                        <div style="font-family: 'Amiri Quran', 'Noto Naskh Arabic', serif; font-size: clamp(18px, 4.5vw, 28px); color: #0d3d66; text-align: center; margin: 4px 0; line-height: 2.2; font-weight: 700; text-shadow: 0 1px 10px rgba(13, 61, 102, 0.1);">
+                        <div style="font-family: 'Amiri Quran', 'Noto Naskh Arabic', serif; font-size: clamp(15px, 3.8vw, 22px); color: #0d3d66; text-align: center; margin: 2px 0; line-height: 2.2; font-weight: 700; text-shadow: 0 1px 10px rgba(13, 61, 102, 0.1);">
                             ❝ هیوادارم خودای گەورە <br>
                             هەموو ئاشقەکان بە یەکتر شاد بکات ❞
                         </div>
