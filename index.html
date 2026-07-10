@@ -142,24 +142,7 @@
             width: 90%;
             max-width: 480px;
             aspect-ratio: 4 / 5.2;
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* ===== کاتێک کارتەکە لادەبرێت ===== */
-        .wedding-card-container.fade-out {
-            animation: cardFadeOut 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        @keyframes cardFadeOut {
-            0% {
-                opacity: 1;
-                transform: scale(1) rotateY(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0.7) rotateY(40deg);
-                pointer-events: none;
-            }
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes cardAppear {
@@ -174,6 +157,23 @@
             100% {
                 opacity: 1;
                 transform: translateY(0) scale(1) rotateY(0deg);
+            }
+        }
+
+        /* ===== کاتێک کارتەکە یەکجاری لادەبرێت ===== */
+        .wedding-card-container.fade-out {
+            animation: cardFadeOut 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes cardFadeOut {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+                pointer-events: none;
             }
         }
 
@@ -578,50 +578,54 @@
             font-weight: 500;
         }
 
-        /* ===== وێنەی تۆ و هاوسەرەکەت (دوای لابردنی کارت) ===== */
+        /* ===== وێنەی گەورەی تۆ و هاوسەرەکەت ===== */
         .couple-image-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
+            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 20;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 20px;
             background: radial-gradient(ellipse at 50% 30%, #0d1a2e 0%, #050a12 60%, #080d1a 100%);
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .couple-image-container.show {
+            display: flex;
             opacity: 1;
-            pointer-events: auto;
+            animation: containerAppear 1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        }
+
+        @keyframes containerAppear {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
 
         .couple-image-frame {
             position: relative;
-            width: min(85%, 400px);
+            width: min(80%, 500px);
             aspect-ratio: 1/1;
             border-radius: 24px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 0 3px rgba(100, 180, 255, 0.5), 0 0 0 8px rgba(100, 180, 255, 0.15);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 0 4px rgba(100, 180, 255, 0.5), 0 0 0 12px rgba(100, 180, 255, 0.15);
             overflow: hidden;
-            animation: imageAppear 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-            transform: scale(0.8);
+            animation: imageZoomIn 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            transform: scale(0.6);
             opacity: 0;
         }
 
-        .couple-image-frame.show-anim {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        @keyframes imageAppear {
+        @keyframes imageZoomIn {
             0% {
-                transform: scale(0.7) rotate(-5deg);
+                transform: scale(0.5) rotate(-3deg);
                 opacity: 0;
             }
             100% {
@@ -637,35 +641,33 @@
             display: block;
         }
 
-        .couple-image-frame::after {
-            content: '💕';
-            position: absolute;
-            bottom: 12px;
-            right: 16px;
-            font-size: clamp(30px, 6vw, 50px);
-            filter: drop-shadow(0 0 30px rgba(255, 80, 120, 0.5));
-            animation: gentleFloat 3s ease-in-out infinite;
-        }
-
-        /* ===== قسەکانی ژێر وێنە ===== */
+        /* ===== قسەکانی ژێر وێنە بە فۆنتی کوردی ===== */
         .couple-message {
-            font-family: 'Amiri Quran', 'Noto Naskh Arabic', 'Baloo 2', serif;
-            font-size: clamp(18px, 4.5vw, 32px);
+            font-family: 'Baloo 2', 'Noto Naskh Arabic', 'Scheherazade New', cursive;
+            font-size: clamp(22px, 5.5vw, 38px);
             color: #e8f0ff;
             text-align: center;
-            margin-top: 24px;
-            line-height: 2.4;
-            text-shadow: 0 2px 30px rgba(100, 180, 255, 0.2);
+            margin-top: 30px;
+            line-height: 2.8;
+            text-shadow: 0 2px 40px rgba(100, 180, 255, 0.2);
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) 0.6s;
-            max-width: 500px;
-            padding: 0 16px;
+            transform: translateY(40px);
+            animation: messageSlideUp 1s cubic-bezier(0.22, 0.61, 0.36, 1) 0.5s forwards;
+            max-width: 600px;
+            padding: 0 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        .couple-message.show {
-            opacity: 1;
-            transform: translateY(0);
+        @keyframes messageSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .couple-message .gold {
@@ -675,6 +677,12 @@
 
         .couple-message .heart-red {
             color: #ff6b8a;
+        }
+
+        .couple-message .big-icon {
+            font-size: clamp(40px, 8vw, 60px);
+            display: block;
+            margin-top: 6px;
         }
 
         /* ===== Sparkle ===== */
@@ -819,12 +827,12 @@
                 max-height: 100px;
             }
             .couple-image-frame {
-                width: min(85%, 320px);
+                width: min(85%, 340px);
             }
             .couple-message {
-                font-size: 16px;
-                margin-top: 16px;
-                line-height: 2.2;
+                font-size: 19px;
+                margin-top: 20px;
+                line-height: 2.6;
             }
         }
 
@@ -864,12 +872,12 @@
                 max-height: 85px;
             }
             .couple-image-frame {
-                width: min(85%, 270px);
+                width: min(85%, 280px);
             }
             .couple-message {
-                font-size: 14px;
-                margin-top: 14px;
-                line-height: 2;
+                font-size: 16px;
+                margin-top: 16px;
+                line-height: 2.4;
             }
         }
 
@@ -922,25 +930,25 @@
                 max-height: 90px;
             }
             .couple-image-frame {
-                width: min(70vh, 300px);
+                width: min(60vh, 320px);
             }
             .couple-message {
-                font-size: 15px;
-                margin-top: 12px;
-                line-height: 2;
+                font-size: 17px;
+                margin-top: 14px;
+                line-height: 2.4;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== Particles (پەپوولە شینەکان) ===== -->
+    <!-- ===== Particles ===== -->
     <div class="particles-container" id="particlesContainer"></div>
 
     <!-- ===== Butterflies ===== -->
     <div class="butterfly-container" id="butterflyContainer"></div>
 
-    <!-- ===== وێنەی تۆ و هاوسەرەکەت (دوای ٢٠ چرکە دەردەکەوێت) ===== -->
+    <!-- ===== وێنەی گەورەی تۆ و هاوسەرەکەت ===== -->
     <div class="couple-image-container" id="coupleContainer">
         <div class="couple-image-frame" id="coupleFrame">
             <img src="https://raw.githubusercontent.com/farzadkhdr/faro/main/project/71F3244A-0559-4C56-A4F6-E0D49A93BC84.JPEG" 
@@ -949,7 +957,7 @@
         <div class="couple-message" id="coupleMessage">
             💕 <span class="gold">خودای گەورە</span> هەر دڵێکی خۆشەویستی<br>
             بە یەکتر شاد بکات و ژیانی پڕ لە <span class="heart-red">خۆشی</span> و <span class="gold">خۆشەویستی</span> پێ بەخشرێت<br>
-            <span style="font-size: clamp(24px, 5vw, 40px);">💑</span>
+            <span class="big-icon">💑</span>
         </div>
     </div>
 
@@ -1330,40 +1338,26 @@
 
             // لابردنی scene
             if (scene) {
-                scene.style.transition = 'opacity 1s ease';
+                scene.style.transition = 'opacity 0.8s ease';
                 scene.style.opacity = '0';
                 setTimeout(function() {
                     scene.style.display = 'none';
-                }, 1200);
+                }, 800);
             }
 
-            // دوای 1.2 چرکە وێنەکە پیشان بدە
+            // دوای 800ms وێنەکە پیشان بدە
             setTimeout(function() {
                 if (coupleContainer) {
                     coupleContainer.classList.add('show');
                 }
 
-                // ئەنیمیشنی وێنە
-                setTimeout(function() {
-                    if (coupleFrame) {
-                        coupleFrame.classList.add('show-anim');
-                    }
-                }, 300);
-
-                // ئەنیمیشنی قسەکان
-                setTimeout(function() {
-                    if (coupleMessage) {
-                        coupleMessage.classList.add('show');
-                    }
-                }, 900);
-
                 // تەقینەوەی پەپوولەکان
-                setTimeout(function() { burstParticles(200); }, 400);
-                setTimeout(function() { burstParticles(150); }, 1500);
-                setTimeout(function() { burstButterflies(12); }, 600);
-                setTimeout(function() { burstButterflies(8); }, 1800);
+                setTimeout(function() { burstParticles(200); }, 300);
+                setTimeout(function() { burstParticles(150); }, 1200);
+                setTimeout(function() { burstButterflies(12); }, 500);
+                setTimeout(function() { burstButterflies(8); }, 1500);
 
-            }, 1300);
+            }, 900);
         }
 
         window.openCard = openCard;
